@@ -26,5 +26,8 @@
   },
   "footer": {
     "copyright": "© 2025 Construido por Yoelvys. Todos los derechos reservados."
-  }
+  },
+  "openMenu": "Abrir menú",
+  "closeMenu": "Cerrar menú",
+  "navigationMenu": "Menú de navegación"
 }

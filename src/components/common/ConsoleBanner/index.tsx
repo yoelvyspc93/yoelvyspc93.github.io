@@ -82,12 +82,12 @@ export default function ConsoleBanner() {
       'font-weight:800',
       'font-size:32px',
       'padding:12px 16px',
-      'background:#0f172a',
-      'color:#93c5fd',
+      'background:#010101',
+      'color:#86a7ff',
       'border-radius:12px',
     ].join(';');
-    const textStyle = 'font-size:14px;color:#e5e7eb';
-    const linkStyle = 'font-size:14px;color:#60a5fa;text-decoration:underline';
+    const textStyle = 'font-size:14px;color:#ffffff';
+    const linkStyle = 'font-size:14px;color:#86a7ff;text-decoration:underline';
 
     // Clear previous language banner to avoid duplicates
     if (g.__consoleBannerLastLocale) {

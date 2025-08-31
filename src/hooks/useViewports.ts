@@ -23,8 +23,8 @@ export const useViewports = (): Dimensions => {
   useEffect(() => {
     function getBreakpoint(width: number): Dimensions['breakpoint'] {
       if (width < breakpoints.mobile) return 'mobile';
-      if (width < breakpoints.tablet) return 'mobile';
-      if (width < breakpoints.desktop) return 'tablet';
+      if (width < breakpoints.tablet) return 'tablet';
+      if (width < breakpoints.desktop) return 'desktop';
       if (width < breakpoints.widescreen) return 'desktop';
       return 'desktop';
     }
