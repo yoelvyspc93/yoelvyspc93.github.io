@@ -9,6 +9,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import { routing } from '@/utils/navigation';
 import { loadMessages } from '@/utils/request';
+import ConsoleBanner from '@/components/common/ConsoleBanner';
 
 export const metadata: Metadata = seo;
 
@@ -28,6 +29,7 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <ConsoleBanner />
           <div className="page">
             <Navigator />
             {children}

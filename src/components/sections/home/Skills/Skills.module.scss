@@ -24,6 +24,8 @@
     text-align: center;
     pointer-events: none;
     z-index: 1;
+    min-width: fn.rem(350);
+    max-width: fn.rem(620);
   }
 }
 
@@ -43,45 +45,32 @@
   font-family: ty.$font__secondary;
   font-weight: 400;
   color: cl.$color__white;
-  font-size: fn.rem(32);
-
-  @include mx.respond-to('tablet') {
-    font-size: fn.rem(54);
-  }
-  @include mx.respond-to('desktop') {
-    font-size: fn.rem(64);
-  }
+  font-size: ty.$heading-2;
 
   span {
-    color: cl.$color__light-blue;
+    color: cl.$color__pink-purple;
   }
 }
 
 .subtitle {
   margin: 0 auto;
   text-align: center;
-  max-width: fn.rem(970);
+  text-wrap: pretty;
+  max-width: fn.rem(1000);
   color: cl.$color__white;
-  font-size: fn.rem(24);
-
-  @include mx.respond-to('tablet') {
-    font-size: fn.rem(30);
-  }
-  @include mx.respond-to('desktop') {
-    font-size: fn.rem(36);
-  }
+  font-size: ty.$heading-5;
 }
 
 .skillCard {
   position: absolute;
   width: auto;
   height: 46px;
-  padding: 20px 32px;
+  padding: clamp(16px, 2.2vw, 18px) clamp(18px, 2.5vw, 20px);
   border-radius: 12px;
   background: #fff;
   color: #1a1a1a;
   font-weight: 500;
-  font-size: 20px;
+  font-size: ty.$text-xlarge;
   display: inline-flex;
   align-items: center;
   justify-content: center;

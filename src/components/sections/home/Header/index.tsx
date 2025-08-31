@@ -105,27 +105,27 @@ export function Header({ onDownloadCv, onContact }: Props) {
 
     gsap.set(backgroundImagesRef.current[0], {
       x: `+=${xForce * -0.04}`,
-      y: `+=${yForce * -0.04}`,
+      y: `+=${yForce * 0.04}`,
     });
     gsap.set(backgroundImagesRef.current[1], {
       x: `+=${xForce * 0.15}`,
-      y: `+=${yForce * 0.15}`,
+      y: `+=${yForce * -0.15}`,
     });
     gsap.set(backgroundImagesRef.current[2], {
-      x: `+=${xForce * 0.08}`,
-      y: `+=${yForce * 0.08}`,
+      x: `+=${xForce * 0.05}`,
+      y: `+=${yForce * -0.05}`,
     });
     gsap.set(backgroundImagesRef.current[3], {
-      x: `+=${xForce * 0.1}`,
-      y: `+=${yForce * 0.1}`,
+      x: `+=${xForce * -0.1}`,
+      y: `+=${yForce * -0.1}`,
     });
     gsap.set(backgroundImagesRef.current[4], {
-      x: `+=${xForce * 0.04}`,
+      x: `+=${xForce * -0.04}`,
       y: `+=${yForce * 0.04}`,
     });
     gsap.set(backgroundImagesRef.current[5], {
       x: `+=${xForce * -0.05}`,
-      y: `+=${yForce * -0.05}`,
+      y: `+=${yForce * 0.05}`,
     });
 
     if (Math.abs(xForce) < 0.01) xForce = 0;

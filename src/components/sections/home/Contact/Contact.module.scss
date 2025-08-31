@@ -52,13 +52,9 @@
 
 .title {
   font-family: ty.$font__secondary;
-  font-size: fn.rem(36);
+  font-size: ty.$heading-2;
   font-weight: 700;
   margin-bottom: fn.rem(16);
-
-  @include mx.respond-to('tablet') {
-    font-size: fn.rem(48);
-  }
 }
 
 .description {
