@@ -7,13 +7,13 @@
 }
 
 .burger {
-  --line-height: 2px;
-  --line-width: 24px;
-  --line-gap: 6px;
+  --line-height: 3px;
+  --line-width: 32px;
+  --line-gap: 8px;
 
   position: fixed;
-  top: 16px;
-  right: 16px;
+  top: 24px;
+  right: 24px;
   z-index: 1510;
   display: flex;
   flex-direction: column;
@@ -86,10 +86,10 @@
 }
 
 .close {
-  --line-length: 24px;
+  --line-length: 32px;
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 24px;
+  right: 40px;
   width: var(--line-length);
   height: var(--line-length);
   display: flex;
@@ -103,7 +103,7 @@
   span {
     position: absolute;
     width: var(--line-length);
-    height: 2px;
+    height: 3px;
     background: cl.$color__white;
     border-radius: 1px;
     transition: background-color 150ms ease;

@@ -24,6 +24,8 @@ export default function SlidingMenu() {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const openButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const stairsRef = useRef<HTMLDivElement[]>([]);
   const linksRef = useRef<HTMLUListElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -57,13 +59,20 @@ export default function SlidingMenu() {
   }, [isOpen]);
 
   useEffect(() => {
-    if (!overlayRef.current || stairsRef.current.length === 0) return;
+    if (
+      !overlayRef.current ||
+      !openButtonRef.current ||
+      !closeButtonRef.current ||
+      stairsRef.current.length === 0
+    )
+      return;
 
     const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 
     if (isOpen) {
-      tl.set(overlayRef.current, { pointerEvents: 'auto', opacity: 0 })
-        .to(overlayRef.current, { opacity: 1, duration: 0.3 }, 0)
+      tl.to(openButtonRef.current, { opacity: 0, scale: 0.8, duration: 0.2 }, 0)
+        .set(overlayRef.current, { pointerEvents: 'auto', opacity: 0 }, 0.1)
+        .to(overlayRef.current, { opacity: 1, duration: 0.3 }, 0.1)
         .to(
           stairsRef.current,
           {
@@ -71,7 +80,7 @@ export default function SlidingMenu() {
             duration: 0.5,
             stagger: 0.1,
           },
-          0.2,
+          0.3,
         );
 
       if (linksRef.current) {
@@ -84,20 +93,39 @@ export default function SlidingMenu() {
             duration: 0.4,
             stagger: 0.08,
           },
-          0.5,
+          0.6,
         );
       }
+
+      tl.fromTo(
+        closeButtonRef.current,
+        { opacity: 0, scale: 0.8, rotation: -90 },
+        {
+          opacity: 1,
+          scale: 1,
+          rotation: 0,
+          duration: 0.3,
+          ease: 'back.out(1.7)',
+        },
+        0.8,
+      );
     } else {
+      tl.to(
+        closeButtonRef.current,
+        { opacity: 0, scale: 0.8, rotation: 90, duration: 0.2 },
+        0,
+      );
+
       if (linksRef.current) {
         tl.to(
           linksRef.current.children,
           {
             opacity: 0,
             y: -20,
-            duration: 0.4,
-            stagger: 0.08,
+            duration: 0.3,
+            stagger: 0.05,
           },
-          0,
+          0.1,
         );
       }
 
@@ -109,12 +137,19 @@ export default function SlidingMenu() {
           stagger: 0.1,
           ease: 'power2.in',
         },
-        0.2,
-      ).to(
-        overlayRef.current,
-        { opacity: 0, duration: 0, pointerEvents: 'none' },
-        1,
-      );
+        0.3,
+      )
+        .to(
+          overlayRef.current,
+          { opacity: 0, duration: 0.2, pointerEvents: 'none' },
+          0.7,
+        )
+        .fromTo(
+          openButtonRef.current,
+          { opacity: 0, scale: 0.8 },
+          { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(1.7)' },
+          0.8,
+        );
     }
 
     return () => {
@@ -139,17 +174,20 @@ export default function SlidingMenu() {
 
   return (
     <div className={styles.container}>
-      {!isOpen && (
-        <button
-          className={styles.burger}
-          aria-label={t('openMenu', { defaultValue: 'Open menu' })}
-          onClick={() => setIsOpen(true)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-      )}
+      <button
+        ref={openButtonRef}
+        className={styles.burger}
+        aria-label={t('openMenu', { defaultValue: 'Open menu' })}
+        onClick={() => setIsOpen(true)}
+        style={{
+          opacity: isOpen ? 0 : 1,
+          pointerEvents: isOpen ? 'none' : 'auto',
+        }}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
 
       <div
         ref={overlayRef}
@@ -173,9 +211,14 @@ export default function SlidingMenu() {
 
         <div className={styles.menu}>
           <button
+            ref={closeButtonRef}
             className={styles.close}
             aria-label={t('closeMenu', { defaultValue: 'Close menu' })}
             onClick={() => setIsOpen(false)}
+            style={{
+              opacity: isOpen ? 1 : 0,
+              pointerEvents: isOpen ? 'auto' : 'none',
+            }}
           >
             <span />
             <span />
