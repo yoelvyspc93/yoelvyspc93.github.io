@@ -100,24 +100,27 @@ export function About() {
     [],
   );
 
-  const renderContent = (phrase: string) => {
-    refs.current.length = 0;
-    const words = normalize(phrase).split(/\s+/);
-    let idx = 0;
+  const renderContent = useCallback(
+    (phrase: string) => {
+      refs.current.length = 0;
+      const words = normalize(phrase).split(/\s+/);
+      let idx = 0;
 
-    return words.map((w, wi) => (
-      <div key={`w-${wi}`} className={styles.word}>
-        {toGraphemes(w).map((g) => {
-          const i = idx++;
-          return (
-            <span key={`c-${i}`} ref={setRef(i)}>
-              {emojiMap[g] ?? g}
-            </span>
-          );
-        })}
-      </div>
-    ));
-  };
+      return words.map((w, wi) => (
+        <div key={`w-${wi}`} className={styles.word}>
+          {toGraphemes(w).map((g) => {
+            const i = idx++;
+            return (
+              <span key={`c-${i}`} ref={setRef(i)}>
+                {emojiMap[g] ?? g}
+              </span>
+            );
+          })}
+        </div>
+      ));
+    },
+    [setRef],
+  );
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);

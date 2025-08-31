@@ -24,7 +24,7 @@
 .title {
   text-align: center;
   font-family: ty.$font__secondary;
-  font-size: fn.rem(32);
+  font-size: ty.$heading-2;
   font-weight: 400;
   color: cl.$color__white;
 
@@ -36,7 +36,7 @@
   }
 
   span {
-    color: cl.$color__light-blue;
+    color: cl.$color__pink-purple;
   }
 }
 
@@ -97,9 +97,8 @@
     width: $marker-size;
     height: $marker-size;
     border-radius: 50%;
-    background: cl.$color__medium-blue;
-    box-shadow: 0 0 0 fn.rem(4) rgba(cl.$color__light-blue, 0.18);
-    border: fn.rem(3) solid cl.$color__navy-blue;
+    background: cl.$color__violet-blue;
+    box-shadow: 0 0 0 fn.rem(4) rgba(cl.$color__pink-purple, 0.18);
   }
 }
 
@@ -146,6 +145,5 @@
   width: 100%;
   height: auto;
   border-radius: fn.rem(24);
-  outline: fn.rem(1) solid rgba(cl.$color__white, 0.06);
-  background: cl.$color__dark-blue;
+  outline: fn.rem(1) solid rgba(cl.$color__white, 0.05);
 }

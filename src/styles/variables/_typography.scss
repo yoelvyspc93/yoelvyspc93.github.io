@@ -1,2 +1,16 @@
 $font__main: var(--font-montserrat), sans-serif;
 $font__secondary: var(--font-audiowide), sans-serif;
+
+// Headings
+$heading-1: clamp(42px, 6vw, 96px);
+$heading-2: clamp(32px, 5vw, 64px);
+$heading-3: clamp(28px, 4.5vw, 54px);
+$heading-4: clamp(26px, 4vw, 48px);
+$heading-5: clamp(20px, 3vw, 32px);
+$heading-6: clamp(18px, 2.5vw, 24px);
+
+// Text
+$text-small: clamp(12px, 1.8vw, 14px);
+$text-medium: clamp(14px, 2vw, 16px);
+$text-large: clamp(16px, 2.2vw, 18px);
+$text-xlarge: clamp(18px, 2.5vw, 20px);

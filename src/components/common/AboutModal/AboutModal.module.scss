@@ -1,4 +1,6 @@
 @use '@/styles/variables/colors' as cl;
+@use '@/styles/variables/typo' as ty;
+
 .about {
   width: 100%;
   display: flex;
@@ -6,7 +8,7 @@
   gap: 20px;
 
   &__paragraph {
-    font-size: 18px;
+    font-size: ty.$text-large;
     line-height: 28px;
     font-weight: 400;
     color: #ffffff;

@@ -16,6 +16,14 @@
     "en": "Inglés",
     "es": "Español"
   },
+  "consoleBanner": {
+    "title": "¡Bienvenido a mi portafolio!",
+    "description": "Explora mis proyectos o contáctame si deseas colaborar.",
+    "repoLabel": "📦 Repositorio:",
+    "repoUrl": "https://github.com/yoelvyspc93/yoelvyspc93.github.io",
+    "contactLabel": "📨 Contáctame:",
+    "contactEmail": "mailto:yoelvyspc93@gmail.com"
+  },
   "footer": {
     "copyright": "© 2025 Construido por Yoelvys. Todos los derechos reservados."
   }
