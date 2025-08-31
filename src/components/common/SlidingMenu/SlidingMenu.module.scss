@@ -1,0 +1,148 @@
+@use '@/styles/variables/colors' as cl;
+@use '@/styles/mixins/mixins' as mx;
+
+.container {
+  position: relative;
+  z-index: 1500;
+}
+
+.burger {
+  --line-height: 2px;
+  --line-width: 24px;
+  --line-gap: 6px;
+
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1510;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: var(--line-width);
+  height: var(--line-width);
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  span {
+    width: var(--line-width);
+    height: var(--line-height);
+    margin-bottom: var(--line-gap);
+    background: cl.$color__white;
+    border-radius: 1px;
+    transition: background-color 150ms ease;
+  }
+  span:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover span {
+    background: cl.$color__pink-purple;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0);
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1500;
+}
+
+.stairsContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  pointer-events: none;
+}
+
+.stair {
+  height: 0;
+  background: #121212;
+}
+
+.menu {
+  position: relative;
+  z-index: 1510;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 32px 16px;
+  color: cl.$color__white;
+}
+
+.close {
+  --line-length: 24px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: var(--line-length);
+  height: var(--line-length);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1511;
+
+  span {
+    position: absolute;
+    width: var(--line-length);
+    height: 2px;
+    background: cl.$color__white;
+    border-radius: 1px;
+    transition: background-color 150ms ease;
+  }
+  span:first-child {
+    transform: rotate(45deg);
+  }
+  span:last-child {
+    transform: rotate(-45deg);
+  }
+  &:hover span {
+    background: cl.$color__pink-purple;
+  }
+}
+
+.linksList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.linkItem {
+  margin: 0;
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  color: cl.$color__white;
+  font-size: 32px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 200ms ease;
+
+  &:hover {
+    color: cl.$color__violet-blue;
+  }
+}

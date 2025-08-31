@@ -10,6 +10,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { routing } from '@/utils/navigation';
 import { loadMessages } from '@/utils/request';
 import ConsoleBanner from '@/components/common/ConsoleBanner';
+import SlidingMenu from '@/components/common/SlidingMenu';
 
 export const metadata: Metadata = seo;
 
@@ -32,6 +33,7 @@ export default async function LocaleLayout({
           <ConsoleBanner />
           <div className="page">
             <Navigator />
+            <SlidingMenu />
             {children}
           </div>
           <JsonLdSchema schemaData={schemaData} />
