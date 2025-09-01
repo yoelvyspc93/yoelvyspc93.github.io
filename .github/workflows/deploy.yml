@@ -1,4 +1,4 @@
-# Workflow para construir y desplegar un sitio Next.js en GitHub Pages
+# .github/workflows/deploy.yml
 name: Deploy Next.js site to Pages
 
 on:
@@ -18,9 +18,19 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # 👇 Debe coincidir EXACTO con el nombre de tu Environment en GitHub
     environment: github-pages
-
+    env:
+      # === Mapea explícitamente tus Environment Variables al entorno del build ===
+      NEXT_PUBLIC_FEATURE_ABOUT: ${{ vars.NEXT_PUBLIC_FEATURE_ABOUT }}
+      NEXT_PUBLIC_FEATURE_CONTACT: ${{ vars.NEXT_PUBLIC_FEATURE_CONTACT }}
+      NEXT_PUBLIC_FEATURE_EXPERIENCE: ${{ vars.NEXT_PUBLIC_FEATURE_EXPERIENCE }}
+      NEXT_PUBLIC_FEATURE_HEADER: ${{ vars.NEXT_PUBLIC_FEATURE_HEADER }}
+      NEXT_PUBLIC_FEATURE_LANGUAGE: ${{ vars.NEXT_PUBLIC_FEATURE_LANGUAGE }}
+      NEXT_PUBLIC_FEATURE_PROJECTS: ${{ vars.NEXT_PUBLIC_FEATURE_PROJECTS }}
+      NEXT_PUBLIC_FEATURE_SKILLS: ${{ vars.NEXT_PUBLIC_FEATURE_SKILLS }}
+      # (si lo necesitas en build, no en cliente)
+      TOKEN: ${{ secrets.TOKEN }}
+      NEXT_TELEMETRY_DISABLED: 1
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,18 +67,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
 
-      # 👇 Verifica que las variables se pasaron correctamente al entorno del job
       - name: Debug NEXT_PUBLIC_* variables
         run: |
-          echo "=== Variables NEXT_PUBLIC_* disponibles en build ==="
-          printenv | grep '^NEXT_PUBLIC_' || echo "❌ No se encontró ninguna variable NEXT_PUBLIC_*"
+          echo "=== NEXT_PUBLIC_* en build ==="
+          printenv | sort | grep '^NEXT_PUBLIC_' || echo "❌ Vacío"
 
-      # (Opcional) Generar un .env.production para que Next lo detecte automáticamente
       - name: Write .env.production
         run: |
           : > .env.production
           printenv | grep '^NEXT_PUBLIC_' >> .env.production || true
-          echo "✅ Se escribió .env.production con $(wc -l .env.production | awk '{print $1}') entradas"
+          echo "Wrote .env.production"
 
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
@@ -78,7 +86,7 @@ jobs:
 
       - name: Ensure ./out exists
         run: |
-          test -d ./out || (echo "❌ No existe ./out. ¿Tienes output: 'export' en next.config.mjs?" && exit 1)
+          test -d ./out || (echo "❌ Falta ./out. Revisa next.config.mjs (output: 'export')." && exit 1)
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
