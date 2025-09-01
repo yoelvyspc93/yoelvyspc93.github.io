@@ -3,7 +3,7 @@
 
 .button {
   position: relative;
-  padding: 20px 32px 20px 42px;
+  padding: 16px 32px 16px 32px;
   border: none;
   border-radius: 50px;
   cursor: pointer;
@@ -12,23 +12,16 @@
   transition: color 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0;
   text-decoration: none;
   box-shadow:
     0 4px 4px rgba(0, 0, 0, 0.25),
     0 16px 116px rgba(0, 0, 0, 0.25),
     0 266px 106px rgba(0, 0, 0, 0.1);
 
-  &__dot {
-    transition: all 0.3s cubic-bezier(1, 0.01, 0, 1);
-    position: absolute;
-    top: 40%;
-    left: 20px;
-    background-color: cl.$color__pink-purple;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    z-index: -1;
+  @include mx.respond-to('desktop') {
+    gap: 12px;
+    padding: 20px 32px 20px 42px;
   }
 
   &__content {
@@ -38,16 +31,31 @@
     color: #010101;
     text-wrap: nowrap;
     text-decoration: none;
+    text-align: center;
+    width: 100%;
 
     @include mx.respond-to('tablet') {
       font-size: 18px;
     }
     @include mx.respond-to('desktop') {
+      text-align: end;
       font-size: 20px;
     }
   }
 
   @include mx.respond-to('desktop') {
+    &__dot {
+      transition: all 0.3s cubic-bezier(1, 0.01, 0, 1);
+      position: absolute;
+      top: 40%;
+      left: 20px;
+      background-color: cl.$color__pink-purple;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      z-index: -1;
+    }
+
     &:hover {
       .button__dot {
         inset: -2px;
