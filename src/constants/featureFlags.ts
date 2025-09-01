@@ -1,6 +1,6 @@
 const showHeader = process.env.NEXT_PUBLIC_FEATURE_HEADER === '1';
-const showAbout = process.env.NEXT_PUBLIC_SHOW_ABOUT === '1';
-const showProjects = process.env.NEXT_PUBLIC_SHOW_PROJECTS === '1';
+const showAbout = process.env.NEXT_PUBLIC_FEATURE_ABOUT === '1';
+const showProjects = process.env.NEXT_PUBLIC_FEATURE_PROJECTS === '1';
 const showExperience = process.env.NEXT_PUBLIC_FEATURE_EXPERIENCE === '1';
 const showSkills = process.env.NEXT_PUBLIC_FEATURE_SKILLS === '1';
 const showContact = process.env.NEXT_PUBLIC_FEATURE_CONTACT === '1';
