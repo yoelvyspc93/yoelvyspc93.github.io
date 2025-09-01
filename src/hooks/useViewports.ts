@@ -8,7 +8,7 @@ interface Dimensions {
 
 const breakpoints = {
   mobile: 393,
-  tablet: 834,
+  tablet: 768,
   desktop: 1440,
   widescreen: 1920,
 };

@@ -25,7 +25,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: fn.rem(32);
+  gap: fn.rem(18);
+
+  @include mx.respond-to('tablet') {
+    gap: fn.rem(32);
+  }
 }
 
 .title {
@@ -65,6 +69,14 @@
 
   button {
     opacity: 0;
+    width: fn.rem(160);
+
+    @include mx.respond-to('tablet') {
+      width: fn.rem(180);
+    }
+    @include mx.respond-to('desktop') {
+      width: auto;
+    }
   }
 
   @include mx.respond-to('tablet') {
@@ -86,6 +98,14 @@
 .brandItem {
   position: absolute;
   opacity: 0;
+  scale: 0.4;
+
+  @include mx.respond-to('tablet') {
+    scale: 0.8;
+  }
+  @include mx.respond-to('desktop') {
+    scale: 1;
+  }
 }
 
 .brand {
@@ -94,32 +114,80 @@
 
 .brandItem:nth-child(1) {
   /* storybook */
-  left: 12%;
+  left: -20%;
   top: 65%;
+  @include mx.respond-to('tablet') {
+    left: 5%;
+    top: 65%;
+  }
+  @include mx.respond-to('desktop') {
+    left: 12%;
+    top: 65%;
+  }
 }
 
 .brandItem:nth-child(2) {
   /* chromatic */
-  right: 50%;
+  right: 40%;
   top: 80%;
+  @include mx.respond-to('tablet') {
+    right: 50%;
+    top: 80%;
+  }
+  @include mx.respond-to('desktop') {
+    right: 50%;
+    top: 80%;
+  }
 }
 .brandItem:nth-child(3) {
   /* nextjs */
-  right: 50%;
+  right: 20%;
   top: 10%;
+  @include mx.respond-to('tablet') {
+    right: 40%;
+    top: 10%;
+  }
+  @include mx.respond-to('desktop') {
+    right: 50%;
+    top: 10%;
+  }
 }
 .brandItem:nth-child(4) {
   /* cypress */
-  left: 20%;
+  left: -4%;
   top: 10%;
+  @include mx.respond-to('tablet') {
+    left: 10%;
+    top: 10%;
+  }
+  @include mx.respond-to('desktop') {
+    left: 20%;
+    top: 10%;
+  }
 }
 .brandItem:nth-child(5) {
   /* react */
-  right: 10%;
+  right: -15%;
   top: 10%;
+  @include mx.respond-to('tablet') {
+    right: 5%;
+    top: 10%;
+  }
+  @include mx.respond-to('desktop') {
+    right: 10%;
+    top: 10%;
+  }
 }
 .brandItem:nth-child(6) {
   /* typescript */
-  right: 20%;
+  right: -20%;
   top: 60%;
+  @include mx.respond-to('tablet') {
+    right: 10%;
+    top: 70%;
+  }
+  @include mx.respond-to('desktop') {
+    right: 20%;
+    top: 60%;
+  }
 }
