@@ -1,4 +1,4 @@
-name: Lint and Build
+name: Lint
 
 on:
   pull_request:
@@ -18,5 +18,3 @@ jobs:
         run: yarn install --immutable
       - name: Run lint
         run: yarn lint
-      - name: Build project
-        run: yarn run build

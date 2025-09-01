@@ -1,3 +1,4 @@
+# Workflow para construir y desplegar un sitio Next.js en GitHub Pages
 name: Deploy Next.js site to Pages
 
 on:
@@ -17,7 +18,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: github-pages # <— Debe coincidir EXACTO con tu Environment
+    # 👇 Debe coincidir EXACTO con el nombre de tu Environment en GitHub
+    environment: github-pages
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,36 +57,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
 
-      # Cargar automáticamente variables NEXT_PUBLIC_* desde el Environment y del repo
-      - name: Load NEXT_PUBLIC_* variables
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ENV_NAME: github-pages
+      # 👇 Verifica que las variables se pasaron correctamente al entorno del job
+      - name: Debug NEXT_PUBLIC_* variables
         run: |
-          set -e
-          REPO="${{ github.repository }}"
-          REPO_ID=$(gh api repos/$REPO --jq '.id')
+          echo "=== Variables NEXT_PUBLIC_* disponibles en build ==="
+          printenv | grep '^NEXT_PUBLIC_' || echo "❌ No se encontró ninguna variable NEXT_PUBLIC_*"
 
-          # Environment-level variables
-          gh api "/repositories/$REPO_ID/environments/$ENV_NAME/variables" \
-            -q '.variables[] | "\(.name)=\(.value)"' | grep '^NEXT_PUBLIC_' >> $GITHUB_ENV || true
-
-          # Repo-level variables
-          gh api "/repos/$REPO/actions/variables" \
-            -q '.variables[] | "\(.name)=\(.value)"' | grep '^NEXT_PUBLIC_' >> $GITHUB_ENV || true
-
-      # Debug: imprime lo que se cargó
-      - name: Debug NEXT_PUBLIC_*
-        run: |
-          echo "==== NEXT_PUBLIC_* available at build ===="
-          printenv | sort | grep '^NEXT_PUBLIC_' || true
-
-      # (Opcional pero útil) también escribir .env.production
+      # (Opcional) Generar un .env.production para que Next lo detecte automáticamente
       - name: Write .env.production
         run: |
           : > .env.production
           printenv | grep '^NEXT_PUBLIC_' >> .env.production || true
-          echo "Wrote .env.production with $(wc -l .env.production | awk '{print $1}') entries"
+          echo "✅ Se escribió .env.production con $(wc -l .env.production | awk '{print $1}') entradas"
 
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
@@ -93,7 +78,7 @@ jobs:
 
       - name: Ensure ./out exists
         run: |
-          test -d ./out || (echo "❌ No existe ./out. ¿Tienes output: 'export' en next.config.*?" && exit 1)
+          test -d ./out || (echo "❌ No existe ./out. ¿Tienes output: 'export' en next.config.mjs?" && exit 1)
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
