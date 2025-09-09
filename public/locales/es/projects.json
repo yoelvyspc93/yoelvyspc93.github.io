@@ -7,37 +7,37 @@
   "list": {
     "01": {
       "title": "Pioneerz",
-      "shortDescription": "Plataforma moderna para venta de NFTs con animaciones avanzadas y experiencia fluida.",
+      "shortDescription": "Plataforma moderna para la venta de NFTs con animaciones avanzadas.",
       "detailedDescription": [
-        "Desarrollé una plataforma moderna para la venta de NFTs, construida con Next.js. El sitio web cuenta con animaciones avanzadas usando GSAP, SwiperJS y Lottie, entregando una experiencia de usuario interactiva y fluida. El proyecto fue meticulosamente probado e iterado usando herramientas como Storybook, Chromatic, React Testing Library y Cypress."
+        "Desarrollé una plataforma para la venta de NFTs con Next.js, integrando animaciones con GSAP, SwiperJS y Lottie. El proyecto fue probado con Storybook, Chromatic, React Testing Library y Cypress."
       ]
     },
     "02": {
       "title": "Kubeshark",
-      "shortDescription": "Página de aterrizaje diseñada para destacar las principales características de Kubeshark con un diseño limpio y responsivo.",
+      "shortDescription": "Landing page responsiva y limpia para mostrar las funciones principales de Kubeshark.",
       "detailedDescription": [
-        "Desarrollé la página de aterrizaje oficial de Kubeshark usando Webflow. El sitio fue creado para destacar las principales características de la herramienta, con un diseño limpio y responsivo enfocado en la experiencia del usuario. Se implementaron animaciones y transiciones suaves para mejorar la interacción y capturar la atención de los visitantes."
+        "Desarrollé la landing page oficial de Kubeshark en Webflow, destacando sus características con un diseño limpio, animaciones y transiciones suaves."
       ]
     },
     "03": {
       "title": "FlowSev",
-      "shortDescription": "Página de aterrizaje moderna y responsiva creada para mostrar las características de FlowSev.ai.",
+      "shortDescription": "Landing page moderna y responsiva para mostrar las funciones de FlowSev.ai.",
       "detailedDescription": [
-        "Desarrollé la página de aterrizaje para FlowSev.ai usando Webflow, enfocándome en un diseño moderno y responsivo. La página integra transiciones y animaciones para destacar las características del servicio y proporcionar una experiencia de usuario atractiva e intuitiva."
+        "Desarrollé la landing page de FlowSev.ai en Webflow, con diseño moderno y animaciones que resaltan sus servicios, ofreciendo una experiencia atractiva."
       ]
     },
     "04": {
       "title": "Henig Diamond",
-      "shortDescription": "Página de aterrizaje informativa con animaciones 3D, mapa interactivo y chatbot inteligente.",
+      "shortDescription": "Landing page informativa con animaciones 3D, mapa interactivo y chatbot.",
       "detailedDescription": [
-        "Desarrollé la página de aterrizaje informativa para Henig Diamond, una empresa dedicada a la venta de diamantes, usando Webflow. La página incorpora animaciones avanzadas con GSAP y elementos 3D creados con Spline, junto con un mapa interactivo para ubicaciones de oficinas. También integré un chatbot inteligente diseñado para responder preguntas relacionadas con los servicios y productos de la empresa."
+        "Desarrollé la landing de Henig Diamond en Webflow, con animaciones avanzadas en GSAP, elementos 3D en Spline, mapa interactivo e integración de un chatbot inteligente."
       ]
     },
     "05": {
       "title": "Lanetalk",
-      "shortDescription": "Plataforma en tiempo real para mostrar puntuaciones de bolos usando web-sockets.",
+      "shortDescription": "Plataforma en tiempo real para mostrar resultados de boliche usando web-sockets.",
       "detailedDescription": [
-        "Desarrollé Lanetalk, una plataforma construida en React para mostrar puntuaciones de juegos de bolos en tiempo real. La aplicación usa web-sockets para asegurar actualizaciones continuas y fluidas de puntuaciones, proporcionando a los usuarios una experiencia dinámica y precisa."
+        "Desarrollé Lanetalk en React para mostrar puntajes de boliche en tiempo real. La aplicación usa web-sockets para garantizar actualizaciones precisas y dinámicas."
       ]
     }
   }

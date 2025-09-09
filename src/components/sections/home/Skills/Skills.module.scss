@@ -27,7 +27,7 @@
     pointer-events: none;
     z-index: 1;
     min-width: fn.rem(350);
-    max-width: fn.rem(620);
+    max-width: fn.rem(800);
   }
 }
 
@@ -57,8 +57,8 @@
 .subtitle {
   margin: 0 auto;
   text-align: center;
-  text-wrap: pretty;
-  max-width: fn.rem(1000);
+  text-wrap: balance;
+  max-width: fn.rem(800);
   color: cl.$color__white;
   font-size: ty.$heading-5;
 }

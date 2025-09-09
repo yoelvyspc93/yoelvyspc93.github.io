@@ -1,8 +1,8 @@
 {
   "title": "CONTACTAME",
   "description": [
-    "Siempre estoy abierto a nuevas oportunidades, colaboraciones y proyectos emocionantes. Si tienes alguna pregunta o simplemente quieres saludar, no dudes en contactarme.",
-    "¡Me encantaré responder lo antes posible!"
+    "Siempre estoy abierto a nuevas oportunidades, colaboraciones y proyectos emocionantes. Si tienes alguna pregunta o simplemente quieres saludar, no dudes en enviarme un mensaje.",
+    "¡Responderé lo antes posible!"
   ],
   "form": {
     "email": {
@@ -12,8 +12,10 @@
     "message": {
       "label": "Mensaje",
       "placeholder": [
-        "Tu mensaje",
-        "Tu mensaje2"
+        "Escribe tu mensaje aquí...",
+        "Cuéntame sobre tu proyecto",
+        "¿En qué puedo ayudarte?",
+        "Comparte tu idea o consulta"
       ]
     },
     "submit": "Enviar mensaje"
