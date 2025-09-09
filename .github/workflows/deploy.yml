@@ -66,11 +66,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
 
-      - name: Debug NEXT_PUBLIC_* variables
-        run: |
-          echo "=== NEXT_PUBLIC_* available at build ==="
-          printenv | sort | grep '^NEXT_PUBLIC_' || echo "❌ None found"
-
       - name: Write .env.production file
         run: |
           : > .env.production

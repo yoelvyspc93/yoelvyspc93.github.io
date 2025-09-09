@@ -1,8 +1,8 @@
 {
   "title": "CONTACT ME",
   "description": [
-    "I am always open to new opportunities, collaborations, and exciting projects. If you have any questions or just want to say hello, feel free to send me a message.",
-    "I will be happy to respond as soon as possible!"
+    "I’m always open to new opportunities, collaborations, and exciting projects. If you have any questions or just want to say hello, feel free to send me a message.",
+    "I’ll be happy to respond as soon as possible!"
   ],
   "form": {
     "email": {
@@ -12,8 +12,10 @@
     "message": {
       "label": "Message",
       "placeholder": [
-        "Your message",
-        "Your message2"
+        "Write your message here...",
+        "Tell me about your project",
+        "How can I help you?",
+        "Share your idea or request"
       ]
     },
     "submit": "Send Message"
