@@ -1,4 +1,5 @@
 @use '@/styles/variables/colors' as cl;
+@use '@/styles/variables/typography' as ty;
 @use '@/styles/mixins/mixins' as mx;
 
 .footer {
@@ -23,9 +24,11 @@
   z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
+  height: 0vh;
 
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   order: 1;
   gap: 16px;
@@ -35,6 +38,10 @@
     flex-direction: row;
     gap: 20px;
     order: 0;
+    height: 15vh;
+  }
+  @include mx.respond-to('desktop') {
+    height: 7vh;
   }
 }
 
@@ -42,12 +49,11 @@
   order: 1;
   margin: 0;
   color: cl.$color__white;
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: ty.$text-large;
+  line-height: 150%;
 
   @include mx.respond-to('tablet') {
     order: 0;
-    font-size: 15px;
   }
 }
 
@@ -75,8 +81,8 @@
         padding: 0;
         font: inherit;
         text-decoration: none;
-        font-size: 16px;
-        line-height: 1.4;
+        font-size: ty.$text-large;
+        line-height: 150%;
         transition: all 0.3s ease;
 
         &:hover {

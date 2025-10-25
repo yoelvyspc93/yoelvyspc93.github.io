@@ -3,12 +3,10 @@ import { InputField } from '@/components/common/Form/InputField';
 import { TextAreaField } from '@/components/common/Form/TextAreaField';
 import { useTranslation } from '@/hooks/useTranslation';
 import styles from './Contact.module.scss';
-import EmailGradientIcon from '@/components/common/Icons/EmailGradientIcon';
-import LocationGradientIcon from '@/components/common/Icons/LocationGradientIcon';
-import TelegramGradientIcon from '@/components/common/Icons/TelegramGradientIcon';
 import { useState } from 'react';
 import { Button } from '@/components/common/Button';
 import { Footer } from '@/components/common/Footer';
+import { socialLinks } from '@/constants/social';
 
 export function Contact() {
   const { t } = useTranslation('contact');
@@ -34,20 +32,20 @@ export function Contact() {
                   <p key={index}>{item}</p>
                 ))}
               </div>
-              <div className={styles.info}>
-                <div className={styles.infoItem}>
-                  <EmailGradientIcon />
-                  <span>example@example.com</span>
-                </div>
-                <div className={styles.infoItem}>
-                  <LocationGradientIcon />
-                  <span>Location</span>
-                </div>
-                <div className={styles.infoItem}>
-                  <TelegramGradientIcon />
-                  <span>@telegram_user</span>
-                </div>
-              </div>
+              <ul className={styles.info}>
+                {socialLinks.map((sm) => (
+                  <li key={sm.platform} className={styles.infoItem}>
+                    <a
+                      aria-label={`link to ${sm.platform}`}
+                      href={sm.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {sm.icon}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
             <form className={styles.form}>
               <InputField

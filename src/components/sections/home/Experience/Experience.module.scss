@@ -27,6 +27,7 @@
   font-size: ty.$heading-2;
   font-weight: 400;
   color: cl.$color__white;
+  text-transform: uppercase;
 
   @include mx.respond-to('tablet') {
     font-size: fn.rem(54);
@@ -108,7 +109,7 @@
 
 .period {
   font-family: ty.$font__secondary;
-  font-size: fn.rem(32);
+  font-size: ty.$heading-5;
   text-transform: uppercase;
   letter-spacing: fn.rem(-0.32);
   color: cl.$color__white;
@@ -118,7 +119,7 @@
 .company {
   margin: 0;
   color: cl.$color__white;
-  font-size: fn.rem(32);
+  font-size: ty.$heading-5;
   font-weight: 500;
 }
 
@@ -129,8 +130,8 @@
 .paragraph {
   margin: 0 0 fn.rem(16);
   color: cl.$color__white;
-  font-size: fn.rem(20);
-  line-height: fn.rem(28);
+  font-size: ty.$text-large;
+  line-height: 150%;
 }
 
 .gallery {
@@ -144,6 +145,6 @@
   display: block;
   width: 100%;
   height: auto;
-  border-radius: fn.rem(24);
+  border-radius: fn.rem(12);
   outline: fn.rem(1) solid rgba(cl.$color__white, 0.05);
 }

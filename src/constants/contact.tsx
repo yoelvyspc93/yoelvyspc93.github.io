@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import EmailGradientIcon from '@/components/common/Icons/EmailGradientIcon';
-import TelegramGradientIcon from '@/components/common/Icons/TelegramGradientIcon';
+import TelegramGradientIcon from '@/components/common/Icons/TelegramIcon';
 
 export interface ContactInfo {
   contactLinks: {

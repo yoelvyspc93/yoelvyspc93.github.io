@@ -10,6 +10,7 @@
   justify-content: center;
   margin-bottom: fn.rem(64);
   color: #fff;
+  padding: fn.rem(16);
 
   @include mx.respond-to('tablet') {
     height: 100vh;
@@ -30,11 +31,6 @@
     margin-right: fn.rem(12);
     font-weight: 400;
 
-    @include mx.respond-to('mobile') {
-      font-size: fn.rem(28);
-      margin-right: fn.rem(16);
-    }
-
     @include mx.respond-to('tablet') {
       font-size: fn.rem(32);
       margin-right: fn.rem(20);
@@ -52,7 +48,12 @@
 
 .emoji {
   position: relative;
-  width: 32px;
+  display: none;
+
+  @include mx.respond-to('tablet') {
+    width: 32px;
+    display: block;
+  }
 }
 
 .lottie {
