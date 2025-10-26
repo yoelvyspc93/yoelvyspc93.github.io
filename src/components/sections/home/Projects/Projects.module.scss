@@ -31,6 +31,9 @@
     font-size: ty.$heading-2;
     font-weight: 400;
     color: cl.$color__white;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0 fn.rem(16);
 
     span {
       color: cl.$color__pink-purple;
@@ -58,6 +61,11 @@
     z-index: 0;
     will-change: transform, height, opacity;
     transform: translateY(0);
+    display: none;
+
+    @include mx.respond-to('desktop') {
+      display: block;
+    }
   }
 
   .cardWrapper {

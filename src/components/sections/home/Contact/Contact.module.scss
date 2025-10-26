@@ -5,35 +5,42 @@
 
 .contactWrapper {
   position: relative;
-  height: 100vh;
+  height: 100%;
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
   overflow: hidden;
 }
 
 .contactContainer {
-  position: fixed;
+  position: relative;
   bottom: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 
 .contact {
-  padding: fn.rems(160 16 0);
+  padding: fn.rems(100 16 16);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  height: 100%;
+
+  @include mx.respond-to('tablet') {
+    padding: fn.rems(160 16 0);
+  }
 }
 
 .container {
+  width: 100%;
   max-width: fn.rem(1200);
   margin: 0 auto;
+  padding: 0 fn.rem(16);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: fn.rem(48);
 
-  @include mx.respond-to('tablet') {
+  @include mx.respond-to('desktop') {
     flex-direction: row;
     gap: fn.rem(80);
   }
@@ -61,34 +68,31 @@
   display: flex;
   flex-direction: column;
   gap: fn.rem(16);
-  font-size: fn.rem(16);
+  font-size: ty.$text-large;
   line-height: 1.5;
   color: #fff;
   margin-bottom: fn.rem(40);
-
-  @include mx.respond-to('tablet') {
-    font-size: fn.rem(18);
-  }
+  max-width: fn.rem(600);
 }
 
 .info {
   display: flex;
-  flex-direction: column;
-  gap: fn.rem(24);
+  flex-direction: row;
+  gap: fn.rem(12);
+  list-style: none;
 }
 
 .infoItem {
-  display: flex;
-  align-items: center;
-  gap: fn.rem(16);
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background-color: #121212;
+  padding: fn.rem(10);
 
   svg {
+    color: #fff;
     width: fn.rem(24);
     height: fn.rem(24);
-  }
-
-  span {
-    font-size: fn.rem(16);
   }
 }
 

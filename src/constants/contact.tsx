@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
-import EmailGradientIcon from '@/components/common/Icons/EmailGradientIcon';
-import TelegramGradientIcon from '@/components/common/Icons/TelegramGradientIcon';
+import GithubIcon from '@/components/common/Icons/GithubIcon';
+import TelegramIcon from '@/components/common/Icons/TelegramIcon';
 
 export interface ContactInfo {
   contactLinks: {
@@ -13,11 +13,11 @@ export interface ContactInfo {
 export const contactInfo: ContactInfo = {
   contactLinks: [
     {
-      icon: <EmailGradientIcon />,
-      text: 'yoelvyspc93@gmail.com',
+      icon: <GithubIcon />,
+      text: 'github.com/yoelvyspc93',
     },
     {
-      icon: <TelegramGradientIcon />,
+      icon: <TelegramIcon />,
       text: '+53 54773819',
     },
   ],

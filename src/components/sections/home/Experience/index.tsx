@@ -143,6 +143,7 @@ export function Experience() {
 
   return (
     <section
+      id="experience"
       aria-labelledby="experience-heading"
       ref={sectionRef}
       className={styles.section}

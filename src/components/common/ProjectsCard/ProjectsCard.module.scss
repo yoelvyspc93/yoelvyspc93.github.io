@@ -1,4 +1,5 @@
 @use '@/styles/variables/colors' as cl;
+@use '@/styles/variables/typography' as ty;
 @use '@/styles/mixins/mixins' as mx;
 
 .card {
@@ -9,19 +10,21 @@
   align-items: center;
   cursor: pointer;
 
-  &:hover {
-    .container {
-      .index,
-      .title,
-      .content {
-        color: #000000;
-      }
-      .icon {
-        span {
-          border-color: #000000;
-        }
-        svg {
+  @include mx.respond-to('desktop') {
+    &:hover {
+      .container {
+        .index,
+        .title,
+        .content {
           color: #000000;
+        }
+        .icon {
+          span {
+            border-color: #000000;
+          }
+          svg {
+            color: #000000;
+          }
         }
       }
     }
@@ -65,39 +68,21 @@
 
     .index {
       grid-area: index;
-      font-size: 24px;
-
-      @include mx.respond-to('tablet') {
-        font-size: 32px;
-      }
+      font-size: ty.$heading-6;
     }
 
     .title {
       grid-area: title;
-      font-size: 24px;
+      font-size: ty.$heading-5;
       font-weight: bold;
       text-align: left;
-
-      @include mx.respond-to('tablet') {
-        font-size: 32px;
-      }
-      @include mx.respond-to('desktop') {
-        font-size: 42px;
-      }
     }
 
     .content {
       grid-area: content;
-      font-size: 16px;
+      font-size: ty.$text-large;
       text-align: left;
       text-wrap: balance;
-
-      @include mx.respond-to('tablet') {
-        font-size: 18px;
-      }
-      @include mx.respond-to('desktop') {
-        font-size: 20px;
-      }
     }
 
     .icon {

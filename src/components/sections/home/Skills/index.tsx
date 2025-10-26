@@ -181,6 +181,7 @@ export const Skills: React.FC = () => {
 
   return (
     <section
+      id="skills"
       ref={sectionRef}
       className={styles.skills}
       aria-labelledby="skills-heading"

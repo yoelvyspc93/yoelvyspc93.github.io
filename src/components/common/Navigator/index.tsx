@@ -29,7 +29,11 @@ export const Navigator = () => {
 
   const handleClickItem = (href: string) => {
     if (pathname === '/') {
-      gsap.to(globalThis, { duration: 1, scrollTo: href });
+      gsap.to(globalThis, {
+        duration: 0.5,
+        scrollTo: href,
+        ease: 'power2.out',
+      });
     } else {
       router.push(href);
     }
