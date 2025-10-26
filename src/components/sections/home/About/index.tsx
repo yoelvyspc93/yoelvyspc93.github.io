@@ -147,7 +147,7 @@ export function About() {
   const content = useMemo(() => renderContent(phrase), [phrase, renderContent]);
 
   return (
-    <section ref={container} className={styles.about}>
+    <section id="about" ref={container} className={styles.about}>
       <div className={styles.content}>{content}</div>
     </section>
   );

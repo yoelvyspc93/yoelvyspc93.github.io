@@ -10,7 +10,7 @@ interface NavigationItemWithFlag extends NavigationItem {
 }
 
 const baseItems: NavigationItemWithFlag[] = [
-  { name: 'Home', path: '#main', flag: true },
+  { name: 'Home', path: '#header', flag: true },
   { name: 'About', path: '#about', flag: featureFlags.showAbout },
   { name: 'Projects', path: '#projects', flag: featureFlags.showProjects },
   {
