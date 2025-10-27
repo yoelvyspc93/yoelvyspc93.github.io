@@ -66,15 +66,14 @@
 
 .skillCard {
   position: absolute;
-  width: auto;
-  height: 46px;
-  padding: clamp(16px, 2.2vw, 18px) clamp(18px, 2.5vw, 20px);
+  padding: clamp(8px, 2.2vw, 12px) clamp(20px, 2.5vw, 24px)
+    clamp(10px, 2.2vw, 14px);
   border-radius: 12px;
   background: #fff;
   color: #1a1a1a;
   font-weight: 500;
-  font-size: ty.$text-xlarge;
-  display: inline-flex;
+  font-size: ty.$heading-5;
+  display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;

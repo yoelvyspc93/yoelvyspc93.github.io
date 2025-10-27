@@ -52,37 +52,37 @@ const toGraphemes = (s: string) => {
 
 const emojiMap: Record<string, ReactNode> = {
   '👨‍💻': (
-    <div className={styles.emoji} aria-label="developer">
+    <div className={styles.emoji} data-label="developer">
       <Lottie animationData={developer} className={styles.lottie} />
     </div>
   ),
   '🚀': (
-    <div className={styles.emoji} aria-label="rocket">
+    <div className={styles.emoji} data-label="rocket">
       <Lottie animationData={rocket} className={styles.lottie} />
     </div>
   ),
   '💡': (
-    <div className={styles.emoji} aria-label="idea">
+    <div className={styles.emoji} data-label="idea">
       <Lottie animationData={idea} className={styles.lottie} />
     </div>
   ),
   '⚡': (
-    <div className={styles.emoji} aria-label="lightning">
+    <div className={styles.emoji} data-label="lightning">
       <Lottie animationData={lightning} className={styles.lottie} />
     </div>
   ),
   '🛠️': (
-    <div className={styles.emoji} aria-label="tools">
+    <div className={styles.emoji} data-label="tools">
       <Lottie animationData={tools} className={styles.lottie} />
     </div>
   ),
   '🧠': (
-    <div className={styles.emoji} aria-label="brain">
+    <div className={styles.emoji} data-label="brain">
       <Lottie animationData={brain} className={styles.lottie} />
     </div>
   ),
   '🎯': (
-    <div className={styles.emoji} aria-label="target">
+    <div className={styles.emoji} data-label="target">
       <Lottie animationData={target} className={styles.lottie} />
     </div>
   ),
