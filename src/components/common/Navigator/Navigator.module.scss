@@ -28,7 +28,7 @@
   border-radius: 50px;
   border: 1px solid rgba(#9bcffc, 0.1);
   backdrop-filter: url('#liquid-glass-effect') blur(4px) saturate(180%);
-  --webkit-backdrop-filter: url('#liquid-glass-effect') blur(4px) saturate(180%);
+  --webkit-backdrop-filter: blur(4px) saturate(180%);
   background-color: rgba(10, 20, 40, 0.2);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
 
