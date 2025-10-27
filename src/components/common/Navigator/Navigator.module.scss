@@ -27,7 +27,7 @@
   padding: 8px 32px;
   border-radius: 50px;
   border: 1px solid rgba(#9bcffc, 0.1);
-  backdrop-filter: blur(12px) saturate(180%);
+  backdrop-filter: url(#turbulence-displacement) blur(4px) saturate(180%);
   background-color: rgba(10, 20, 40, 0.2);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
 
