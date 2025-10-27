@@ -42,13 +42,7 @@ export const Navigator = () => {
   return (
     <nav className={styles.nav}>
       <svg width="0" height="0" style={{ position: 'absolute' }}>
-        <filter
-          id="turbulence-displacement"
-          x="0"
-          y="0"
-          width="100%"
-          height="100%"
-        >
+        <filter id="liquid-glass-effect" x="0" y="0" width="100%" height="100%">
           <feTurbulence
             type="turbulence"
             baseFrequency="0"
