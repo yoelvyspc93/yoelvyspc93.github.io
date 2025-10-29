@@ -1,6 +1,6 @@
 import { featureFlags } from '@/constants/featureFlags';
 
-import { Header } from '@/components/sections/home/Header2';
+import { Header } from '@/components/sections/home/Header';
 import { About } from '@/components/sections/home/About';
 import { Projects } from '@/components/sections/home/Projects';
 import { Experience } from '@/components/sections/home/Experience';

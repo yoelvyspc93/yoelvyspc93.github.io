@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: fn.rem(64);
-  color: #fff;
+  color: cl.$color__white;
   padding: fn.rem(16);
 
   @include mx.respond-to('tablet') {
