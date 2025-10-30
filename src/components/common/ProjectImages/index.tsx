@@ -21,9 +21,15 @@ export const ProjectImages = ({ images }: Props) => {
     <Swiper
       modules={[Navigation, Autoplay]}
       slidesPerView={1}
-      navigation={{
-        prevEl: prevRef.current,
-        nextEl: nextRef.current,
+      navigation
+      onBeforeInit={(swiper) => {
+        if (
+          swiper.params.navigation &&
+          typeof swiper.params.navigation !== 'boolean'
+        ) {
+          swiper.params.navigation.prevEl = prevRef.current;
+          swiper.params.navigation.nextEl = nextRef.current;
+        }
       }}
       onSwiper={(swiper) => {
         if (

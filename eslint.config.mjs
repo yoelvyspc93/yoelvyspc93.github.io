@@ -1,43 +1,31 @@
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { FlatCompat } from '@eslint/eslintrc';
+import next from 'eslint-config-next';
 import unicorn from 'eslint-plugin-unicorn';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
-
-const unicornRecommended = { ...unicorn.configs.recommended };
-delete unicornRecommended.name;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+// Use FlatCompat only for legacy shareable configs; Next provides flat config already.
+const compat = new FlatCompat({ baseDirectory: __dirname });
 
-const eslintConfig = [
-  ...compat.plugins('jsx-a11y'),
+const unicornRecommended = { ...unicorn.configs.recommended };
+delete unicornRecommended.name;
+
+export default [
+  // Next.js base + TypeScript + Core Web Vitals (flat config)
+  ...next,
+  // Add legacy configs via compat
   ...compat.extends(
-    'next/core-web-vitals',
-    'next/typescript',
     'plugin:import/recommended',
     'plugin:import/typescript',
-    'plugin:jsx-a11y/strict',
     'plugin:sonarjs/recommended-legacy',
     'plugin:storybook/recommended',
     'plugin:prettier/recommended',
   ),
-  {
-    ...unicornRecommended,
-  },
-  {
-    languageOptions: {
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
-  },
+  // Unicorn recommended (flat)
+  { ...unicornRecommended },
   {
     rules: {
       'prettier/prettier': 'error',
@@ -47,5 +35,3 @@ const eslintConfig = [
     },
   },
 ];
-
-export default eslintConfig;

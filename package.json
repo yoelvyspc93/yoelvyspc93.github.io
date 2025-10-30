@@ -6,8 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "next lint --dir src/",
-    "lint:fix": "next lint --dir src/ --fix",
+    "lint": "eslint ./src --ext .ts,.tsx",
+    "lint:fix": "eslint ./src --ext .ts,.tsx --fix",
     "format": "prettier --write .",
     "audit:security": "yarn audit --level moderate",
     "update:security": "yarn upgrade --pattern next"
