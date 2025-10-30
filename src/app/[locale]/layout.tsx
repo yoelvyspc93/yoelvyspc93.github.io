@@ -20,7 +20,7 @@ export const generateStaticParams = () =>
 export default async function LocaleLayout({
   children,
   params,
-}: Readonly<{ children: ReactNode; params: { locale: string } }>) {
+}: Readonly<{ children: ReactNode; params: Promise<{ locale: string }> }>) {
   const { locale } = await params;
 
   setRequestLocale(locale);

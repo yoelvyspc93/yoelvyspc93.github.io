@@ -24,7 +24,6 @@ const baseItems: NavigationItemWithFlag[] = [
 
 export const navigationItems: NavigationItem[] = baseItems
   .filter((item) => item.flag)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   .map(({ flag: _flag, ...rest }) => rest);
 
 // Function that uses translation function
@@ -37,10 +36,7 @@ export const getNavigationItems = (
     flag: item.flag,
   }));
 
-  return (
-    items
-      .filter((item) => item.flag)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .map(({ flag: _flag, ...rest }) => rest)
-  );
+  return items
+    .filter((item) => item.flag)
+    .map(({ flag: _flag, ...rest }) => rest);
 };

@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
     "start": "next start",
-    "lint": "next lint --dir src/",
-    "lint:fix": "next lint --dir src/ --fix",
+    "lint": "eslint ./src --ext .ts,.tsx",
+    "lint:fix": "eslint ./src --ext .ts,.tsx --fix",
     "format": "prettier --write .",
     "audit:security": "yarn audit --level moderate",
     "update:security": "yarn upgrade --pattern next"
@@ -17,10 +17,10 @@
     "gsap": "^3.12.5",
     "lottie-react": "^2.4.1",
     "matter-js": "^0.20.0",
-    "next": "15.2.4",
+    "next": "16.0.1",
     "next-intl": "^4.3.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
     "sass": "^1.83.0",
     "swiper": "^11.2.10"
   },
@@ -30,10 +30,10 @@
     "@types/jest": "^29.5.3",
     "@types/matter-js": "^0.19.8",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
     "eslint": "^9",
-    "eslint-config-next": "15.2.4",
+    "eslint-config-next": "16.0.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.0",
@@ -55,5 +55,9 @@
   "browserslist": [
     "defaults and fully supports es6-module",
     "maintained node versions"
-  ]
+  ],
+  "resolutions": {
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2"
+  }
 }
