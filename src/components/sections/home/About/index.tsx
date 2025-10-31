@@ -132,7 +132,7 @@ export function About() {
         stagger: 0.1,
         scrollTrigger: {
           trigger: container.current,
-          start: '50% 90%',
+          start: '40% 90%',
           end: `+=${window.innerHeight / 2.5}`,
           scrub: true,
           invalidateOnRefresh: true,

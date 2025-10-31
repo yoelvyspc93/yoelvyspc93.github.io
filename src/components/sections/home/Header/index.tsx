@@ -7,6 +7,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import styles from './Header.module.scss';
 import { Button } from '@/components/common/Button';
+import { TagHeader } from '@/components/common/TagHeader';
 
 type Props = {
   onDownloadCv?: () => void;
@@ -49,6 +50,8 @@ export function Header({ onDownloadCv, onContact }: Props) {
     };
   }, [prefersReducedMotion]);
 
+  const tags = t.raw('tag') as string[];
+
   return (
     <header id="header" className={styles.header} role="presentation">
       <div className={styles.inner}>
@@ -71,9 +74,12 @@ export function Header({ onDownloadCv, onContact }: Props) {
           </div>
         </div>
         <div className={styles.image}>
+          {tags.map((tag) => (
+            <TagHeader key={tag} label={tag} className={styles.tagHeader} />
+          ))}
           <CustomImage
             src="/images/header/avatar.webp"
-            alt="Header Image"
+            alt="Header"
             fill
             priority
           />
