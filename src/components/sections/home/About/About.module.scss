@@ -10,6 +10,8 @@
   justify-content: center;
   margin-bottom: fn.rem(64);
   color: cl.$color__white;
+  background-color: cl.$color__dark-gray;
+  max-width: 100%;
   padding: fn.rem(16);
 
   @include mx.respond-to('tablet') {
@@ -19,6 +21,7 @@
 }
 
 .content {
+  max-width: fn.rem(1200);
   width: 100%;
   display: flex;
   flex-wrap: wrap;
