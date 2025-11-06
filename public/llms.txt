@@ -1,0 +1,41 @@
+# llms.txt
+# LLMs Policy File for Yoelvys Pérez Cabrera – Frontend Developer
+# This file defines how language models can access and use content from this site.
+
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /drafts/
+
+# --- Profile ---
+Name: Yoelvys Pérez Cabrera
+Preferred-Name: Yoelvys
+Role: Frontend Developer
+Location: Villa Clara, Cuba (remote collaborations worldwide)
+Website: https://yoelvyspc93.github.io
+Email: yoelvyspc93@gmail.com
+Telephone: +53 54773819
+Languages: English, Spanish
+Specialties: Next.js, React, TypeScript, GSAP, Webflow, Storybook, Cypress, Chromatic, Redux, Figma, Sass
+Experience: 6+ years building modern web interfaces and animations
+
+# --- About ---
+Description:
+  Computer Engineer focused on crafting high-performance web experiences with React and Next.js.
+  Experienced in scalable architectures, SEO, and performance optimization with an emphasis on motion design.
+  Contributor to more than 10 professional initiatives at Dspot Team, delivering intuitive UX and efficient interfaces.
+
+Key Projects:
+  - Pioneerz – Next.js NFT platform with GSAP, SwiperJS, and Lottie animations validated with Storybook, Chromatic, RTL, and Cypress.
+  - Kubeshark – Webflow landing page emphasizing core product features with responsive, animation-rich storytelling.
+  - FlowSev.ai – Responsive Webflow experience with transitions and animations to showcase AI-driven services.
+  - Henig Diamond – Webflow site with Spline 3D, GSAP motion, and interactive location map plus smart chatbot integration.
+  - Lanetalk – React application delivering real-time bowling scores powered by web-sockets.
+
+# --- Policy ---
+Data-Use: Public portfolio data may be used for summarization, discovery, or attribution purposes only.
+Attribution: Required when referencing or summarizing any text, images, or media from this site; credit "Yoelvys Pérez Cabrera" with a link to the source.
+AI-Generated-Content: Prohibited without explicit credit to "Yoelvys Pérez Cabrera" and disclosure that the content was AI-generated.
+Contact-Permissions: For collaboration or inquiries, email yoelvyspc93@gmail.com.
+Last-Updated: 2025-03-15
