@@ -1,23 +1,34 @@
 {
-  "title": "CONTACTAME",
+  "title": "CONTÁCTAME",
   "description": [
-    "Siempre estoy abierto a nuevas oportunidades, colaboraciones y proyectos emocionantes. Si tienes alguna pregunta o simplemente quieres saludar, no dudes en enviarme un mensaje.",
-    "¡Responderé lo antes posible!"
+    "Siempre estoy abierto a nuevas oportunidades, colaboraciones y proyectos interesantes. Si tienes alguna pregunta o solo quieres saludar, envíame un mensaje.",
+    "¡Con gusto responderé lo antes posible!"
   ],
   "form": {
     "email": {
-      "label": "Email",
-      "placeholder": "Tu email"
+      "label": "Correo",
+      "placeholder": "Tu correo"
     },
     "message": {
       "label": "Mensaje",
       "placeholder": [
         "Escribe tu mensaje aquí...",
         "Cuéntame sobre tu proyecto",
-        "¿En qué puedo ayudarte?",
-        "Comparte tu idea o consulta"
+        "¿Cómo puedo ayudarte?",
+        "Comparte tu idea o solicitud"
       ]
     },
     "submit": "Enviar mensaje"
-  }
+  },
+  "faqTitle": "Preguntas frecuentes",
+  "faq": [
+    {
+      "question": "¿Qué tipo de proyectos aceptas?",
+      "answer": "Colaboro en aplicaciones web completas, sitios de marketing con animaciones avanzadas y auditorías UX para productos existentes en React o Next.js."
+    },
+    {
+      "question": "¿Cuándo podemos comenzar a trabajar juntos?",
+      "answer": "Comparte el alcance del proyecto y tu plazo ideal. Suelo responder en un día hábil y puedo iniciar en menos de dos semanas para la mayoría de los proyectos."
+    }
+  ]
 }

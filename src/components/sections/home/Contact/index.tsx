@@ -12,6 +12,7 @@ export function Contact() {
   const { t } = useTranslation('contact');
   const description = t.raw('description') as string[];
   const messagePlaceholders = t.raw('form.message.placeholder') as string[];
+  const faqItems = t.raw('faq') as { question: string; answer: string }[];
 
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -46,14 +47,38 @@ export function Contact() {
                   </li>
                 ))}
               </ul>
+
+              {faqItems?.length ? (
+                <section
+                  className={styles.faq}
+                  aria-label={t('faqTitle', { defaultValue: 'FAQ' })}
+                >
+                  <h3 className={styles.faqTitle}>{t('faqTitle')}</h3>
+                  <dl className={styles.faqList}>
+                    {faqItems.map((item) => (
+                      <div key={item.question} className={styles.faqItem}>
+                        <dt>{item.question}</dt>
+                        <dd>{item.answer}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+              ) : null}
             </div>
-            <form className={styles.form}>
+            <form
+              className={styles.form}
+              method="POST"
+              action="https://formsubmit.co/yoelvyspc93@gmail.com"
+            >
               <InputField
                 label={t('form.email.label')}
                 type="email"
                 id="email"
                 value={email}
                 onChange={setEmail}
+                name="email"
+                required
+                autoComplete="email"
               />
               <TextAreaField
                 label={t('form.message.label')}
@@ -61,6 +86,8 @@ export function Contact() {
                 id="message"
                 value={message}
                 onChange={setMessage}
+                name="message"
+                required
               />
               <Button type="submit" className={styles.button}>
                 {t('form.submit')}

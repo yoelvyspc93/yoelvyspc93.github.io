@@ -4,22 +4,32 @@ import styles from './Footer.module.scss';
 
 import { getNavigationItems } from '@/constants/navigator';
 import { useTranslation } from '../../../hooks/useTranslation';
-import { gsap } from 'gsap';
-import { usePathname, useRouter } from 'next/navigation';
+import { Link, usePathname, routing } from '@/utils/navigation';
 import { CustomImage } from '../CustomImage';
+import { useLocale } from 'next-intl';
+import { MouseEvent } from 'react';
 
 export const Footer = () => {
   const { t } = useTranslation('common');
-  const router = useRouter();
   const pathname = usePathname();
+  const locale = useLocale();
 
-  const handleClickItem = (href: string) => {
-    if (pathname === '/') {
-      gsap.to(globalThis, { duration: 1, scrollTo: href });
-    } else {
-      router.push(`/${href}`);
+  const localeHomePath = locale === routing.defaultLocale ? '/' : `/${locale}`;
+
+  const handleClickItem = (
+    event: MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (href.startsWith('#') && pathname === localeHomePath) {
+      event.preventDefault();
+      const target = document.querySelector<HTMLElement>(href);
+      target?.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const navigationLinks = getNavigationItems(t).filter(
+    (link) => link.name !== t('nav.home') && link.name !== t('nav.contact'),
+  );
 
   return (
     <footer className={styles.footer}>
@@ -28,7 +38,6 @@ export const Footer = () => {
           src="/images/footer/yoelvys.svg"
           alt="Yoelvys"
           fill
-          priority
           className={styles.bgImage}
         />
       </div>
@@ -38,22 +47,30 @@ export const Footer = () => {
 
         <nav className={styles.navMenu} aria-label="Footer navigation">
           <ul>
-            {getNavigationItems(t)
-              .filter(
-                (link) =>
-                  link.name !== t('nav.home') && link.name !== t('nav.contact'),
-              )
-              .map((link) => (
+            {navigationLinks.map((link) => {
+              const hash = link.path.startsWith('#')
+                ? link.path.replace('#', '')
+                : undefined;
+
+              return (
                 <li key={link.name}>
-                  <button
-                    type="button"
-                    onClick={() => handleClickItem(link.path)}
+                  <Link
+                    href={hash ? { pathname: '/', hash } : link.path}
                     className={styles.linkButton}
+                    onClick={(event) => handleClickItem(event, link.path)}
                   >
                     {link.name}
-                  </button>
+                  </Link>
                 </li>
-              ))}
+              );
+            })}
+            <li>
+              <a href="/llms.txt" className={styles.linkButton}>
+                {t('footer.llmPolicy', {
+                  defaultValue: 'LLM Policy',
+                })}
+              </a>
+            </li>
           </ul>
         </nav>
       </div>

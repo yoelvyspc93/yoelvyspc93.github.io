@@ -1,7 +1,7 @@
 import Script from 'next/script';
 
 interface JsonLdSchemaProps {
-  schemaData: Record<string, unknown>;
+  schemaData: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const JsonLdSchema = ({ schemaData }: JsonLdSchemaProps) => {

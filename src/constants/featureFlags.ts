@@ -1,10 +1,12 @@
-const showHeader = process.env.NEXT_PUBLIC_FEATURE_HEADER === '1';
-const showAbout = process.env.NEXT_PUBLIC_FEATURE_ABOUT === '1';
-const showProjects = process.env.NEXT_PUBLIC_FEATURE_PROJECTS === '1';
-const showExperience = process.env.NEXT_PUBLIC_FEATURE_EXPERIENCE === '1';
-const showSkills = process.env.NEXT_PUBLIC_FEATURE_SKILLS === '1';
-const showContact = process.env.NEXT_PUBLIC_FEATURE_CONTACT === '1';
-const showLanguage = process.env.NEXT_PUBLIC_FEATURE_LANGUAGE === '1';
+const isEnabled = (value?: string) => value !== '0';
+
+const showHeader = isEnabled(process.env.NEXT_PUBLIC_FEATURE_HEADER);
+const showAbout = isEnabled(process.env.NEXT_PUBLIC_FEATURE_ABOUT);
+const showProjects = isEnabled(process.env.NEXT_PUBLIC_FEATURE_PROJECTS);
+const showExperience = isEnabled(process.env.NEXT_PUBLIC_FEATURE_EXPERIENCE);
+const showSkills = isEnabled(process.env.NEXT_PUBLIC_FEATURE_SKILLS);
+const showContact = isEnabled(process.env.NEXT_PUBLIC_FEATURE_CONTACT);
+const showLanguage = isEnabled(process.env.NEXT_PUBLIC_FEATURE_LANGUAGE);
 
 export const featureFlags = {
   showHeader: showHeader,

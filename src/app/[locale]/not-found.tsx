@@ -1,20 +1,19 @@
 import '@/styles/app.scss';
 
-import Link from 'next/link';
+import { Link } from '@/utils/navigation';
 import { getTranslations } from 'next-intl/server';
-import { routing } from '@/utils/navigation';
 
-export default async function RootNotFound() {
-  const defaultLocale = routing.defaultLocale;
-  const t = await getTranslations({
-    locale: defaultLocale,
-    namespace: 'notFound',
-  });
-
-  const homeHref = defaultLocale === 'en' ? '/' : `/${defaultLocale}`;
+export default async function LocaleNotFound({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const { locale } = params;
+  const t = await getTranslations({ locale, namespace: 'notFound' });
+  const homeHref = locale === 'en' ? '/' : `/${locale}`;
 
   return (
-    <html lang={defaultLocale}>
+    <html lang={locale}>
       <body>
         <main className="not-found">
           <div className="not-found__inner">

@@ -1,11 +1,11 @@
 'use client';
 
-import { usePathname, useRouter } from '@/utils/navigation';
+import { Link, usePathname, useRouter, routing } from '@/utils/navigation';
 import styles from './Navigator.module.scss';
 import { getNavigationItems } from '@/constants/navigator';
 import { socialLinks } from '@/constants/social';
 import { featureFlags } from '@/constants/featureFlags';
-import { useEffect } from 'react';
+import { useEffect, MouseEvent } from 'react';
 
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
@@ -28,15 +28,21 @@ export const Navigator = () => {
     gsap.registerPlugin(ScrollToPlugin);
   }, []);
 
-  const handleClickItem = (href: string) => {
-    if (pathname === '/') {
+  const localeHomePath = locale === routing.defaultLocale ? '/' : `/${locale}`;
+
+  const handleClickItem = (
+    event: MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (!href.startsWith('#')) return;
+
+    if (pathname === localeHomePath) {
+      event.preventDefault();
       gsap.to(globalThis, {
         duration: 0.5,
         scrollTo: href,
         ease: 'power2.out',
       });
-    } else {
-      router.push(href);
     }
   };
 
@@ -45,17 +51,23 @@ export const Navigator = () => {
       <LiquidGlass id="navigator-liquid-glass" />
       <div className={styles.navigator}>
         <ul>
-          {getNavigationItems(t).map((link) => (
-            <li key={link.name}>
-              <button
-                type="button"
-                onClick={() => handleClickItem(link.path)}
-                className={styles.linkButton}
-              >
-                {link.name}
-              </button>
-            </li>
-          ))}
+          {getNavigationItems(t).map((link) => {
+            const hash = link.path.startsWith('#')
+              ? link.path.replace('#', '')
+              : undefined;
+
+            return (
+              <li key={link.name}>
+                <Link
+                  href={hash ? { pathname: '/', hash } : link.path}
+                  className={styles.linkButton}
+                  onClick={(event) => handleClickItem(event, link.path)}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
       <div className={styles.navigator}>

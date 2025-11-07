@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from '@/hooks/useTranslation';
 import styles from './About.module.scss';
 import Lottie from 'lottie-react';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 import developer from '@/public/lotties/developer.json';
 import rocket from '@/public/lotties/rocket.json';
@@ -90,6 +91,8 @@ const emojiMap: Record<string, ReactNode> = {
 
 export function About() {
   const { t } = useTranslation('about');
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldAnimate = !prefersReducedMotion;
   const refs = useRef<HTMLSpanElement[]>([]);
   const container = useRef<HTMLElement | null>(null);
 
@@ -123,6 +126,8 @@ export function About() {
   );
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
@@ -141,14 +146,25 @@ export function About() {
     }, container);
 
     return () => ctx.revert();
-  }, []);
+  }, [prefersReducedMotion]);
 
   const phrase = t('description');
-  const content = useMemo(() => renderContent(phrase), [phrase, renderContent]);
+  const animatedContent = useMemo(
+    () => (shouldAnimate ? renderContent(phrase) : null),
+    [phrase, renderContent, shouldAnimate],
+  );
 
   return (
     <section id="about" ref={container} className={styles.about}>
-      <div className={styles.content}>{content}</div>
+      <div className={styles.wrapper}>
+        <h2 className={styles.heading}>{t('title')}</h2>
+        <p className={styles.plainText}>{t('plainDescription')}</p>
+        {shouldAnimate ? (
+          <div className={styles.content} aria-hidden>
+            {animatedContent}
+          </div>
+        ) : null}
+      </div>
     </section>
   );
 }

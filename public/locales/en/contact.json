@@ -19,5 +19,16 @@
       ]
     },
     "submit": "Send Message"
-  }
+  },
+  "faqTitle": "Frequently Asked Questions",
+  "faq": [
+    {
+      "question": "What kind of projects do you accept?",
+      "answer": "I collaborate on end-to-end web applications, marketing sites with advanced animation, and UX audits for existing React or Next.js products."
+    },
+    {
+      "question": "How soon can we start working together?",
+      "answer": "Send me the project scope and preferred timeline. I usually reply within one business day and can begin within two weeks for most engagements."
+    }
+  ]
 }

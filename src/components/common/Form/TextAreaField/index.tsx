@@ -10,6 +10,8 @@ interface Props {
   placeholders?: string[];
   interval?: number;
   'aria-describedby'?: string;
+  name?: string;
+  required?: boolean;
 }
 
 export const TextAreaField = ({
@@ -20,6 +22,8 @@ export const TextAreaField = ({
   placeholders = [],
   interval = 5000,
   'aria-describedby': ariaDescribedby,
+  name,
+  required = false,
 }: Props) => {
   const [current, setCurrent] = useState(0);
   const placeholderRef = useRef<HTMLSpanElement>(null);
@@ -83,6 +87,8 @@ export const TextAreaField = ({
         <textarea
           id={id}
           className={styles.textarea}
+          name={name}
+          required={required}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           aria-describedby={ariaDescribedby}

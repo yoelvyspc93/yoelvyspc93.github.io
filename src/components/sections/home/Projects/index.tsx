@@ -10,6 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { Button } from '@/components/common/Button';
 import { useTranslation } from '@/hooks/useTranslation';
+import { Link } from '@/utils/navigation';
 
 export const Projects = () => {
   const { t } = useTranslation('projects');
@@ -18,7 +19,7 @@ export const Projects = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
   const hoverRef = useRef<HTMLDivElement | null>(null);
-  const cardsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const cardsRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const buttonRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -118,30 +119,57 @@ export const Projects = () => {
             shortDescription: string;
             detailedDescription: string[];
           };
+          const isExternal = Boolean(projectData.websiteUrl);
+          const detailHref = isExternal
+            ? projectData.websiteUrl
+            : { pathname: '/projects', hash: `project-${projectData.id}` };
+          const cardContent = (
+            <ProjectsCard
+              number={projectData.id}
+              title={project.title}
+              content={project.shortDescription}
+            />
+          );
+          const setRef = (el: HTMLAnchorElement | null) => {
+            if (el) cardsRef.current[index] = el;
+          };
+
+          if (isExternal) {
+            return (
+              <a
+                key={projectData.id}
+                ref={setRef}
+                className={styles.cardWrapper}
+                aria-label={`${project.title} project`}
+                onMouseEnter={(event) => moveSharedHover(event.currentTarget)}
+                onFocus={(event) => moveSharedHover(event.currentTarget)}
+                href={projectData.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {cardContent}
+              </a>
+            );
+          }
+
           return (
-            <button
+            <Link
               key={projectData.id}
-              ref={(el) => {
-                cardsRef.current[index] = el;
-              }}
+              ref={setRef}
               className={styles.cardWrapper}
               aria-label={`${project.title} project`}
-              onMouseEnter={(e) => moveSharedHover(e.currentTarget)}
-              onFocus={(e) => moveSharedHover(e.currentTarget)}
-              tabIndex={0}
+              onMouseEnter={(event) => moveSharedHover(event.currentTarget)}
+              onFocus={(event) => moveSharedHover(event.currentTarget)}
+              href={detailHref}
             >
-              <ProjectsCard
-                number={projectData.id}
-                title={project.title}
-                content={project.shortDescription}
-              />
-            </button>
+              {cardContent}
+            </Link>
           );
         })}
       </div>
 
       <div ref={buttonRef}>
-        <Button>{t('seeMore')}</Button>
+        <Button href="/projects">{t('seeMore')}</Button>
       </div>
     </section>
   );

@@ -25,7 +25,8 @@
     "contactEmail": "mailto:yoelvyspc93@gmail.com"
   },
   "footer": {
-    "copyright": "© 2025 Built by Yoelvys. All rights reserved."
+    "copyright": "© 2025 Built by Yoelvys. All rights reserved.",
+    "llmPolicy": "LLM Policy"
   },
   "openMenu": "Open menu",
   "closeMenu": "Close menu",
