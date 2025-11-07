@@ -1,8 +1,8 @@
 import '@/styles/app.scss';
 
 import { ReactNode } from 'react';
-import { schemaData, metadata as seo } from '@/constants/metadata';
-import { Metadata } from 'next';
+import { buildMetadata, buildSchemaData } from '@/constants/metadata';
+import type { Metadata } from 'next';
 import { Navigator } from '@/components/common/Navigator';
 import JsonLdSchema from '@/components/common/JsonLdSchema';
 import { NextIntlClientProvider } from 'next-intl';
@@ -12,7 +12,14 @@ import { loadMessages } from '@/utils/request';
 import ConsoleBanner from '@/components/common/ConsoleBanner';
 import SlidingMenu from '@/components/common/SlidingMenu';
 
-export const metadata: Metadata = seo;
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  const { locale } = params;
+  return buildMetadata(locale);
+}
 
 export const generateStaticParams = () =>
   routing.locales.map((locale: string) => ({ locale }));
@@ -20,11 +27,12 @@ export const generateStaticParams = () =>
 export default async function LocaleLayout({
   children,
   params,
-}: Readonly<{ children: ReactNode; params: Promise<{ locale: string }> }>) {
-  const { locale } = await params;
+}: Readonly<{ children: ReactNode; params: { locale: string } }>) {
+  const { locale } = params;
 
   setRequestLocale(locale);
   const messages = await loadMessages(locale);
+  const schema = buildSchemaData(locale);
 
   return (
     <html lang={locale}>
@@ -36,7 +44,7 @@ export default async function LocaleLayout({
             <SlidingMenu />
             {children}
           </div>
-          <JsonLdSchema schemaData={schemaData} />
+          <JsonLdSchema schemaData={schema} />
         </NextIntlClientProvider>
       </body>
     </html>

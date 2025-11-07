@@ -12,7 +12,7 @@ export const ProjectsCard = ({ number, title, content }: Props) => {
     <div className={styles.card}>
       <div className={styles.container}>
         <span className={styles.index}>{number}</span>
-        <h2 className={styles.title}>{title}</h2>
+        <h3 className={styles.title}>{title}</h3>
         <p className={styles.content}>{content}</p>
         <div className={styles.icon}>
           <CircleButton />

@@ -19,3 +19,40 @@
   font-style: normal;
   font-display: swap;
 }
+
+.not-found {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(180deg, rgba(18, 18, 18, 0.95), #050505);
+  color: colors.$color__white;
+
+  &__inner {
+    max-width: 32rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-self: center;
+    padding: 0.75rem 1.5rem;
+    background-color: colors.$color__pink-purple;
+    color: colors.$color__white;
+    border-radius: 999px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(155, 81, 224, 0.35);
+    }
+  }
+}

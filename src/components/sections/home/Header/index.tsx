@@ -53,7 +53,7 @@ export function Header({ onDownloadCv, onContact }: Props) {
   const tags = t.raw('tag') as string[];
 
   return (
-    <header id="header" className={styles.header} role="presentation">
+    <header id="header" className={styles.header}>
       <div className={styles.inner}>
         <div className={styles.content}>
           <h1 id="hero-title" className={styles.title}>
@@ -79,7 +79,7 @@ export function Header({ onDownloadCv, onContact }: Props) {
           ))}
           <CustomImage
             src="/images/header/avatar.webp"
-            alt="Header"
+            alt={t('portraitAlt')}
             fill
             priority
           />

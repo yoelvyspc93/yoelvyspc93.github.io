@@ -109,3 +109,38 @@
     align-self: flex-end;
   }
 }
+
+.faq {
+  margin-top: fn.rem(32);
+  display: flex;
+  flex-direction: column;
+  gap: fn.rem(16);
+  color: #fff;
+}
+
+.faqTitle {
+  font-size: ty.$heading-5;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: fn.rem(16);
+  margin: 0;
+}
+
+.faqItem {
+  dt {
+    font-weight: 600;
+    margin-bottom: fn.rem(4);
+  }
+
+  dd {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+  }
+}

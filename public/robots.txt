@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yoelvyspc93.github.io/sitemap.xml
+LLM: https://yoelvyspc93.github.io/llms.txt

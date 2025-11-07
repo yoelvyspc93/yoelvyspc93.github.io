@@ -11,6 +11,9 @@ interface Props {
   placeholders?: string[];
   interval?: number;
   'aria-describedby'?: string;
+  name?: string;
+  required?: boolean;
+  autoComplete?: string;
 }
 
 export const InputField = ({
@@ -22,6 +25,9 @@ export const InputField = ({
   placeholders = [],
   interval = 5000,
   'aria-describedby': ariaDescribedby,
+  name,
+  required = false,
+  autoComplete = 'off',
 }: Props) => {
   const [current, setCurrent] = useState(0);
   const placeholderRef = useRef<HTMLSpanElement>(null);
@@ -88,10 +94,12 @@ export const InputField = ({
       </label>
       <div className={styles.inputWrapper}>
         <input
-          autoComplete="off"
           type={type}
           id={id}
           className={styles.input}
+          name={name}
+          autoComplete={autoComplete}
+          required={required}
           value={value}
           onChange={(evt) => onChange(evt.target.value)}
           aria-describedby={ariaDescribedby}

@@ -27,14 +27,14 @@ export const ProjectItem = ({
 }: Props) => {
   return (
     <div
-      id={id}
+      id={`project-${id}`}
       className={clsx(
         styles.container,
         align === 'left' && styles.container__left,
       )}
     >
       <div className={styles.contentWrapper}>
-        <h2 className={styles.title}>{title}</h2>
+        <h3 className={styles.title}>{title}</h3>
         <div className={styles.description}>
           {description.map((desc, index) => (
             <p key={index}>{desc}</p>

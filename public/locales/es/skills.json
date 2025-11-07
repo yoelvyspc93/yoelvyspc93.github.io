@@ -1,24 +1,19 @@
 {
   "title": "Mis",
   "titleHighlight": "Habilidades",
-  "description": "Cada proyecto es una oportunidad para perfeccionar mis habilidades y generar resultados significativos.",
+  "description": "Cada proyecto es una oportunidad para perfeccionar mis habilidades y generar resultados reales.",
   "list": [
-    "Next.js",
-    "CSS3",
-    "Redux",
-    "Figma",
-    "React",
-    "Storybook",
-    "Jest",
-    "React Native",
-    "Webflow",
-    "TypeScript",
-    "Cypress",
-    "WordPress",
-    "Python",
-    "JavaScript",
-    "Chromatic",
-    "Django",
-    "HTML5"
+    {
+      "title": "Frameworks y librerías",
+      "items": ["Next.js", "React", "React Native", "Redux", "Webflow"]
+    },
+    {
+      "title": "Pruebas y calidad",
+      "items": ["Storybook", "Jest", "Cypress", "Chromatic"]
+    },
+    {
+      "title": "Lenguajes y herramientas",
+      "items": ["TypeScript", "JavaScript", "Python", "HTML5", "CSS3", "Figma", "WordPress", "Django"]
+    }
   ]
 }

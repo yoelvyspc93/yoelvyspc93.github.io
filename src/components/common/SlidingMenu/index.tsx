@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { usePathname, useRouter } from '@/utils/navigation';
+import { useState, useRef, useEffect, MouseEvent } from 'react';
+import { Link, usePathname, routing } from '@/utils/navigation';
 import { getNavigationItems } from '@/constants/navigator';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useViewports } from '@/hooks/useViewports';
@@ -9,6 +9,7 @@ import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { clsx } from 'clsx';
 import styles from './SlidingMenu.module.scss';
+import { useLocale } from 'next-intl';
 
 const stairs = {
   desktop: 3,
@@ -19,8 +20,8 @@ const stairs = {
 export default function SlidingMenu() {
   const { breakpoint } = useViewports();
   const { t } = useTranslation('common');
-  const router = useRouter();
   const pathname = usePathname();
+  const locale = useLocale();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -157,12 +158,17 @@ export default function SlidingMenu() {
     };
   }, [isOpen]);
 
-  const handleItemClick = (href: string) => {
-    if (pathname === '/') {
+  const localeHomePath = locale === routing.defaultLocale ? '/' : `/${locale}`;
+
+  const handleItemClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (href.startsWith('#') && pathname === localeHomePath) {
+      event.preventDefault();
       gsap.to(globalThis, { duration: 1, scrollTo: href });
-    } else {
-      router.push(href);
     }
+
     setIsOpen(false);
   };
 
@@ -242,16 +248,23 @@ export default function SlidingMenu() {
           </button>
 
           <ul ref={linksRef} className={styles.linksList}>
-            {navItems.map(({ name, path }) => (
-              <li key={path} className={styles.linkItem}>
-                <button
-                  onClick={() => handleItemClick(path)}
-                  className={styles.linkButton}
-                >
-                  {name}
-                </button>
-              </li>
-            ))}
+            {navItems.map(({ name, path }) => {
+              const hash = path.startsWith('#')
+                ? path.replace('#', '')
+                : undefined;
+
+              return (
+                <li key={path} className={styles.linkItem}>
+                  <Link
+                    href={hash ? { pathname: '/', hash } : path}
+                    className={styles.linkButton}
+                    onClick={(event) => handleItemClick(event, path)}
+                  >
+                    {name}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

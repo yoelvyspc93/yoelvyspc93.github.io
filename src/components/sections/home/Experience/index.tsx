@@ -27,25 +27,25 @@ const images: ExperienceImage[][] = [
   [
     {
       src: '/images/projects/flowsev.webp',
-      alt: 'Code screen',
+      alt: 'FlowSev.ai marketing dashboard mockup',
       width: 800,
       height: 600,
     },
     {
       src: '/images/projects/pioneerz.webp',
-      alt: 'Typing close-up',
+      alt: 'Pioneerz NFT marketplace landing hero',
       width: 800,
       height: 600,
     },
     {
       src: '/images/projects/flowsev.webp',
-      alt: 'Laptop with charts',
+      alt: 'FlowSev AI automation workflow illustration',
       width: 800,
       height: 600,
     },
     {
       src: '/images/projects/pioneerz.webp',
-      alt: 'Code editor detail',
+      alt: 'Pioneerz NFT management console preview',
       width: 800,
       height: 600,
     },
@@ -53,13 +53,13 @@ const images: ExperienceImage[][] = [
   [
     {
       src: '/images/projects/pioneerz.webp',
-      alt: 'Code screen',
+      alt: 'Pioneerz collaborative workspace interface',
       width: 800,
       height: 600,
     },
     {
       src: '/images/projects/flowsev.webp',
-      alt: 'Typing close-up',
+      alt: 'FlowSev AI analytics screens collage',
       width: 800,
       height: 600,
     },
@@ -67,13 +67,13 @@ const images: ExperienceImage[][] = [
   [
     {
       src: '/images/projects/flowsev.webp',
-      alt: 'Code screen',
+      alt: 'FlowSev.ai responsive layout on tablet',
       width: 800,
       height: 600,
     },
     {
       src: '/images/projects/pioneerz.webp',
-      alt: 'Typing close-up',
+      alt: 'Pioneerz customer onboarding screens',
       width: 800,
       height: 600,
     },

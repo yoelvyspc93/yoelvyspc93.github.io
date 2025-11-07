@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 import styles from './Button.module.scss';
+import { Link } from '@/utils/navigation';
 
 interface Props {
   children: ReactNode;
@@ -16,20 +17,33 @@ export const Button = ({
   children,
   onClick,
   href,
-  className,
+  className = '',
 }: Props) => {
   if (href) {
+    const isExternal =
+      /^(https?:)?\/\//.test(href) || href.startsWith('mailto:');
+    const classes = className ? `${styles.button} ${className}` : styles.button;
+
+    if (isExternal) {
+      return (
+        <a
+          aria-label="button"
+          href={href}
+          className={classes}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span className={styles.button__dot} />
+          <span className={styles.button__content}>{children}</span>
+        </a>
+      );
+    }
+
     return (
-      <a
-        aria-label="button"
-        href={href}
-        className={`${styles.button} ${className}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <Link aria-label="button" href={href} className={classes}>
         <span className={styles.button__dot} />
         <span className={styles.button__content}>{children}</span>
-      </a>
+      </Link>
     );
   }
 
@@ -37,7 +51,7 @@ export const Button = ({
     <button
       aria-label="button"
       type={type}
-      className={`${styles.button} ${className}`}
+      className={className ? `${styles.button} ${className}` : styles.button}
       onClick={onClick}
     >
       <span className={styles.button__dot} />
