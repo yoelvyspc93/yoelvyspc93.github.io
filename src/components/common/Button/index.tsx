@@ -2,12 +2,14 @@
 
 import { ReactNode } from 'react';
 import styles from './Button.module.scss';
+import { Link } from '@/utils/navigation';
 
 interface Props {
   children: ReactNode;
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   href?: string;
+  external?: boolean;
   className?: string;
 }
 
@@ -16,9 +18,10 @@ export const Button = ({
   children,
   onClick,
   href,
+  external = false,
   className,
 }: Props) => {
-  if (href) {
+  if (href && external) {
     return (
       <a
         aria-label="button"
@@ -30,6 +33,15 @@ export const Button = ({
         <span className={styles.button__dot} />
         <span className={styles.button__content}>{children}</span>
       </a>
+    );
+  }
+
+  if (href && !external) {
+    return (
+      <Link href={href} className={`${styles.button} ${className}`}>
+        <span className={styles.button__dot} />
+        <span className={styles.button__content}>{children}</span>
+      </Link>
     );
   }
 

@@ -1,8 +1,9 @@
 'use client';
-import { useEffect, useMemo, useRef, useCallback, ReactNode } from 'react';
+import { useEffect, useMemo, useRef, ReactNode } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useLocale } from 'next-intl';
 import styles from './About.module.scss';
 import Lottie from 'lottie-react';
 
@@ -14,119 +15,71 @@ import tools from '@/public/lotties/tools.json';
 import brain from '@/public/lotties/brain.json';
 import target from '@/public/lotties/target.json';
 
-interface SegmenterOptions {
-  granularity: 'grapheme' | 'word' | 'sentence';
-}
-
-interface SegmentData {
-  segment: string;
-  index: number;
-  input: string;
-}
-
-interface Segmenter {
-  segment(input: string): Iterable<SegmentData>;
-}
-
-interface IntlWithSegmenter {
-  Segmenter: {
-    new (locale?: string, options?: SegmenterOptions): Segmenter;
-  };
-}
-
 const normalize = (s: string) =>
   String(s ?? '')
     .normalize('NFC')
     .replaceAll('\u00A0', ' ');
 
-const toGraphemes = (s: string) => {
-  const str = normalize(s);
-  if (typeof (Intl as IntlWithSegmenter)?.Segmenter === 'function') {
-    const seg = new (Intl as IntlWithSegmenter).Segmenter(undefined, {
-      granularity: 'grapheme',
-    });
-    return Array.from(seg.segment(str), (x: SegmentData) => x.segment);
-  }
-  return [...str];
-};
-
-const emojiMap: Record<string, ReactNode> = {
-  '👨‍💻': (
-    <div className={styles.emoji} data-label="developer">
-      <Lottie animationData={developer} className={styles.lottie} />
-    </div>
-  ),
-  '🚀': (
-    <div className={styles.emoji} data-label="rocket">
-      <Lottie animationData={rocket} className={styles.lottie} />
-    </div>
-  ),
-  '💡': (
-    <div className={styles.emoji} data-label="idea">
-      <Lottie animationData={idea} className={styles.lottie} />
-    </div>
-  ),
-  '⚡': (
-    <div className={styles.emoji} data-label="lightning">
-      <Lottie animationData={lightning} className={styles.lottie} />
-    </div>
-  ),
-  '🛠️': (
-    <div className={styles.emoji} data-label="tools">
-      <Lottie animationData={tools} className={styles.lottie} />
-    </div>
-  ),
-  '🧠': (
-    <div className={styles.emoji} data-label="brain">
-      <Lottie animationData={brain} className={styles.lottie} />
-    </div>
-  ),
-  '🎯': (
-    <div className={styles.emoji} data-label="target">
-      <Lottie animationData={target} className={styles.lottie} />
-    </div>
-  ),
+const emojiAnimations: Record<string, { label: string; animation: unknown }> = {
+  '[developer]': { label: 'developer', animation: developer },
+  '[rocket]': { label: 'rocket', animation: rocket },
+  '[idea]': { label: 'idea', animation: idea },
+  '[lightning]': { label: 'lightning', animation: lightning },
+  '[tools]': { label: 'tools', animation: tools },
+  '[brain]': { label: 'brain', animation: brain },
+  '[target]': { label: 'target', animation: target },
 };
 
 export function About() {
   const { t } = useTranslation('about');
-  const refs = useRef<HTMLSpanElement[]>([]);
+  const locale = useLocale();
   const container = useRef<HTMLElement | null>(null);
 
-  const setRef = useCallback(
-    (index: number) => (el: HTMLSpanElement | null) => {
-      if (el) refs.current[index] = el;
-    },
-    [],
-  );
+  const phrase = t('description');
 
-  const renderContent = useCallback(
-    (phrase: string) => {
-      refs.current.length = 0;
-      const words = normalize(phrase).split(/\s+/);
-      let idx = 0;
+  const emojiNodes = useMemo<Record<string, ReactNode>>(() => {
+    const nodes: Record<string, ReactNode> = {};
 
-      return words.map((w, wi) => (
-        <div key={`w-${wi}`} className={styles.word}>
-          {toGraphemes(w).map((g) => {
-            const i = idx++;
-            return (
-              <span key={`c-${i}`} ref={setRef(i)}>
-                {emojiMap[g] ?? g}
-              </span>
-            );
-          })}
+    for (const [token, config] of Object.entries(emojiAnimations)) {
+      nodes[token] = (
+        <div className={styles.emoji} data-label={config.label} aria-hidden>
+          <Lottie animationData={config.animation} className={styles.lottie} />
         </div>
-      ));
-    },
-    [setRef],
-  );
+      );
+    }
+
+    return nodes;
+  }, []);
+
+  const content = useMemo(() => {
+    const words = normalize(phrase).split(/\s+/);
+
+    if (words.length === 0) {
+      return null;
+    }
+
+    return words.map((word, index) => (
+      <div key={`${locale}-w-${index}`} className={styles.word}>
+        <span data-animate="about-char" key={`${locale}-c-${index}`}>
+          {emojiNodes[word] ?? word}
+        </span>
+      </div>
+    ));
+  }, [emojiNodes, locale, phrase]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      gsap.to(refs.current, {
+      const elements = gsap.utils.toArray<HTMLSpanElement>(
+        'span[data-animate="about-char"]',
+      );
+
+      if (elements.length === 0) {
+        return;
+      }
+
+      gsap.to(elements, {
         opacity: 1,
         ease: 'none',
         stagger: 0.1,
@@ -141,10 +94,7 @@ export function About() {
     }, container);
 
     return () => ctx.revert();
-  }, []);
-
-  const phrase = t('description');
-  const content = useMemo(() => renderContent(phrase), [phrase, renderContent]);
+  }, [locale, phrase]);
 
   return (
     <section id="about" ref={container} className={styles.about}>
