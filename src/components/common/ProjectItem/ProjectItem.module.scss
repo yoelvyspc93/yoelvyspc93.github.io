@@ -1,7 +1,10 @@
 @use '@/styles/variables/colors' as cl;
 @use '@/styles/mixins/mixins' as mx;
+@use '@/styles/variables/typography' as ty;
+@use '@/styles/mixins/functions' as fn;
 
 .container {
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -9,6 +12,33 @@
   align-items: center;
   gap: 20px;
   padding: 0 16px;
+  overflow: visible;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(50deg, var(--start), var(--end));
+    filter: blur(100px);
+    opacity: var(--opacity, 0.2);
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 50%;
+    top: 50%;
+  }
+
+  &[data-align='left']::after {
+    right: 0px;
+    left: auto;
+    transform: translate(40%, -50%);
+  }
+
+  &[data-align='right']::after {
+    left: 0px;
+    right: auto;
+    transform: translate(-40%, -50%);
+  }
 
   @include mx.respond-to('tablet') {
     flex-direction: row;
@@ -36,6 +66,7 @@
   justify-content: center;
   align-items: flex-start;
   gap: 20px;
+  z-index: 1;
 
   @include mx.respond-to('desktop') {
     gap: 32px;
@@ -43,15 +74,18 @@
 }
 
 .title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #ffffff;
+  text-align: center;
+  font-family: ty.$font__secondary;
+  font-size: ty.$heading-4;
+  font-weight: 400;
+  color: cl.$color__white;
+  text-transform: uppercase;
 
   @include mx.respond-to('tablet') {
-    font-size: 28px;
+    font-size: fn.rem(54);
   }
   @include mx.respond-to('desktop') {
-    font-size: 32px;
+    font-size: fn.rem(64);
   }
 }
 
@@ -136,15 +170,12 @@
 
 .image {
   width: calc(100vw - 32px);
-  min-height: 200px;
+  aspect-ratio: 1.35 / 1;
+  object-fit: cover;
+  object-position: top left;
 
   @include mx.respond-to('tablet') {
     width: 100%;
-    min-height: 500px;
-  }
-
-  @include mx.respond-to('tablet') {
-    min-height: 550px;
   }
 
   img {

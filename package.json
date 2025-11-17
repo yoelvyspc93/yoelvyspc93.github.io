@@ -21,8 +21,7 @@
     "next-intl": "^4.3.4",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "sass": "^1.83.0",
-    "swiper": "^11.2.10"
+    "sass": "^1.83.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

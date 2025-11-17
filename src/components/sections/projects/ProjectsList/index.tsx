@@ -11,7 +11,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export const ProjectsList = () => {
   const { t } = useTranslation('projects');
-  const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const itemsRef = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -42,31 +42,34 @@ export const ProjectsList = () => {
 
   return (
     <section className={styles.section}>
-      {projectsData.map((projectData, index) => {
-        const project = t.raw(`list.${projectData.id}`) as {
-          title: string;
-          shortDescription: string;
-          detailedDescription: string[];
-        };
-        return (
-          <div
-            key={projectData.id}
-            ref={(el) => {
-              if (el) itemsRef.current[index] = el;
-            }}
-          >
-            <ProjectItem
-              id={projectData.id}
-              title={project.title}
-              description={project.detailedDescription}
-              imagesUrl={projectData.imagesUrl}
-              technologies={projectData.techStack}
-              align={index % 2 === 0 ? 'right' : 'left'}
-              website={projectData.websiteUrl}
-            />
-          </div>
-        );
-      })}
+      <div className={styles.container}>
+        {projectsData.map((projectData, index) => {
+          const project = t.raw(`list.${projectData.id}`) as {
+            title: string;
+            shortDescription: string;
+            detailedDescription: string[];
+          };
+          return (
+            <article
+              key={projectData.id}
+              ref={(el) => {
+                if (el) itemsRef.current[index] = el;
+              }}
+            >
+              <ProjectItem
+                id={projectData.id}
+                title={project.title}
+                description={project.detailedDescription}
+                imageUrl={projectData.imageUrl}
+                technologies={projectData.techStack}
+                align={index % 2 === 0 ? 'right' : 'left'}
+                website={projectData.websiteUrl}
+                effects={projectData.effects}
+              />
+            </article>
+          );
+        })}
+      </div>
     </section>
   );
 };

@@ -38,6 +38,11 @@ export const Header = () => {
       <h1>
         {t('main')} <span>{t('mainHighlight')}</span>
       </h1>
+      <p>
+        I designed and developed the Henig Diamond landing page using Webflow,
+        integrating GSAP for smooth animations and Spline for 3D visual
+        elements.
+      </p>
     </section>
   );
 };
