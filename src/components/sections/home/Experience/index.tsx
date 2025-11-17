@@ -64,20 +64,7 @@ const images: ExperienceImage[][] = [
       height: 600,
     },
   ],
-  [
-    {
-      src: '/images/projects/flowsev.webp',
-      alt: 'Code screen',
-      width: 800,
-      height: 600,
-    },
-    {
-      src: '/images/projects/pioneerz.webp',
-      alt: 'Typing close-up',
-      width: 800,
-      height: 600,
-    },
-  ],
+  [],
 ];
 
 export function Experience() {

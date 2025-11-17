@@ -141,7 +141,7 @@ export const Projects = () => {
       </div>
 
       <div ref={buttonRef}>
-        <Button>{t('seeMore')}</Button>
+        <Button href="/projects">{t('seeMore')}</Button>
       </div>
     </section>
   );

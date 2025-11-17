@@ -1,19 +1,24 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { ProjectImages } from '../ProjectImages';
 import styles from './ProjectItem.module.scss';
 import { clsx } from 'clsx';
 import { Button } from '../Button';
+import { CustomImage } from '../CustomImage';
 
 interface Props {
   id: string;
   title: string;
   description: string[];
   technologies: ReactNode[];
-  imagesUrl: string[];
+  imageUrl: string;
   align: 'left' | 'right';
   website?: string;
+  effects: {
+    start: string;
+    end: string;
+    opacity: number;
+  };
 }
 
 export const ProjectItem = ({
@@ -21,9 +26,10 @@ export const ProjectItem = ({
   title,
   description,
   technologies,
-  imagesUrl,
+  imageUrl,
   website,
   align,
+  effects,
 }: Props) => {
   return (
     <div
@@ -32,6 +38,12 @@ export const ProjectItem = ({
         styles.container,
         align === 'left' && styles.container__left,
       )}
+      style={{
+        ['--start' as string]: effects.start,
+        ['--end' as string]: effects.end,
+        ['--opacity' as string]: effects.opacity,
+      }}
+      data-align={align}
     >
       <div className={styles.contentWrapper}>
         <h2 className={styles.title}>{title}</h2>
@@ -59,7 +71,7 @@ export const ProjectItem = ({
         )}
       >
         <div className={styles.image}>
-          <ProjectImages images={imagesUrl} />
+          <CustomImage src={imageUrl} alt={title} fill blur />
         </div>
       </div>
     </div>

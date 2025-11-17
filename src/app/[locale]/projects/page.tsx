@@ -1,3 +1,4 @@
+import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/sections/projects/Header';
 import { ProjectsList } from '@/components/sections/projects/ProjectsList';
 import { featureFlags } from '@/constants/featureFlags';
@@ -11,6 +12,7 @@ export default function AllProjectsPage() {
     <main id="main">
       <Header />
       <ProjectsList />
+      <Footer />
     </main>
   );
 }

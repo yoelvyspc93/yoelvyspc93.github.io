@@ -9,35 +9,35 @@
       "title": "Pioneerz",
       "shortDescription": "Modern platform for selling NFTs with advanced animations and seamless experience.",
       "detailedDescription": [
-        "I developed a modern platform for selling NFTs, built with Next.js. The website features advanced animations using GSAP, SwiperJS, and Lottie, delivering an interactive and seamless user experience. The project was meticulously tested and iterated using tools such as Storybook, Chromatic, React Testing Library, and Cypress."
+        "I developed a full-featured platform for NFT sales and management, built with Next.js and focused on user experience. The interface integrates GSAP, SwiperJS, and Lottie for dynamic animations, supporting both dark and light modes for accessibility. The entire system was thoroughly tested with Storybook, Chromatic, React Testing Library, and Cypress, ensuring consistency, performance, and visual stability across devices."
       ]
     },
     "02": {
       "title": "Kubeshark",
       "shortDescription": "Landing page designed to highlight Kubeshark's main features with a clean and responsive design.",
       "detailedDescription": [
-        "I developed the official landing page for Kubeshark using Webflow. The site was created to highlight the main features of the tool, with a clean, responsive design focused on user experience. Animations and smooth transitions were implemented to enhance interaction and capture visitors' attention."
+        "I developed the official Kubeshark landing page using Webflow, crafting a structure optimized for SaaS presentation. The site focuses on clarity and technical storytelling, with smooth transitions and subtle animations to enhance the navigation experience. Built responsively, it adapts perfectly to all screen sizes while maintaining excellent performance."
       ]
     },
     "03": {
       "title": "FlowSev",
       "shortDescription": "Modern and responsive landing page created to showcase FlowSev.ai's features.",
       "detailedDescription": [
-        "I developed the landing page for FlowSev.ai using Webflow, focusing on a modern and responsive design. The page integrates transitions and animations to highlight the service's features and provide an engaging and intuitive user experience."
+        "I built the FlowSev.ai landing page with Webflow, focusing on a clean, modern aesthetic and smooth scrolling animations. The structure emphasizes clarity and performance, using motion subtly to guide user attention and highlight key product benefits. The design is fully responsive, ensuring consistency across all screen sizes."
       ]
     },
     "04": {
       "title": "Henig Diamond",
       "shortDescription": "Informational landing page with 3D animations, an interactive map, and an intelligent chatbot.",
       "detailedDescription": [
-        "I developed the informational landing page for Henig Diamond, a company dedicated to diamond sales, using Webflow. The page incorporates advanced animations with GSAP and 3D elements created with Spline, along with an interactive map for office locations. I also integrated an intelligent chatbot designed to answer questions related to the company's services and products."
+        "I designed and developed the Henig Diamond landing page using Webflow, integrating GSAP for smooth animations and Spline for 3D visual elements. The website includes an interactive office map and a custom AI chatbot that responds to questions about services and products. Every detail was crafted to reflect the elegance and exclusivity of the brand."
       ]
     },
     "05": {
-      "title": "Lanetalk",
-      "shortDescription": "Real-time platform to display bowling scores using web-sockets.",
+      "title": "Dspot Website",
+      "shortDescription": "Corporate website for DSpot, a digital studio offering design and software solutions.",
       "detailedDescription": [
-        "I developed Lanetalk, a platform built in React to display real-time bowling game scores. The application uses web-sockets to ensure continuous and seamless score updates, providing users with a dynamic and precise experience."
+        "Corporate website for DSpot, a digital studio offering design and software solutions. The site was built with Next.js and React, using TypeScript and GSAP animations to create a smooth, responsive experience. The content highlights the company’s principles—speed to build and one‑team mindset—alongside their blend of design, strategy and technology."
       ]
     }
   }
