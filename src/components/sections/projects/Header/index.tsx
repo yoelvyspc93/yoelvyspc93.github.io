@@ -4,10 +4,9 @@ import styles from './Header.module.scss';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from 'react';
-import { useTranslation } from '@/hooks/useTranslation';
+import { PROJECTS_SECTION } from '@/constants/content';
 
 export const Header = () => {
-  const { t } = useTranslation('projects');
   const headerRef = useRef(null);
 
   useEffect(() => {
@@ -36,7 +35,7 @@ export const Header = () => {
   return (
     <section className={styles.section} ref={headerRef}>
       <h1>
-        {t('main')} <span>{t('mainHighlight')}</span>
+        {PROJECTS_SECTION.main} <span>{PROJECTS_SECTION.mainHighlight}</span>
       </h1>
       <p>
         I designed and developed the Henig Diamond landing page using Webflow,

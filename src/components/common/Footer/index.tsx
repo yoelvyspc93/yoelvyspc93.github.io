@@ -3,13 +3,12 @@
 import styles from './Footer.module.scss';
 
 import { getNavigationItems } from '@/constants/navigator';
-import { useTranslation } from '../../../hooks/useTranslation';
 import { gsap } from 'gsap';
 import { usePathname, useRouter } from 'next/navigation';
 import { CustomImage } from '../CustomImage';
+import { COMMON } from '@/constants/content';
 
 export const Footer = () => {
-  const { t } = useTranslation('common');
   const router = useRouter();
   const pathname = usePathname();
 
@@ -34,14 +33,15 @@ export const Footer = () => {
       </div>
 
       <div className={styles.content}>
-        <p className={styles.copyrightText}>{t('footer.copyright')}</p>
+        <p className={styles.copyrightText}>{COMMON.footer.copyright}</p>
 
         <nav className={styles.navMenu} aria-label="Footer navigation">
           <ul>
-            {getNavigationItems(t)
+            {getNavigationItems()
               .filter(
                 (link) =>
-                  link.name !== t('nav.home') && link.name !== t('nav.contact'),
+                  link.name !== COMMON.nav.home &&
+                  link.name !== COMMON.nav.contact,
               )
               .map((link) => (
                 <li key={link.name}>

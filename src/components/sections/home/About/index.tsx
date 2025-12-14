@@ -2,10 +2,9 @@
 import { useEffect, useMemo, useRef, ReactNode } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useTranslation } from '@/hooks/useTranslation';
-import { useLocale } from 'next-intl';
 import styles from './About.module.scss';
 import Lottie from 'lottie-react';
+import { ABOUT } from '@/constants/content';
 
 import developer from '@/public/lotties/developer.json';
 import rocket from '@/public/lotties/rocket.json';
@@ -31,11 +30,9 @@ const emojiAnimations: Record<string, { label: string; animation: unknown }> = {
 };
 
 export function About() {
-  const { t } = useTranslation('about');
-  const locale = useLocale();
   const container = useRef<HTMLElement | null>(null);
 
-  const phrase = t('description');
+  const phrase = ABOUT.description;
 
   const emojiNodes = useMemo<Record<string, ReactNode>>(() => {
     const nodes: Record<string, ReactNode> = {};
@@ -59,13 +56,13 @@ export function About() {
     }
 
     return words.map((word, index) => (
-      <div key={`${locale}-w-${index}`} className={styles.word}>
-        <span data-animate="about-char" key={`${locale}-c-${index}`}>
+      <div key={`w-${index}`} className={styles.word}>
+        <span data-animate="about-char" key={`c-${index}`}>
           {emojiNodes[word] ?? word}
         </span>
       </div>
     ));
-  }, [emojiNodes, locale, phrase]);
+  }, [emojiNodes, phrase]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -94,7 +91,7 @@ export function About() {
     }, container);
 
     return () => ctx.revert();
-  }, [locale, phrase]);
+  }, [phrase]);
 
   return (
     <section id="about" ref={container} className={styles.about}>

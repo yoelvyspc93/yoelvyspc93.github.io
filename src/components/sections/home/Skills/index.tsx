@@ -13,7 +13,7 @@ import {
   Mouse,
   MouseConstraint,
 } from 'matter-js';
-import { useTranslation } from '@/hooks/useTranslation';
+import { SKILLS } from '@/constants/content';
 
 function randomBetween(min: number, max: number): number {
   const buf = globalThis.crypto.getRandomValues(new Uint8Array(1));
@@ -176,8 +176,7 @@ export const Skills: React.FC = () => {
     };
   }, []);
 
-  const { t } = useTranslation('skills');
-  const skills = t.raw('list') as string[];
+  const skills = SKILLS.list;
 
   return (
     <section
@@ -188,9 +187,9 @@ export const Skills: React.FC = () => {
     >
       <div className={styles.info}>
         <h2 id="skills-heading" className={styles.title}>
-          {t('title')} <span>{t('titleHighlight')}</span>
+          {SKILLS.title} <span>{SKILLS.titleHighlight}</span>
         </h2>
-        <p className={styles.subtitle}>{t('description')}</p>
+        <p className={styles.subtitle}>{SKILLS.description}</p>
       </div>
 
       <div ref={layerRef} className={styles.layer}>

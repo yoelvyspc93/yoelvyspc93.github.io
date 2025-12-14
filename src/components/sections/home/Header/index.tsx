@@ -1,13 +1,12 @@
 'use client';
-
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { CustomImage } from '@/components/common/CustomImage';
-import { useTranslation } from '@/hooks/useTranslation';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import styles from './Header.module.scss';
 import { Button } from '@/components/common/Button';
 import { TagHeader } from '@/components/common/TagHeader';
+import { HEADER } from '@/constants/content';
 
 type Props = {
   onDownloadCv?: () => void;
@@ -15,7 +14,6 @@ type Props = {
 };
 
 export function Header({ onDownloadCv, onContact }: Props) {
-  const { t } = useTranslation('header');
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
@@ -50,26 +48,26 @@ export function Header({ onDownloadCv, onContact }: Props) {
     };
   }, [prefersReducedMotion]);
 
-  const tags = t.raw('tag') as string[];
+  const tags = HEADER.tag;
 
   return (
     <header id="header" className={styles.header} role="presentation">
       <div className={styles.inner}>
         <div className={styles.content}>
           <h1 id="hero-title" className={styles.title}>
-            {t('hello')} <span>{t('name')}</span>
+            {HEADER.hello} <span>{HEADER.name}</span>
           </h1>
           <p id="hero-desc" className={styles.description}>
-            {t('description')}
+            {HEADER.description}
           </p>
 
           <div className={styles.buttons}>
-            <Button aria-label={t('download')} onClick={onDownloadCv}>
-              {t('download')}
+            <Button aria-label={HEADER.download} onClick={onDownloadCv}>
+              {HEADER.download}
             </Button>
 
-            <Button aria-label={t('contact')} onClick={onContact}>
-              {t('contact')}
+            <Button aria-label={HEADER.contact} onClick={onContact}>
+              {HEADER.contact}
             </Button>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { ProjectsList } from '@/components/sections/projects/ProjectsList';
 import { featureFlags } from '@/constants/featureFlags';
 import { notFound } from 'next/navigation';
 
-export default function AllProjectsPage() {
+export default function ProjectsView() {
   if (!featureFlags.showProjects) {
     notFound();
   }

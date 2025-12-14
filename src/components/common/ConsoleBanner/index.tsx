@@ -1,11 +1,10 @@
 'use client';
 import { useEffect } from 'react';
-import { useTranslation } from '@/hooks/useTranslation';
-import { useLocale } from 'next-intl';
+import { COMMON } from '@/constants/content';
 
 type ConsoleMethod = 'log' | 'info' | 'debug' | 'warn' | 'trace';
 type GlobalWithBanner = typeof globalThis & {
-  __consoleBannerLastLocale?: string;
+  __consoleBannerShown?: boolean;
   __consoleOriginals?: Partial<
     Record<ConsoleMethod, (...args: unknown[]) => void>
   >;
@@ -64,17 +63,11 @@ function silenceConsole(g: GlobalWithBanner): void {
 }
 
 export default function ConsoleBanner() {
-  const { t } = useTranslation('common');
-  const locale = useLocale();
-
   useEffect(() => {
     const g = globalThis as GlobalWithBanner;
-    // In production, restore originals temporarily to allow re-print on locale change
     restoreConsoleIfNeeded(g);
 
-    // Only log when the locale actually changes (including first render)
-    const shouldLog = g.__consoleBannerLastLocale !== locale;
-    if (!shouldLog) {
+    if (g.__consoleBannerShown) {
       return;
     }
 
@@ -89,34 +82,30 @@ export default function ConsoleBanner() {
     const textStyle = 'font-size:14px;color:#ffffff';
     const linkStyle = 'font-size:14px;color:#86a7ff;text-decoration:underline';
 
-    // Clear previous language banner to avoid duplicates
-    if (g.__consoleBannerLastLocale) {
-      console.clear();
-    }
+    console.clear();
 
-    // Translated console messages
-    console.log('%c' + t('consoleBanner.title'), titleStyle);
-    console.log('%c' + t('consoleBanner.description'), textStyle);
+    console.log('%c' + COMMON.consoleBanner.title, titleStyle);
+    console.log('%c' + COMMON.consoleBanner.description, textStyle);
     console.log(
-      '%c' + t('consoleBanner.repoLabel') + '%c ' + t('consoleBanner.repoUrl'),
+      '%c' +
+        COMMON.consoleBanner.repoLabel +
+        '%c ' +
+        COMMON.consoleBanner.repoUrl,
       textStyle,
       linkStyle,
     );
     console.log(
       '%c' +
-        t('consoleBanner.contactLabel') +
+        COMMON.consoleBanner.contactLabel +
         '%c ' +
-        t('consoleBanner.contactEmail'),
+        COMMON.consoleBanner.contactEmail,
       textStyle,
       linkStyle,
     );
 
-    // Remember last locale used
-    g.__consoleBannerLastLocale = locale;
-
-    // Environment-specific behavior
+    g.__consoleBannerShown = true;
     silenceConsole(g);
-  }, [t, locale]);
+  }, []);
 
   return null;
 }

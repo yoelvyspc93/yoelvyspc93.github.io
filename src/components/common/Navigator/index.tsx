@@ -1,28 +1,18 @@
 'use client';
 
-import { usePathname, useRouter } from '@/utils/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import styles from './Navigator.module.scss';
 import { getNavigationItems } from '@/constants/navigator';
 import { socialLinks } from '@/constants/social';
-import { featureFlags } from '@/constants/featureFlags';
 import { useEffect } from 'react';
 
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import { useTranslation } from '@/hooks/useTranslation';
-import { useLocale } from 'next-intl';
 import { LiquidGlass } from '../LiquidGlass';
 
 export const Navigator = () => {
-  const { t } = useTranslation('common');
   const router = useRouter();
   const pathname = usePathname();
-  const locale = useLocale();
-  const oppositeLang = locale === 'es' ? 'en' : 'es';
-
-  const changeLanguage = (lang: string) => {
-    router.replace(pathname, { locale: lang });
-  };
 
   useEffect(() => {
     gsap.registerPlugin(ScrollToPlugin);
@@ -45,7 +35,7 @@ export const Navigator = () => {
       <LiquidGlass id="navigator-liquid-glass" />
       <div className={styles.navigator}>
         <ul>
-          {getNavigationItems(t).map((link) => (
+          {getNavigationItems().map((link) => (
             <li key={link.name}>
               <button
                 type="button"
@@ -74,21 +64,6 @@ export const Navigator = () => {
           ))}
         </ul>
       </div>
-      {featureFlags.showLanguage && (
-        <div className={styles.navigator}>
-          <ul>
-            <li>
-              <button
-                type="button"
-                onClick={() => changeLanguage(oppositeLang)}
-                className={styles.linkButton}
-              >
-                {t(`lang.${oppositeLang}`)}
-              </button>
-            </li>
-          </ul>
-        </div>
-      )}
     </nav>
   );
 };

@@ -7,7 +7,7 @@ import { Experience } from '@/components/sections/home/Experience';
 import { Skills } from '@/components/sections/home/Skills';
 import { Contact } from '@/components/sections/home/Contact';
 
-export default function HomePage() {
+export default function HomeView() {
   return (
     <main id="main">
       {featureFlags.showHeader && <Header />}

@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import styles from './Experience.module.scss';
 import { CustomImage } from '@/components/common/CustomImage';
-import { useTranslation } from '@/hooks/useTranslation';
+import { EXPERIENCE } from '@/constants/content';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,12 +15,6 @@ type ExperienceImage = {
   alt: string;
   width: number;
   height: number;
-};
-
-type ExperienceItem = {
-  period: string;
-  company: string;
-  paragraphs: string[];
 };
 
 const images: ExperienceImage[][] = [
@@ -68,8 +62,6 @@ const images: ExperienceImage[][] = [
 ];
 
 export function Experience() {
-  const { t } = useTranslation('experience');
-
   const sectionRef = useRef<HTMLElement | null>(null);
   const timelineRef = useRef<HTMLOListElement | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -126,7 +118,7 @@ export function Experience() {
     return () => ctx.revert();
   }, [prefersReducedMotion]);
 
-  const items = t.raw('list') as ExperienceItem[];
+  const items = EXPERIENCE.list;
 
   return (
     <section
@@ -137,7 +129,7 @@ export function Experience() {
     >
       <div className={styles.container}>
         <h2 id="experience-heading" className={styles.title}>
-          {t('title')} <span>{t('titleHighlight')}</span>
+          {EXPERIENCE.title} <span>{EXPERIENCE.titleHighlight}</span>
         </h2>
 
         <ol ref={timelineRef} className={styles.timeline}>

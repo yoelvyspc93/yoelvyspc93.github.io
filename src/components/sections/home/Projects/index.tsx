@@ -9,10 +9,9 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { Button } from '@/components/common/Button';
-import { useTranslation } from '@/hooks/useTranslation';
+import { PROJECTS_SECTION } from '@/constants/content';
 
 export const Projects = () => {
-  const { t } = useTranslation('projects');
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -101,7 +100,8 @@ export const Projects = () => {
   return (
     <section id="projects" className={styles.projects} ref={sectionRef}>
       <h2>
-        {t('latest')} <span>{t('latestHighlight')}</span>
+        {PROJECTS_SECTION.latest}{' '}
+        <span>{PROJECTS_SECTION.latestHighlight}</span>
       </h2>
 
       <div
@@ -113,11 +113,6 @@ export const Projects = () => {
         <div ref={hoverRef} className={styles.sharedHover} aria-hidden="true" />
 
         {latestProjects.map((projectData, index) => {
-          const project = t.raw(`list.${projectData.id}`) as {
-            title: string;
-            shortDescription: string;
-            detailedDescription: string[];
-          };
           return (
             <button
               key={projectData.id}
@@ -125,15 +120,15 @@ export const Projects = () => {
                 cardsRef.current[index] = el;
               }}
               className={styles.cardWrapper}
-              aria-label={`${project.title} project`}
+              aria-label={`${projectData.title} project`}
               onMouseEnter={(e) => moveSharedHover(e.currentTarget)}
               onFocus={(e) => moveSharedHover(e.currentTarget)}
               tabIndex={0}
             >
               <ProjectsCard
                 number={projectData.id}
-                title={project.title}
-                content={project.shortDescription}
+                title={projectData.title}
+                content={projectData.shortDescription}
               />
             </button>
           );
@@ -141,7 +136,7 @@ export const Projects = () => {
       </div>
 
       <div ref={buttonRef}>
-        <Button href="/projects">{t('seeMore')}</Button>
+        <Button href="/projects">{PROJECTS_SECTION.seeMore}</Button>
       </div>
     </section>
   );
