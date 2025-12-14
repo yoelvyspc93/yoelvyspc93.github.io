@@ -20,23 +20,11 @@ const baseItems: NavigationItemWithFlag[] = [
   },
   { name: 'Skills', path: '#skills', flag: featureFlags.showSkills },
   { name: 'Contact', path: '#contact', flag: featureFlags.showContact },
+  { name: 'Console', path: '/console', flag: false }, // Hidden by default
 ];
 
 export const navigationItems: NavigationItem[] = baseItems
   .filter((item) => item.flag)
   .map(({ flag: _flag, ...rest }) => rest);
 
-// Function that uses translation function
-export const getNavigationItems = (
-  t?: (key: string) => string,
-): NavigationItem[] => {
-  const items = baseItems.map((item) => ({
-    name: t ? t(`nav.${item.name.toLowerCase()}`) : item.name,
-    path: item.path,
-    flag: item.flag,
-  }));
-
-  return items
-    .filter((item) => item.flag)
-    .map(({ flag: _flag, ...rest }) => rest);
-};
+export const getNavigationItems = (): NavigationItem[] => navigationItems;

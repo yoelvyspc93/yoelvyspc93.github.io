@@ -18,7 +18,6 @@
     "lottie-react": "^2.4.1",
     "matter-js": "^0.20.0",
     "next": "16.0.10",
-    "next-intl": "^4.6.0",
     "next-sitemap": "^4.2.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",

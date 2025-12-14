@@ -1,9 +1,10 @@
-import { useTranslation } from '@/hooks/useTranslation';
 import styles from './AboutModal.module.scss';
+import { ABOUT } from '@/constants/content';
 
 export const AboutModal = () => {
-  const { t } = useTranslation('about');
-  const detailedDescriptions = t.raw('detailedDescriptions') as string[];
+  // Using the single description for now as detailedDescriptions was missing in the source
+  // Splitting by newline if needed or just wrapping in array
+  const detailedDescriptions = [ABOUT.description];
 
   return (
     <div className={styles.about}>

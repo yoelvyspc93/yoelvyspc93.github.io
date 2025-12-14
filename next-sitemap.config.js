@@ -1,5 +1,4 @@
 const SITE_URL = 'https://yoelvyspc93.github.io';
-const ENABLE_MULTILANGUAGE = false; // Set to true to generate multilingual sitemap (en, es)
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
@@ -15,13 +14,7 @@ module.exports = {
   changefreq: 'weekly',
   priority: 0.7,
 
-  exclude: [
-    '/api/*',
-    '/_next/*',
-    '/404',
-    '/500',
-    ...(ENABLE_MULTILANGUAGE ? ['/en', '/en/*'] : ['/es', '/es/*']),
-  ],
+  exclude: ['/api/*', '/_next/*', '/404', '/500'],
 
   transform: async (config, path) => {
     // Ensure path starts with /
@@ -40,16 +33,6 @@ module.exports = {
 
     // Calculate Clean Path
     let cleanPath = normalizedPath;
-
-    // Remove locale prefix
-    if (normalizedPath.startsWith('/es')) {
-      cleanPath = normalizedPath.slice(3); // Remove /es
-    } else if (normalizedPath.startsWith('/en')) {
-      cleanPath = normalizedPath.slice(3); // Remove /en
-    }
-
-    if (!cleanPath) cleanPath = '/';
-    if (!cleanPath.startsWith('/')) cleanPath = '/' + cleanPath;
     if (cleanPath !== '/' && !cleanPath.endsWith('/')) cleanPath += '/';
 
     // Determine Priority
@@ -57,17 +40,6 @@ module.exports = {
       transformation.priority = 1;
     } else if (cleanPath.startsWith('/projects')) {
       transformation.priority = 0.9;
-    }
-
-    if (ENABLE_MULTILANGUAGE) {
-      const enUrl = `${SITE_URL}${cleanPath}`;
-      const esUrl = `${SITE_URL}/es${cleanPath}`;
-
-      transformation.alternateRefs = [
-        { href: enUrl, hreflang: 'en', hrefIsAbsolute: true },
-        { href: esUrl, hreflang: 'es', hrefIsAbsolute: true },
-        { href: enUrl, hreflang: 'x-default', hrefIsAbsolute: true },
-      ];
     }
 
     return transformation;

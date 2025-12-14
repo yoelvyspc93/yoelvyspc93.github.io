@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { usePathname, useRouter } from '@/utils/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { getNavigationItems } from '@/constants/navigator';
-import { useTranslation } from '@/hooks/useTranslation';
+import { COMMON } from '@/constants/content';
 import { useViewports } from '@/hooks/useViewports';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
@@ -18,7 +18,6 @@ const stairs = {
 
 export default function SlidingMenu() {
   const { breakpoint } = useViewports();
-  const { t } = useTranslation('common');
   const router = useRouter();
   const pathname = usePathname();
 
@@ -166,7 +165,7 @@ export default function SlidingMenu() {
     setIsOpen(false);
   };
 
-  const navItems = getNavigationItems(t);
+  const navItems = getNavigationItems();
 
   if (breakpoint === 'desktop') return null;
 
@@ -177,7 +176,7 @@ export default function SlidingMenu() {
       <button
         ref={openButtonRef}
         className={styles.burger}
-        aria-label={t('openMenu', { defaultValue: 'Open menu' })}
+        aria-label={COMMON.openMenu}
         onClick={() => setIsOpen(true)}
         style={{
           opacity: isOpen ? 0 : 1,
@@ -211,7 +210,7 @@ export default function SlidingMenu() {
         className={clsx(styles.overlay, { [styles.open]: isOpen })}
         role="dialog"
         aria-modal="true"
-        aria-label={t('navigationMenu', { defaultValue: 'Navigation menu' })}
+        aria-label={COMMON.navigationMenu}
       >
         <div className={styles.stairsContainer}>
           {Array.from({ length: numStairs }).map((_, idx) => (
@@ -230,7 +229,7 @@ export default function SlidingMenu() {
           <button
             ref={closeButtonRef}
             className={styles.close}
-            aria-label={t('closeMenu', { defaultValue: 'Close menu' })}
+            aria-label={COMMON.closeMenu}
             onClick={() => setIsOpen(false)}
             style={{
               opacity: isOpen ? 1 : 0,

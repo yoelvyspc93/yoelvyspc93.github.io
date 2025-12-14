@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react';
 import styles from './Button.module.scss';
-import { Link } from '@/utils/navigation';
+import Link from 'next/link';
 
 interface Props {
   children: ReactNode;

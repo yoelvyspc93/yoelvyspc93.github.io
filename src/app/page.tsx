@@ -4,14 +4,6 @@ import HomeView from '@/components/sections/home/HomeView';
 
 export const metadata: Metadata = {
   ...seo,
-  alternates: {
-    canonical: '/',
-    languages: {
-      en: '/',
-      es: '/es',
-      'x-default': '/',
-    },
-  },
   openGraph: {
     ...seo.openGraph,
     url: '/',
