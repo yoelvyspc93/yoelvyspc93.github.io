@@ -33,6 +33,7 @@
     margin: 0;
     margin-right: fn.rem(12);
     font-weight: 400;
+    z-index: 1;
 
     @include mx.respond-to('tablet') {
       font-size: fn.rem(32);

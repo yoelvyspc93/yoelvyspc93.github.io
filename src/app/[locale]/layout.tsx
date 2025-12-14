@@ -1,44 +1,40 @@
-import '@/styles/app.scss';
-
 import { ReactNode } from 'react';
-import { schemaData, metadata as seo } from '@/constants/metadata';
+import { metadata as seo } from '@/constants/metadata';
 import { Metadata } from 'next';
-import { Navigator } from '@/components/common/Navigator';
-import JsonLdSchema from '@/components/common/JsonLdSchema';
-import { NextIntlClientProvider } from 'next-intl';
-import { setRequestLocale } from 'next-intl/server';
 import { routing } from '@/utils/navigation';
-import { loadMessages } from '@/utils/request';
-import ConsoleBanner from '@/components/common/ConsoleBanner';
-import SlidingMenu from '@/components/common/SlidingMenu';
 
-export const metadata: Metadata = seo;
+type Props = {
+  children: ReactNode;
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({
+  params,
+}: Omit<Props, 'children'>): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    ...seo,
+    alternates: {
+      canonical: `/${locale}`,
+      languages: {
+        en: '/',
+        es: '/es',
+        'x-default': '/',
+      },
+    },
+    openGraph: {
+      ...seo.openGraph,
+      url: `/${locale}`,
+      locale,
+    },
+  };
+}
 
 export const generateStaticParams = () =>
-  routing.locales.map((locale: string) => ({ locale }));
+  routing.locales
+    .filter((locale) => locale !== 'en')
+    .map((locale: string) => ({ locale }));
 
-export default async function LocaleLayout({
-  children,
-  params,
-}: Readonly<{ children: ReactNode; params: Promise<{ locale: string }> }>) {
-  const { locale } = await params;
-
-  setRequestLocale(locale);
-  const messages = await loadMessages(locale);
-
-  return (
-    <html lang={locale}>
-      <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <ConsoleBanner />
-          <div className="page">
-            <Navigator />
-            <SlidingMenu />
-            {children}
-          </div>
-          <JsonLdSchema schemaData={schemaData} />
-        </NextIntlClientProvider>
-      </body>
-    </html>
-  );
+export default function LocaleLayout({ children }: Readonly<Props>) {
+  return <>{children}</>;
 }
