@@ -1,4 +1,7 @@
+/* eslint-disable unicorn/prefer-module */
 const SITE_URL = 'https://yoelvyspc93.github.io';
+
+const EXCLUDE = ['/api/*', '/_next/*', '/404', '/500'];
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
@@ -12,45 +15,16 @@ module.exports = {
   trailingSlash: true,
   autoLastmod: true,
   changefreq: 'weekly',
-  priority: 0.7,
+  priority: 1,
 
-  exclude: ['/api/*', '/_next/*', '/404', '/500'],
-
-  transform: async (config, path) => {
-    // Ensure path starts with /
-    let normalizedPath = path;
-    if (!normalizedPath.startsWith('/')) {
-      normalizedPath = '/' + normalizedPath;
-    }
-
-    const transformation = {
-      loc: normalizedPath,
-      changefreq: config.changefreq,
-      priority: config.priority,
-      lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
-      alternateRefs: [],
-    };
-
-    // Calculate Clean Path
-    let cleanPath = normalizedPath;
-    if (cleanPath !== '/' && !cleanPath.endsWith('/')) cleanPath += '/';
-
-    // Determine Priority
-    if (cleanPath === '/') {
-      transformation.priority = 1;
-    } else if (cleanPath.startsWith('/projects')) {
-      transformation.priority = 0.9;
-    }
-
-    return transformation;
-  },
+  exclude: EXCLUDE,
 
   robotsTxtOptions: {
     policies: [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/*', '/_next/*', '/404', '/500'],
+        disallow: EXCLUDE,
       },
     ],
   },

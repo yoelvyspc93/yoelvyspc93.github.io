@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
+    "postbuild": "npx next-sitemap",
     "start": "next start --webpack",
     "lint": "eslint ./src --ext .ts,.tsx",
     "lint:fix": "eslint ./src --ext .ts,.tsx --fix",
@@ -21,8 +22,7 @@
     "next-sitemap": "^4.2.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "sass": "^1.96.0",
-    "shaders": "^2.2.15"
+    "sass": "^1.96.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",

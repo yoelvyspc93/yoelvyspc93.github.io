@@ -4588,11 +4588,6 @@ set-proto@^1.0.0:
     es-errors "^1.3.0"
     es-object-atoms "^1.0.0"
 
-shaders@^2.2.15:
-  version "2.2.15"
-  resolved "https://registry.yarnpkg.com/shaders/-/shaders-2.2.15.tgz#542edda9d2d15889281cf568363a5d5f4f78763e"
-  integrity sha512-BRtWh6FMo40sG162DIgC5EQ3I4RBpl9jqQx6ZCILhq9jXXJA3kckLevERxGnNtSWf6CgP6Lh0hUAoXP8Zj28Ow==
-
 sharp@^0.34.4:
   version "0.34.5"
   resolved "https://registry.yarnpkg.com/sharp/-/sharp-0.34.5.tgz#b6f148e4b8c61f1797bde11a9d1cfebbae2c57b0"
