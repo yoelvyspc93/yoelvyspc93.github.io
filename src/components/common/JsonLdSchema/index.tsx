@@ -4,7 +4,7 @@ interface JsonLdSchemaProps {
   schemaData: Record<string, unknown>;
 }
 
-const JsonLdSchema = ({ schemaData }: JsonLdSchemaProps) => {
+export const JsonLdSchema = ({ schemaData }: JsonLdSchemaProps) => {
   return (
     <Script
       type="application/ld+json"
@@ -14,5 +14,3 @@ const JsonLdSchema = ({ schemaData }: JsonLdSchemaProps) => {
     />
   );
 };
-
-export default JsonLdSchema;

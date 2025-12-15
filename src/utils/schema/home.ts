@@ -1,0 +1,73 @@
+import {
+  DESCRIPTION,
+  FAMILY_NAME,
+  FULL_NAME,
+  GIVEN_NAME,
+  KNOWS_ABOUT,
+  SAME_AS_LINKS,
+  SITE_URL,
+} from './common';
+
+export const homeSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}#website`,
+      url: SITE_URL,
+      name: `${FULL_NAME} – Portfolio`,
+      description: DESCRIPTION,
+      inLanguage: 'es',
+      publisher: { '@id': `${SITE_URL}#yoelvys` },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}#home`,
+      url: SITE_URL,
+      name: 'Home',
+      isPartOf: { '@id': `${SITE_URL}#website` },
+      about: { '@id': `${SITE_URL}#yoelvys` },
+      primaryImageOfPage: { '@id': `${SITE_URL}#yoelvys-image` },
+      inLanguage: 'es',
+      description: DESCRIPTION,
+    },
+    {
+      '@type': 'Person',
+      '@id': `${SITE_URL}#yoelvys`,
+      name: FULL_NAME,
+      givenName: GIVEN_NAME,
+      familyName: FAMILY_NAME,
+      url: SITE_URL,
+      image: { '@id': `${SITE_URL}#yoelvys-image` },
+      email: 'yoelvyspc93@gmail.com',
+      telephone: '+53 54773819',
+      birthDate: '1993-07-06',
+      jobTitle: 'Frontend Developer',
+      knowsLanguage: ['es', 'en', 'pl'],
+      address: {
+        '@type': 'PostalAddress',
+        addressRegion: 'Villa Clara',
+        addressCountry: 'CU',
+      },
+      alumniOf: {
+        '@type': 'EducationalOrganization',
+        name: 'Universidad Central de Las Villas',
+        url: 'https://www.uclv.edu.cu',
+      },
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Dspot Sp. z o.o.',
+        url: 'https://www.dspot.com.pl',
+      },
+      knowsAbout: KNOWS_ABOUT,
+      sameAs: SAME_AS_LINKS,
+      description: DESCRIPTION,
+    },
+    {
+      '@type': 'ImageObject',
+      '@id': `${SITE_URL}#yoelvys-image`,
+      url: `${SITE_URL}/images/yoelvys-profile.jpg`,
+      caption: FULL_NAME,
+    },
+  ],
+};

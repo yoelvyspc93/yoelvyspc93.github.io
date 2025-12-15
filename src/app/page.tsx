@@ -8,6 +8,8 @@ import { Projects } from '@/components/sections/home/Projects';
 import { Experience } from '@/components/sections/home/Experience';
 import { Skills } from '@/components/sections/home/Skills';
 import { Contact } from '@/components/sections/home/Contact';
+import { homeSchema } from '@/utils/schema/home';
+import { JsonLdSchema } from '@/components/common/JsonLdSchema';
 
 export const metadata: Metadata = {
   ...seo,
@@ -27,6 +29,7 @@ export default function RootPage() {
       {featureFlags.showExperience && <Experience />}
       {featureFlags.showSkills && <Skills />}
       {featureFlags.showContact && <Contact />}
+      <JsonLdSchema schemaData={homeSchema} />
     </main>
   );
 }
