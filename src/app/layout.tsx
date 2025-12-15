@@ -10,6 +10,12 @@ import SlidingMenu from '@/components/common/SlidingMenu';
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="PTFwgGvi6DtWU4kuIjOZdG-mJhQoEq5_vjJ5sTTDpjs"
+        />
+      </head>
       <body>
         <ConsoleBanner />
         <div className="page">
