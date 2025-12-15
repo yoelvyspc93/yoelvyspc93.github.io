@@ -19,6 +19,7 @@ export const Projects = () => {
   const hoverRef = useRef<HTMLDivElement | null>(null);
   const cardsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const buttonRef = useRef<HTMLDivElement | null>(null);
+  const isHoveringRef = useRef(false);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -69,7 +70,9 @@ export const Projects = () => {
     };
   }, [prefersReducedMotion]);
 
-  const moveSharedHover = (target: HTMLElement | null) => {
+  const moveSharedHover = (target: HTMLElement | null, fromMouse = false) => {
+    if (fromMouse && !isHoveringRef.current) return;
+
     const hover = hoverRef.current;
     const list = listRef.current;
     if (!hover || !list || !target) return;
@@ -86,13 +89,19 @@ export const Projects = () => {
       height: h,
       duration: 0.35,
       ease: 'power3.out',
+      overwrite: true,
     });
   };
 
   const hideSharedHover = () => {
     const hover = hoverRef.current;
     if (!hover) return;
-    gsap.to(hover, { opacity: 0, duration: 0.25, ease: 'power2.out' });
+    gsap.to(hover, {
+      opacity: 0,
+      duration: 0.25,
+      ease: 'power2.out',
+      overwrite: true,
+    });
   };
 
   const latestProjects = projectsData.filter((project) => project.isFavorite);
@@ -107,7 +116,13 @@ export const Projects = () => {
       <div
         className={styles.list}
         ref={listRef}
-        onMouseLeave={hideSharedHover}
+        onMouseEnter={() => {
+          isHoveringRef.current = true;
+        }}
+        onMouseLeave={() => {
+          isHoveringRef.current = false;
+          hideSharedHover();
+        }}
         onBlur={hideSharedHover}
       >
         <div ref={hoverRef} className={styles.sharedHover} aria-hidden="true" />
@@ -121,7 +136,7 @@ export const Projects = () => {
               }}
               className={styles.cardWrapper}
               aria-label={`${projectData.title} project`}
-              onMouseEnter={(e) => moveSharedHover(e.currentTarget)}
+              onMouseEnter={(e) => moveSharedHover(e.currentTarget, true)}
               onFocus={(e) => moveSharedHover(e.currentTarget)}
               tabIndex={0}
             >
