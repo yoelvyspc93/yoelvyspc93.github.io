@@ -3,23 +3,11 @@
 import styles from './Footer.module.scss';
 
 import { getNavigationItems } from '@/constants/navigator';
-import { gsap } from 'gsap';
-import { usePathname, useRouter } from 'next/navigation';
 import { CustomImage } from '../CustomImage';
 import { COMMON } from '@/constants/content';
+import Link from 'next/link';
 
 export const Footer = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const handleClickItem = (href: string) => {
-    if (pathname === '/') {
-      gsap.to(globalThis, { duration: 1, scrollTo: href });
-    } else {
-      router.push(`/${href}`);
-    }
-  };
-
   return (
     <footer className={styles.footer}>
       <div className={styles.background} aria-hidden>
@@ -45,13 +33,9 @@ export const Footer = () => {
               )
               .map((link) => (
                 <li key={link.name}>
-                  <button
-                    type="button"
-                    onClick={() => handleClickItem(link.path)}
-                    className={styles.linkButton}
-                  >
+                  <Link href={link.path} className={styles.linkButton}>
                     {link.name}
-                  </button>
+                  </Link>
                 </li>
               ))}
           </ul>
