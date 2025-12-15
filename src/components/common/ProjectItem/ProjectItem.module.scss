@@ -76,17 +76,10 @@
 .title {
   text-align: center;
   font-family: ty.$font__secondary;
-  font-size: ty.$heading-4;
+  font-size: ty.$heading-5;
   font-weight: 400;
   color: cl.$color__white;
   text-transform: uppercase;
-
-  @include mx.respond-to('tablet') {
-    font-size: fn.rem(54);
-  }
-  @include mx.respond-to('desktop') {
-    font-size: fn.rem(64);
-  }
 }
 
 .description {
@@ -95,17 +88,9 @@
   gap: 20px;
 
   p {
-    font-size: 16px;
+    font-size: ty.$text-xlarge;
     color: #ffffff;
-    line-height: normal;
-
-    @include mx.respond-to('tablet') {
-      font-size: 18px;
-    }
-    @include mx.respond-to('desktop') {
-      line-height: 28px;
-      font-size: 20px;
-    }
+    text-wrap: pretty;
   }
 }
 

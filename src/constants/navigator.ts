@@ -10,17 +10,16 @@ interface NavigationItemWithFlag extends NavigationItem {
 }
 
 const baseItems: NavigationItemWithFlag[] = [
-  { name: 'Home', path: '#header', flag: true },
-  { name: 'About', path: '#about', flag: featureFlags.showAbout },
-  { name: 'Projects', path: '#projects', flag: featureFlags.showProjects },
+  { name: 'Home', path: '/#header', flag: true },
+  { name: 'About', path: '/#about', flag: featureFlags.showAbout },
+  { name: 'Projects', path: '/#projects', flag: featureFlags.showProjects },
   {
     name: 'Experience',
-    path: '#experience',
+    path: '/#experience',
     flag: featureFlags.showExperience,
   },
-  { name: 'Skills', path: '#skills', flag: featureFlags.showSkills },
-  { name: 'Contact', path: '#contact', flag: featureFlags.showContact },
-  { name: 'Console', path: '/console', flag: false }, // Hidden by default
+  { name: 'Skills', path: '/#skills', flag: featureFlags.showSkills },
+  { name: 'Contact', path: '/#contact', flag: featureFlags.showContact },
 ];
 
 export const navigationItems: NavigationItem[] = baseItems

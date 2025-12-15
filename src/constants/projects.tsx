@@ -42,7 +42,7 @@ export const projectsData: ProjectData[] = [
     techStack: ['Webflow'],
     imageUrl: '/images/projects/kubeshark.webp',
     isFavorite: true,
-    websiteUrl: 'https://kubeshark.co/',
+    //websiteUrl: 'https://kubeshark.co/',
     effects: {
       start: '#A0B5EE',
       end: '#A7BBEF',
@@ -60,7 +60,7 @@ export const projectsData: ProjectData[] = [
     techStack: ['Webflow'],
     imageUrl: '/images/projects/flowsev.webp',
     isFavorite: true,
-    websiteUrl: 'https://flowsev.ai/',
+    //websiteUrl: 'https://flowsev.ai/',
     effects: {
       start: '#634DB5',
       end: '#544375',
@@ -92,7 +92,16 @@ export const projectsData: ProjectData[] = [
   },
   {
     id: '05',
-    techStack: ['React', 'Websockets'],
+    techStack: [
+      'Next.js',
+      'GSAP',
+      'Lottie',
+      'Spline',
+      'Storybook',
+      'Chromatic',
+      'React Testing Library',
+      'Cypress',
+    ],
     imageUrl: '/images/projects/dspot-website.webp',
     isFavorite: false,
     effects: {

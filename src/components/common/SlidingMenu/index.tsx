@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import { getNavigationItems } from '@/constants/navigator';
 import { COMMON } from '@/constants/content';
 import { useViewports } from '@/hooks/useViewports';
@@ -9,6 +8,7 @@ import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { clsx } from 'clsx';
 import styles from './SlidingMenu.module.scss';
+import Link from 'next/link';
 
 const stairs = {
   desktop: 3,
@@ -18,8 +18,6 @@ const stairs = {
 
 export default function SlidingMenu() {
   const { breakpoint } = useViewports();
-  const router = useRouter();
-  const pathname = usePathname();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -156,15 +154,6 @@ export default function SlidingMenu() {
     };
   }, [isOpen]);
 
-  const handleItemClick = (href: string) => {
-    if (pathname === '/') {
-      gsap.to(globalThis, { duration: 1, scrollTo: href });
-    } else {
-      router.push(href);
-    }
-    setIsOpen(false);
-  };
-
   const navItems = getNavigationItems();
 
   if (breakpoint === 'desktop') return null;
@@ -242,13 +231,14 @@ export default function SlidingMenu() {
 
           <ul ref={linksRef} className={styles.linksList}>
             {navItems.map(({ name, path }) => (
-              <li key={path} className={styles.linkItem}>
-                <button
-                  onClick={() => handleItemClick(path)}
-                  className={styles.linkButton}
-                >
+              <li
+                key={path}
+                className={styles.linkItem}
+                onClick={() => setIsOpen(false)}
+              >
+                <Link href={path} className={styles.linkButton}>
                   {name}
-                </button>
+                </Link>
               </li>
             ))}
           </ul>

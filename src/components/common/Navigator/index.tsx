@@ -1,6 +1,5 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
 import styles from './Navigator.module.scss';
 import { getNavigationItems } from '@/constants/navigator';
 import { socialLinks } from '@/constants/social';
@@ -9,26 +8,12 @@ import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { LiquidGlass } from '../LiquidGlass';
+import Link from 'next/link';
 
 export const Navigator = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-
   useEffect(() => {
     gsap.registerPlugin(ScrollToPlugin);
   }, []);
-
-  const handleClickItem = (href: string) => {
-    if (pathname === '/') {
-      gsap.to(globalThis, {
-        duration: 0.5,
-        scrollTo: href,
-        ease: 'power2.out',
-      });
-    } else {
-      router.push(href);
-    }
-  };
 
   return (
     <nav className={styles.nav}>
@@ -37,13 +22,9 @@ export const Navigator = () => {
         <ul>
           {getNavigationItems().map((link) => (
             <li key={link.name}>
-              <button
-                type="button"
-                onClick={() => handleClickItem(link.path)}
-                className={styles.linkButton}
-              >
+              <Link href={link.path} className={styles.linkButton}>
                 {link.name}
-              </button>
+              </Link>
             </li>
           ))}
         </ul>
