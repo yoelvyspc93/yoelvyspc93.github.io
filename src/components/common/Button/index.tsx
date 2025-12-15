@@ -38,16 +38,14 @@ export const Button = ({
 
   if (href && !external) {
     return (
-      <Link href={href} className={styles.buttonLink}>
-        <button
-          aria-label="button"
-          type={type}
-          className={`${styles.button} ${className}`}
-          onClick={onClick}
-        >
-          <span className={styles.button__dot} />
-          <span className={styles.button__content}>{children}</span>
-        </button>
+      <Link
+        href={href}
+        className={`${styles.button} ${className}`}
+        onClick={onClick}
+        aria-label="button"
+      >
+        <span className={styles.button__dot} />
+        <span className={styles.button__content}>{children}</span>
       </Link>
     );
   }
