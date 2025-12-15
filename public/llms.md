@@ -6,7 +6,7 @@
 **Name:** Yoelvys Pérez Cabrera
 **Role:** Frontend Developer
 **Location:** Cuba (Remote)
-**Education:** Computer Engineer from Universidad Central de Las Villas (Cuba)
+**Education:** Computer Engineer from University Central de Las Villas (Cuba)
 **Current Focus:** Building scalable frontend architectures, optimizing web performance, and crafting motion-rich interfaces.
 
 ## My Technical Expertise
@@ -69,11 +69,11 @@ Here are some of the key projects I have worked on, showcasing my ability to del
 **Stack:** Webflow.
 
 ## Contact & External Profiles
+
 **Email:** yoelvyspc93@gmail.com
+
 **LinkedIn:** https://linkedin.com/in/yoelvys
+
 **GitHub:** https://github.com/yoelvyspc93
 
-These external profiles are authoritative extensions of this identity.
 
-## Change Log
-- 2025-12: Updated to focus on personal identity, detailed project contributions, and specific technical skills.

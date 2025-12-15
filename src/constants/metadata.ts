@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 
-const SITE_URL =
-  process.env?.NEXT_PUBLIC_SITE_URL || 'https://yoelvyspc93.github.io';
+const SITE_URL = 'https://yoelvyspc93.github.io';
 
 const description =
   'I am Yoelvys, a frontend developer specialized in Next.js, React, and modern technologies. Explore my portfolio featuring innovative projects, advanced animations, and scalable solutions.';
@@ -17,13 +16,6 @@ export const metadata: Metadata = {
     shortcut: '/favicon.png',
     apple: '/favicon.png',
     // apple: "/apple-touch-icon.png",
-  },
-  alternates: {
-    canonical: '/',
-    languages: {
-      en: '/en',
-      es: '/es',
-    },
   },
   openGraph: {
     title: 'Yoelvys | Frontend Developer',
@@ -57,27 +49,58 @@ export const metadata: Metadata = {
 export const schemaData = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': `${SITE_URL}#yoelvys`,
   name: 'Yoelvys Pérez Cabrera',
+  givenName: 'Yoelvys',
+  familyName: 'Pérez Cabrera',
+  alternateName: ['yoelvyspc93', 'Yoelvys'],
+  url: SITE_URL,
+  image: `${SITE_URL}/images/yoelvys-profile.jpg`,
   email: 'yoelvyspc93@gmail.com',
   telephone: '+53 54773819',
   birthDate: '1993-07-06',
-  url: SITE_URL,
+  nationality: { '@type': 'Country', name: 'Cuba' },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Santa Clara',
+    addressRegion: 'Villa Clara',
+    addressCountry: 'CU',
+  },
+  knowsLanguage: ['es', 'en'],
   jobTitle: 'Frontend Developer',
+  hasOccupation: {
+    '@type': 'Occupation',
+    name: 'Frontend Developer',
+    occupationLocation: { '@type': 'Place', name: 'Remote' },
+  },
+  knowsAbout: [
+    'React',
+    'Next.js',
+    'TypeScript',
+    'JavaScript',
+    'Frontend Development',
+    'Design Systems',
+    'UI/UX',
+    'Web Performance',
+    'SEO',
+    'GraphQL',
+    'GSAP',
+  ],
   worksFor: {
     '@type': 'Organization',
     name: 'Dspot Sp. z o.o.',
     url: 'https://www.dspot.com.pl',
-  },
-  sameAs: [SITE_URL, 'https://linkedin.com/in/yoelvys'],
-  address: {
-    '@type': 'PostalAddress',
-    addressRegion: 'Villa Clara',
-    addressCountry: 'CU',
   },
   alumniOf: {
     '@type': 'EducationalOrganization',
     name: 'Universidad Central de Las Villas',
     url: 'https://www.uclv.edu.cu',
   },
+  sameAs: [
+    SITE_URL,
+    'https://linkedin.com/in/yoelvys',
+    'https://github.com/yoelvyspc93',
+  ],
+  mainEntityOfPage: SITE_URL,
   description,
 };
