@@ -26,38 +26,13 @@ const images: ExperienceImage[][] = [
       height: 600,
     },
     {
-      src: '/images/projects/pioneerz.webp',
-      alt: 'Typing close-up',
-      width: 800,
-      height: 600,
-    },
-    {
-      src: '/images/projects/flowsev.webp',
-      alt: 'Laptop with charts',
-      width: 800,
-      height: 600,
-    },
-    {
-      src: '/images/projects/pioneerz.webp',
-      alt: 'Code editor detail',
-      width: 800,
-      height: 600,
-    },
-  ],
-  [
-    {
-      src: '/images/projects/pioneerz.webp',
-      alt: 'Code screen',
-      width: 800,
-      height: 600,
-    },
-    {
-      src: '/images/projects/flowsev.webp',
+      src: '/images/projects/dspot-website.webp',
       alt: 'Typing close-up',
       width: 800,
       height: 600,
     },
   ],
+  [],
   [],
 ];
 
