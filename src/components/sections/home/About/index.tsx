@@ -76,6 +76,7 @@ export function About() {
         return;
       }
 
+      gsap.set(elements, { opacity: 0.1 });
       gsap.to(elements, {
         opacity: 1,
         ease: 'none',

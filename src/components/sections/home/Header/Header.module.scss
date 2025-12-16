@@ -126,16 +126,16 @@
 
 .image {
   position: relative;
-  aspect-ratio: 0.73 / 1;
+  aspect-ratio: 504 / 688;
   width: fn.rem(300);
-  height: fn.rem(400);
+  height: auto;
   opacity: 0;
   order: 2;
   right: 32px;
 
   @include mx.respond-to('tablet') {
     width: fn.rem(350);
-    height: fn.rem(480);
+    height: auto;
   }
 
   @include mx.respond-to('desktop') {
