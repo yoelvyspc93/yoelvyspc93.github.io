@@ -24,7 +24,7 @@ export const projectsData: ProjectData[] = [
       'Cypress',
     ],
     imageUrl: '/images/projects/pioneerz.webp',
-    isFavorite: true,
+    isFavorite: false,
     effects: {
       start: '#B0E3CD',
       end: '#D5D1EC',
@@ -103,7 +103,7 @@ export const projectsData: ProjectData[] = [
       'Cypress',
     ],
     imageUrl: '/images/projects/dspot-website.webp',
-    isFavorite: false,
+    isFavorite: true,
     effects: {
       start: '#161A4D',
       end: '#1D2361',

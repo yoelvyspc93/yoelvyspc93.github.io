@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 
-import GithubIcon from '@/components/common/Icons/GithubIcon';
-import TelegramIcon from '@/components/common/Icons/TelegramIcon';
+import { GithubIcon, TelegramIcon } from '@/components/ui/Icons';
 
 export interface ContactInfo {
   contactLinks: {

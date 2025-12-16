@@ -1,19 +1,14 @@
 'use client';
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
-import { CustomImage } from '@/components/common/CustomImage';
+import { CustomImage } from '@/components/ui/CustomImage';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import styles from './Header.module.scss';
-import { Button } from '@/components/common/Button';
-import { TagHeader } from '@/components/common/TagHeader';
+import { Button } from '@/components/ui/Button';
 import { HEADER } from '@/constants/content';
+import { TagHeader } from '@/components/shared/TagHeader';
 
-type Props = {
-  onDownloadCv?: () => void;
-  onContact?: () => void;
-};
-
-export function Header({ onDownloadCv, onContact }: Props) {
+export function Header() {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
@@ -31,7 +26,7 @@ export function Header({ onDownloadCv, onContact }: Props) {
         )
         .fromTo(
           `.${styles.buttons} > *`,
-          { opacity: 0, scale: 0.96 },
+          { opacity: 0, scale: 0.8 },
           { opacity: 1, scale: 1, stagger: 0.12 },
           '-=0.5',
         )
@@ -48,8 +43,6 @@ export function Header({ onDownloadCv, onContact }: Props) {
     };
   }, [prefersReducedMotion]);
 
-  const tags = HEADER.tag;
-
   return (
     <header id="header" className={styles.header} role="presentation">
       <div className={styles.inner}>
@@ -62,17 +55,15 @@ export function Header({ onDownloadCv, onContact }: Props) {
           </p>
 
           <div className={styles.buttons}>
-            <Button aria-label={HEADER.download} onClick={onDownloadCv}>
-              {HEADER.download}
-            </Button>
+            <Button aria-label={HEADER.download}>{HEADER.download}</Button>
 
-            <Button aria-label={HEADER.contact} onClick={onContact}>
+            <Button href="#contact" aria-label={HEADER.contact}>
               {HEADER.contact}
             </Button>
           </div>
         </div>
         <div className={styles.image}>
-          {tags.map((tag) => (
+          {HEADER.tag.map((tag) => (
             <TagHeader key={tag} label={tag} className={styles.tagHeader} />
           ))}
           <CustomImage

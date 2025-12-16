@@ -1,4 +1,4 @@
-import { CircleButton } from '../CircleButton';
+import { CircleButton } from '@/components/ui/CircleButton';
 import styles from './ProjectsCard.module.scss';
 
 interface Props {
@@ -15,7 +15,7 @@ export const ProjectsCard = ({ number, title, content }: Props) => {
         <h2 className={styles.title}>{title}</h2>
         <p className={styles.content}>{content}</p>
         <div className={styles.icon}>
-          <CircleButton />
+          <CircleButton ariaLabel={`Go to ${title} project`} />
         </div>
       </div>
     </div>

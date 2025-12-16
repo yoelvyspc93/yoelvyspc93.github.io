@@ -5,7 +5,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import styles from './Experience.module.scss';
-import { CustomImage } from '@/components/common/CustomImage';
+import { CustomImage } from '@/components/ui/CustomImage';
 import { EXPERIENCE } from '@/constants/content';
 
 gsap.registerPlugin(ScrollTrigger);

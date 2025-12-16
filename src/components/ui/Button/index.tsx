@@ -4,13 +4,14 @@ import { ReactNode } from 'react';
 import styles from './Button.module.scss';
 import Link from 'next/link';
 
-interface Props {
+export interface ButtonProps {
   children: ReactNode;
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   href?: string;
   external?: boolean;
   className?: string;
+  ariaLabel?: string;
 }
 
 export const Button = ({
@@ -20,15 +21,16 @@ export const Button = ({
   href,
   external = false,
   className,
-}: Props) => {
+  ariaLabel,
+}: ButtonProps) => {
   if (href && external) {
     return (
       <a
-        aria-label="button"
         href={href}
         className={`${styles.button} ${className}`}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label={ariaLabel}
       >
         <span className={styles.button__dot} />
         <span className={styles.button__content}>{children}</span>
@@ -42,7 +44,7 @@ export const Button = ({
         href={href}
         className={`${styles.button} ${className}`}
         onClick={onClick}
-        aria-label="button"
+        aria-label={ariaLabel}
       >
         <span className={styles.button__dot} />
         <span className={styles.button__content}>{children}</span>
@@ -52,10 +54,10 @@ export const Button = ({
 
   return (
     <button
-      aria-label="button"
       type={type}
       className={`${styles.button} ${className}`}
       onClick={onClick}
+      aria-label={ariaLabel}
     >
       <span className={styles.button__dot} />
       <span className={styles.button__content}>{children}</span>

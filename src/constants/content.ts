@@ -133,7 +133,7 @@ export const SKILLS = {
 export const PROJECTS_SECTION = {
   main: 'My Main',
   mainHighlight: 'Projects',
-  latest: '4 Latest',
+  latest: 'Latest',
   latestHighlight: 'Projects',
   seeMore: 'See More',
 };

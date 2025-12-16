@@ -1,10 +1,10 @@
 'use client';
-import { InputField } from '@/components/common/Form/InputField';
-import { TextAreaField } from '@/components/common/Form/TextAreaField';
+import { InputField } from '@/components/ui/InputField';
+import { TextAreaField } from '@/components/ui/TextAreaField';
 import styles from './Contact.module.scss';
 import { useState } from 'react';
-import { Button } from '@/components/common/Button';
-import { Footer } from '@/components/common/Footer';
+import { Button } from '@/components/ui/Button';
+import { Footer } from '@/components/shared/Footer';
 import { socialLinks } from '@/constants/social';
 import { CONTACT } from '@/constants/content';
 
@@ -58,7 +58,11 @@ export function Contact() {
                 value={message}
                 onChange={setMessage}
               />
-              <Button type="submit" className={styles.button}>
+              <Button
+                type="submit"
+                className={styles.button}
+                ariaLabel={CONTACT.form.submit}
+              >
                 {CONTACT.form.submit}
               </Button>
             </form>

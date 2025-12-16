@@ -2,8 +2,7 @@
 
 import { ReactNode } from 'react';
 import styles from './Modal.module.scss';
-
-import CloseOutlineIcon from '../Icons/CloseOutlineIcon';
+import { CloseOutlineIcon } from '@/components/ui/Icons';
 
 interface Props {
   isOpen: boolean;

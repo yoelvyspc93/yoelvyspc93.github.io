@@ -1,5 +1,5 @@
-import { Footer } from '@/components/common/Footer';
-import { JsonLdSchema } from '@/components/common/JsonLdSchema';
+import { Footer } from '@/components/shared/Footer';
+import { JsonLdSchema } from '@/components/shared/JsonLdSchema';
 import { Header } from '@/components/sections/projects/Header';
 import { ProjectsList } from '@/components/sections/projects/ProjectsList';
 import { featureFlags } from '@/constants/featureFlags';

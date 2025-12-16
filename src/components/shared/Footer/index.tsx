@@ -3,7 +3,7 @@
 import styles from './Footer.module.scss';
 
 import { getNavigationItems } from '@/constants/navigator';
-import { CustomImage } from '../CustomImage';
+import { CustomImage } from '@/components/ui/CustomImage';
 import { COMMON } from '@/constants/content';
 import Link from 'next/link';
 

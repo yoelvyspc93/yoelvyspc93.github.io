@@ -9,7 +9,7 @@ import { Experience } from '@/components/sections/home/Experience';
 import { Skills } from '@/components/sections/home/Skills';
 import { Contact } from '@/components/sections/home/Contact';
 import { homeSchema } from '@/utils/schema/home';
-import { JsonLdSchema } from '@/components/common/JsonLdSchema';
+import { JsonLdSchema } from '@/components/shared/JsonLdSchema';
 
 export const metadata: Metadata = {
   ...seo,

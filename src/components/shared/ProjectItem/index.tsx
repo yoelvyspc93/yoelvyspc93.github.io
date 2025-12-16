@@ -3,8 +3,8 @@
 import { ReactNode } from 'react';
 import styles from './ProjectItem.module.scss';
 import { clsx } from 'clsx';
-import { Button } from '../Button';
-import { CustomImage } from '../CustomImage';
+import { Button } from '@/components/ui/Button';
+import { CustomImage } from '@/components/ui/CustomImage';
 
 interface Props {
   id: string;
@@ -62,7 +62,11 @@ export const ProjectItem = ({
             ))}
           </div>
         </div>
-        {website && <Button href={website}>Go to website</Button>}
+        {website && (
+          <Button href={website} ariaLabel="Go to website">
+            Go to website
+          </Button>
+        )}
       </div>
       <div
         className={clsx(

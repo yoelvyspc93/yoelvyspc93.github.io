@@ -1,4 +1,4 @@
-import { LiquidGlass } from '../LiquidGlass';
+import { LiquidGlass } from '@/components/ui/LiquidGlass';
 import styles from './TagHeader.module.scss';
 import { clsx } from 'clsx';
 
