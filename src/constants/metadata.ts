@@ -8,6 +8,9 @@ const description =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'Yoelvys | Frontend Developer',
+  alternates: {
+    canonical: new URL(SITE_URL),
+  },
   description,
   authors: [{ name: 'Yoelvys Perez Cabrera' }],
   //themeColor: '#1D212C',
