@@ -1,15 +1,27 @@
 import { metadata as seo } from '@/constants/metadata';
 import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { featureFlags } from '@/constants/featureFlags';
 
 import { Header } from '@/components/sections/home/Header';
-import { About } from '@/components/sections/home/About';
-import { Projects } from '@/components/sections/home/Projects';
-import { Experience } from '@/components/sections/home/Experience';
-import { Skills } from '@/components/sections/home/Skills';
-import { Contact } from '@/components/sections/home/Contact';
-import { homeSchema } from '@/utils/schema/home';
 import { JsonLdSchema } from '@/components/shared/JsonLdSchema';
+import { homeSchema } from '@/utils/schema/home';
+
+const About = dynamic(() =>
+  import('@/components/sections/home/About').then((mod) => mod.About),
+);
+const Projects = dynamic(() =>
+  import('@/components/sections/home/Projects').then((mod) => mod.Projects),
+);
+const Experience = dynamic(() =>
+  import('@/components/sections/home/Experience').then((mod) => mod.Experience),
+);
+const Skills = dynamic(() =>
+  import('@/components/sections/home/Skills').then((mod) => mod.Skills),
+);
+const Contact = dynamic(() =>
+  import('@/components/sections/home/Contact').then((mod) => mod.Contact),
+);
 
 export const metadata: Metadata = {
   ...seo,
