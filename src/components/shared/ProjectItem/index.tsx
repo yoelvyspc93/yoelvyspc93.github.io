@@ -62,7 +62,11 @@ export const ProjectItem = ({
             ))}
           </div>
         </div>
-        {website && <Button href={website}>Go to website</Button>}
+        {website && (
+          <Button href={website} ariaLabel="Go to website">
+            Go to website
+          </Button>
+        )}
       </div>
       <div
         className={clsx(

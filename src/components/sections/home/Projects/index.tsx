@@ -152,7 +152,9 @@ export const Projects = () => {
       </div>
 
       <div ref={buttonRef}>
-        <Button href="/projects">{PROJECTS_SECTION.seeMore}</Button>
+        <Button href="/projects" ariaLabel={PROJECTS_SECTION.seeMore}>
+          {PROJECTS_SECTION.seeMore}
+        </Button>
       </div>
     </section>
   );

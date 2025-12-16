@@ -1,10 +1,14 @@
 import { ArrowIcon } from '@/components/ui/Icons';
 import styles from './CircleButton.module.scss';
 
-export const CircleButton = () => {
+interface Props {
+  ariaLabel?: string;
+}
+
+export const CircleButton = ({ ariaLabel = 'circle button' }: Props) => {
   return (
     <span
-      aria-label="circle button"
+      aria-label={ariaLabel}
       className={styles.circle_button}
       aria-hidden="true"
     >

@@ -26,7 +26,7 @@ export function Header() {
         )
         .fromTo(
           `.${styles.buttons} > *`,
-          { opacity: 0, scale: 0.96 },
+          { opacity: 0, scale: 0.8 },
           { opacity: 1, scale: 1, stagger: 0.12 },
           '-=0.5',
         )
@@ -42,8 +42,6 @@ export function Header() {
       tl?.kill();
     };
   }, [prefersReducedMotion]);
-
-  const tags = HEADER.tag;
 
   return (
     <header id="header" className={styles.header} role="presentation">
@@ -65,7 +63,7 @@ export function Header() {
           </div>
         </div>
         <div className={styles.image}>
-          {tags.map((tag) => (
+          {HEADER.tag.map((tag) => (
             <TagHeader key={tag} label={tag} className={styles.tagHeader} />
           ))}
           <CustomImage

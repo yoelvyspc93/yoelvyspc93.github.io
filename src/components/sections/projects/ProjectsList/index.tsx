@@ -14,7 +14,6 @@ export const ProjectsList = () => {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Clean animation
     gsap.set(itemsRef.current, { opacity: 0, y: 50 });
 
     for (const [index, item] of itemsRef.current.entries()) {

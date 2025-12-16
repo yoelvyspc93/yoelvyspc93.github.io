@@ -58,7 +58,11 @@ export function Contact() {
                 value={message}
                 onChange={setMessage}
               />
-              <Button type="submit" className={styles.button}>
+              <Button
+                type="submit"
+                className={styles.button}
+                ariaLabel={CONTACT.form.submit}
+              >
                 {CONTACT.form.submit}
               </Button>
             </form>
