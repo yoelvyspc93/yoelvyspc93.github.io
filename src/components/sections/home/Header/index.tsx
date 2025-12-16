@@ -1,19 +1,14 @@
 'use client';
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
-import { CustomImage } from '@/components/common/CustomImage';
+import { CustomImage } from '@/components/ui/CustomImage';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import styles from './Header.module.scss';
-import { Button } from '@/components/common/Button';
-import { TagHeader } from '@/components/common/TagHeader';
+import { Button } from '@/components/ui/Button';
 import { HEADER } from '@/constants/content';
+import { TagHeader } from '@/components/shared/TagHeader';
 
-type Props = {
-  onDownloadCv?: () => void;
-  onContact?: () => void;
-};
-
-export function Header({ onDownloadCv, onContact }: Props) {
+export function Header() {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
@@ -62,11 +57,9 @@ export function Header({ onDownloadCv, onContact }: Props) {
           </p>
 
           <div className={styles.buttons}>
-            <Button aria-label={HEADER.download} onClick={onDownloadCv}>
-              {HEADER.download}
-            </Button>
+            <Button aria-label={HEADER.download}>{HEADER.download}</Button>
 
-            <Button aria-label={HEADER.contact} onClick={onContact}>
+            <Button href="#contact" aria-label={HEADER.contact}>
               {HEADER.contact}
             </Button>
           </div>

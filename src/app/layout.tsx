@@ -1,9 +1,9 @@
 import '@/styles/app.scss';
 
 import { ReactNode } from 'react';
-import { Navigator } from '@/components/common/Navigator';
-import ConsoleBanner from '@/components/common/ConsoleBanner';
-import SlidingMenu from '@/components/common/SlidingMenu';
+import { Navigator } from '@/components/shared/Navigator';
+import ConsoleBanner from '@/components/shared/ConsoleBanner';
+import SlidingMenu from '@/components/shared/SlidingMenu';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

@@ -1,8 +1,10 @@
 import { ReactNode } from 'react';
 
-import TypescriptIcon from '@/components/common/Icons/TypescriptIcon';
-import WebflowIcon from '@/components/common/Icons/WebflowIcon';
-import WordpressIcon from '@/components/common/Icons/WordpressIcon';
+import {
+  TypescriptIcon,
+  WebflowIcon,
+  WordpressIcon,
+} from '@/components/ui/Icons';
 
 export interface ExperienceData {
   id: string;

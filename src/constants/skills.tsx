@@ -1,20 +1,22 @@
-import ChromaticIcon from '@/components/common/Icons/ChromaticIcon';
-import CssIcon from '@/components/common/Icons/CssIcon';
-import CypressIcon from '@/components/common/Icons/CypressIcon';
-import DjangoIcon from '@/components/common/Icons/DjangoIcon';
-import FigmaIcon from '@/components/common/Icons/FigmaIcon';
-import HtmlIcon from '@/components/common/Icons/HtmlIcon';
-import JavascriptIcon from '@/components/common/Icons/JavascriptIcon';
-import JestIcon from '@/components/common/Icons/JestIcon';
-import NextjsIcon from '@/components/common/Icons/NextjsIcon';
-import PythonIcon from '@/components/common/Icons/PythonIcon';
-import ReactIcon from '@/components/common/Icons/ReactIcon';
-import ReactNativeIcon from '@/components/common/Icons/ReactNativeIcon';
-import ReduxIcon from '@/components/common/Icons/ReduxIcon';
-import StorybookIcon from '@/components/common/Icons/StorybookIcon';
-import TypescriptIcon from '@/components/common/Icons/TypescriptIcon';
-import WebflowIcon from '@/components/common/Icons/WebflowIcon';
-import WordpressIcon from '@/components/common/Icons/WordpressIcon';
+import {
+  ChromaticIcon,
+  CssIcon,
+  CypressIcon,
+  DjangoIcon,
+  FigmaIcon,
+  HtmlIcon,
+  JavascriptIcon,
+  JestIcon,
+  NextjsIcon,
+  PythonIcon,
+  ReactIcon,
+  ReactNativeIcon,
+  ReduxIcon,
+  StorybookIcon,
+  TypescriptIcon,
+  WebflowIcon,
+  WordpressIcon,
+} from '@/components/ui/Icons';
 import { ReactNode } from 'react';
 
 type Skill = {

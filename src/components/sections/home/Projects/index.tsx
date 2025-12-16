@@ -2,14 +2,15 @@
 
 import { projectsData } from '@/constants/projects';
 import styles from './Projects.module.scss';
-import { ProjectsCard } from '@/components/common/ProjectsCard';
+import { ProjectsCard } from '@/components/shared/ProjectsCard';
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { Button } from '@/components/common/Button';
+import { Button } from '@/components/ui/Button';
 import { PROJECTS_SECTION } from '@/constants/content';
+import Link from 'next/link';
 
 export const Projects = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -17,7 +18,7 @@ export const Projects = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
   const hoverRef = useRef<HTMLDivElement | null>(null);
-  const cardsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const cardsRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const buttonRef = useRef<HTMLDivElement | null>(null);
   const isHoveringRef = useRef(false);
 
@@ -109,7 +110,7 @@ export const Projects = () => {
   return (
     <section id="projects" className={styles.projects} ref={sectionRef}>
       <h2>
-        {PROJECTS_SECTION.latest}{' '}
+        {latestProjects.length} {PROJECTS_SECTION.latest}{' '}
         <span>{PROJECTS_SECTION.latestHighlight}</span>
       </h2>
 
@@ -129,8 +130,9 @@ export const Projects = () => {
 
         {latestProjects.map((projectData, index) => {
           return (
-            <button
+            <Link
               key={projectData.id}
+              href={`/projects#project-${projectData.id}`}
               ref={(el) => {
                 cardsRef.current[index] = el;
               }}
@@ -138,14 +140,13 @@ export const Projects = () => {
               aria-label={`${projectData.title} project`}
               onMouseEnter={(e) => moveSharedHover(e.currentTarget, true)}
               onFocus={(e) => moveSharedHover(e.currentTarget)}
-              tabIndex={0}
             >
               <ProjectsCard
                 number={projectData.id}
                 title={projectData.title}
                 content={projectData.shortDescription}
               />
-            </button>
+            </Link>
           );
         })}
       </div>

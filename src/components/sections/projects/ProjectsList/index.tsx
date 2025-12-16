@@ -1,6 +1,6 @@
 'use client';
 
-import { ProjectItem } from '@/components/common/ProjectItem';
+import { ProjectItem } from '@/components/shared/ProjectItem';
 import { projectsData } from '@/constants/projects';
 
 import styles from './ProjectsList.module.scss';
@@ -44,6 +44,7 @@ export const ProjectsList = () => {
         {projectsData.map((projectData, index) => {
           return (
             <article
+              id={`project-${projectData.id}`}
               key={projectData.id}
               ref={(el) => {
                 if (el) itemsRef.current[index] = el;

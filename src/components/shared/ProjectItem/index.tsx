@@ -3,8 +3,8 @@
 import { ReactNode } from 'react';
 import styles from './ProjectItem.module.scss';
 import { clsx } from 'clsx';
-import { Button } from '../Button';
-import { CustomImage } from '../CustomImage';
+import { Button } from '@/components/ui/Button';
+import { CustomImage } from '@/components/ui/CustomImage';
 
 interface Props {
   id: string;

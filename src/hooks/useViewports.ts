@@ -15,8 +15,8 @@ const breakpoints = {
 
 export const useViewports = (): Dimensions => {
   const [dimensions, setDimensions] = useState<Dimensions>({
-    width: globalThis.window === undefined ? 0 : window.innerWidth,
-    height: globalThis.window === undefined ? 0 : window.innerHeight,
+    width: 0,
+    height: 0,
     breakpoint: 'desktop',
   });
 
@@ -29,17 +29,28 @@ export const useViewports = (): Dimensions => {
       return 'desktop';
     }
 
-    function handleResize() {
+    const updateDimensions = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
       const breakpoint = getBreakpoint(width);
       setDimensions({ width, height, breakpoint });
-    }
+    };
 
-    handleResize();
+    updateDimensions();
+
+    let timeoutId: NodeJS.Timeout;
+
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        updateDimensions();
+      }, 150);
+    };
+
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
+      clearTimeout(timeoutId);
     };
   }, []);
 

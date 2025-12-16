@@ -1,13 +1,13 @@
 'use client';
 
 import styles from './Navigator.module.scss';
+import { LiquidGlass } from '@/components/ui/LiquidGlass';
 import { getNavigationItems } from '@/constants/navigator';
 import { socialLinks } from '@/constants/social';
 import { useEffect } from 'react';
 
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import { LiquidGlass } from '../LiquidGlass';
 import Link from 'next/link';
 
 export const Navigator = () => {

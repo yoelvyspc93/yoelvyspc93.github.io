@@ -1,4 +1,4 @@
-import { CircleButton } from '../CircleButton';
+import { CircleButton } from '@/components/ui/CircleButton';
 import styles from './ProjectsCard.module.scss';
 
 interface Props {
