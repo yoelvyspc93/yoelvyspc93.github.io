@@ -102,7 +102,8 @@
   justify-content: center;
   flex-wrap: wrap;
 
-  button {
+  button,
+  a {
     opacity: 0;
     width: fn.rem(160);
 

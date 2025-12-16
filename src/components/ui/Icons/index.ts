@@ -22,4 +22,3 @@ export { default as TelegramIcon } from './TelegramIcon';
 export { default as TypescriptIcon } from './TypescriptIcon';
 export { default as WebflowIcon } from './WebflowIcon';
 export { default as WordpressIcon } from './WordpressIcon';
-
