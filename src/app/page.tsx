@@ -23,14 +23,7 @@ const Contact = dynamic(() =>
   import('@/components/sections/home/Contact').then((mod) => mod.Contact),
 );
 
-export const metadata: Metadata = {
-  ...seo,
-  openGraph: {
-    ...seo.openGraph,
-    url: '/',
-    locale: 'en',
-  },
-};
+export const metadata: Metadata = seo;
 
 export default function RootPage() {
   return (
