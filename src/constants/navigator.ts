@@ -1,4 +1,5 @@
 import { featureFlags } from './featureFlags';
+import { COMMON } from './content';
 
 export interface NavigationItem {
   name: string;
@@ -10,16 +11,24 @@ interface NavigationItemWithFlag extends NavigationItem {
 }
 
 const baseItems: NavigationItemWithFlag[] = [
-  { name: 'Home', path: '/#header', flag: true },
-  { name: 'About', path: '/#about', flag: featureFlags.showAbout },
-  { name: 'Projects', path: '/#projects', flag: featureFlags.showProjects },
+  { name: COMMON.nav.home, path: '/#header', flag: true },
+  { name: COMMON.nav.about, path: '/#about', flag: featureFlags.showAbout },
   {
-    name: 'Experience',
+    name: COMMON.nav.projects,
+    path: '/#projects',
+    flag: featureFlags.showProjects,
+  },
+  {
+    name: COMMON.nav.experience,
     path: '/#experience',
     flag: featureFlags.showExperience,
   },
-  { name: 'Skills', path: '/#skills', flag: featureFlags.showSkills },
-  { name: 'Contact', path: '/#contact', flag: featureFlags.showContact },
+  { name: COMMON.nav.skills, path: '/#skills', flag: featureFlags.showSkills },
+  {
+    name: COMMON.nav.contact,
+    path: '/#contact',
+    flag: featureFlags.showContact,
+  },
 ];
 
 export const navigationItems: NavigationItem[] = baseItems

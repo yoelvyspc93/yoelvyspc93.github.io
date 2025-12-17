@@ -48,16 +48,12 @@
   text-align: center;
   margin-inline: auto;
   width: 100%;
-  max-width: fn.rem(600);
+  max-width: fn.rem(620);
 
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: fn.rem(18);
-
-  @include mx.respond-to('tablet') {
-    gap: fn.rem(32);
-  }
 
   @include mx.respond-to('desktop') {
     text-align: left;
@@ -82,11 +78,10 @@
 }
 
 .description {
-  margin-top: fn.rem(12);
   color: rgba(cl.$color__white, 0.88);
   font-size: ty.$text-xlarge;
   line-height: 140%;
-  max-width: fn.rem(520);
+  max-width: fn.rem(620);
   letter-spacing: 0.02em;
   opacity: 0;
 

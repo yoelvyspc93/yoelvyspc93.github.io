@@ -109,7 +109,7 @@
 
 .period {
   font-family: ty.$font__secondary;
-  font-size: ty.$heading-5;
+  font-size: ty.$heading-6;
   text-transform: uppercase;
   letter-spacing: fn.rem(-0.32);
   color: cl.$color__white;
@@ -119,8 +119,16 @@
 .company {
   margin: 0;
   color: cl.$color__white;
-  font-size: ty.$heading-5;
+  font-size: ty.$text-large;
+  text-transform: uppercase;
   font-weight: 500;
+}
+
+.role {
+  margin: fn.rem(4) 0 0;
+  color: rgba(cl.$color__white, 0.7);
+  font-size: ty.$text-large;
+  font-weight: 400;
 }
 
 .right {
@@ -132,6 +140,23 @@
   color: cl.$color__white;
   font-size: ty.$text-large;
   line-height: 150%;
+}
+
+.achievementList {
+  margin: 0 0 fn.rem(24);
+  padding-left: fn.rem(20);
+  list-style: disc;
+  color: cl.$color__white;
+
+  li {
+    margin-bottom: fn.rem(8);
+    font-size: ty.$text-large;
+    line-height: 150%;
+
+    &::marker {
+      color: cl.$color__pink-purple;
+    }
+  }
 }
 
 .gallery {

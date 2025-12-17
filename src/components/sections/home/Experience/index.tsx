@@ -118,14 +118,18 @@ export function Experience() {
               <div className={styles.left}>
                 <p className={styles.period}>{item.period}</p>
                 <p className={styles.company}>{item.company}</p>
+                <p className={styles.role}>{item.rol}</p>
               </div>
 
               <div className={styles.right}>
-                {item.paragraphs.map((p, i) => (
-                  <p key={i} className={styles.paragraph}>
-                    {p}
-                  </p>
-                ))}
+                <p className={styles.paragraph}>{item.achievement.text}</p>
+                {item.achievement.items.length > 0 && (
+                  <ul className={styles.achievementList}>
+                    {item.achievement.items.map((point, i) => (
+                      <li key={i}>{point}</li>
+                    ))}
+                  </ul>
+                )}
 
                 {images[index]?.length ? (
                   <div className={styles.gallery} role="list">
