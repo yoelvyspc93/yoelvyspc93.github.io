@@ -1,11 +1,16 @@
 import {
+  BIRTHDAY,
   DESCRIPTION,
+  EMAIL,
   FAMILY_NAME,
   FULL_NAME,
   GIVEN_NAME,
   KNOWS_ABOUT,
+  KNOWS_LANGUAGE,
+  ROL,
   SAME_AS_LINKS,
   SITE_URL,
+  TELEPHONE,
 } from './common';
 
 export const homeSchema = {
@@ -39,11 +44,11 @@ export const homeSchema = {
       familyName: FAMILY_NAME,
       url: SITE_URL,
       image: { '@id': `${SITE_URL}#yoelvys-image` },
-      email: 'yoelvyspc93@gmail.com',
-      telephone: '+53 54773819',
-      birthDate: '1993-07-06',
-      jobTitle: 'Frontend Developer',
-      knowsLanguage: ['es', 'en', 'pl'],
+      email: EMAIL,
+      telephone: TELEPHONE,
+      jobTitle: ROL,
+      birthDate: BIRTHDAY,
+      knowsLanguage: KNOWS_LANGUAGE,
       address: {
         '@type': 'PostalAddress',
         addressRegion: 'Villa Clara',

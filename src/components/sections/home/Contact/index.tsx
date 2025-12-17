@@ -7,10 +7,17 @@ import { Button } from '@/components/ui/Button';
 import { Footer } from '@/components/shared/Footer';
 import { socialLinks } from '@/constants/social';
 import { CONTACT } from '@/constants/content';
+import { useMailTo } from '@/hooks/useMailTo';
 
 export function Contact() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const { generateMailTo } = useMailTo();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    generateMailTo({ email, message });
+  };
 
   return (
     <div className={styles.contactWrapper}>
@@ -43,7 +50,7 @@ export function Contact() {
                 ))}
               </ul>
             </div>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit}>
               <InputField
                 label={CONTACT.form.email.label}
                 type="email"

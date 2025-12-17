@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import { GithubIcon, LinkedinIcon } from '@/components/ui/Icons';
+import { SOCIAL } from './content';
 
 export interface SocialLink {
   icon: ReactNode;
@@ -12,11 +13,11 @@ export const socialLinks: SocialLink[] = [
   {
     icon: <GithubIcon />,
     platform: 'GitHub',
-    url: 'https://github.com/yoelvyspc93',
+    url: SOCIAL.github,
   },
   {
     icon: <LinkedinIcon />,
     platform: 'LinkedIn',
-    url: 'https://www.linkedin.com/in/yoelvys-perez-cabrera',
+    url: SOCIAL.linkedin,
   },
 ];

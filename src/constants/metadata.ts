@@ -2,12 +2,14 @@ import { Metadata } from 'next';
 
 const SITE_URL = 'https://yoelvyspc93.github.io';
 
+const ROL = 'Senior Frontend Engineer';
+
 const description =
-  'I am Yoelvys, a frontend developer specialized in Next.js, React, and modern technologies. Explore my portfolio featuring innovative projects, advanced animations, and scalable solutions.';
+  'I bridge the gap between design and engineering, building high-performance, scalable web applications with React, Next.js, and TypeScript. Focused on exceptional user experiences and technical excellence.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Yoelvys | Frontend Developer',
+  title: `Yoelvys | ${ROL}`,
   alternates: {
     canonical: new URL(SITE_URL),
   },
@@ -21,7 +23,7 @@ export const metadata: Metadata = {
     // apple: "/apple-touch-icon.png",
   },
   openGraph: {
-    title: 'Yoelvys | Frontend Developer',
+    title: `Yoelvys | ${ROL}`,
     description,
     url: SITE_URL || '',
     siteName: 'Yoelvys Portfolio',
@@ -38,7 +40,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Yoelvys | Frontend Developer',
+    title: `Yoelvys | ${ROL}`,
     description,
     images: [
       {
