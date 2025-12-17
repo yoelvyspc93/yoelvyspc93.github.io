@@ -1,5 +1,6 @@
 @use '@/styles/variables/colors' as cl;
 @use '@/styles/mixins/mixins' as mx;
+@use '@/styles/variables/typography' as ty;
 
 .button {
   position: relative;
@@ -8,6 +9,7 @@
   border-radius: 50px;
   cursor: pointer;
   background-color: cl.$color__white;
+  font-family: ty.$font__main;
   z-index: 2;
   transition: color 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   display: flex;

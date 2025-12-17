@@ -55,7 +55,7 @@ export const SOCIAL = {
 export const HEADER = {
   hello: 'Hi, I’m',
   name: 'Yoelvys',
-  rol: 'Senior Frontend Engineer',
+  role: 'Senior Frontend Engineer',
   description:
     'I bridge the gap between design and engineering, building high-performance, scalable web applications with React, Next.js, and TypeScript. Focused on exceptional user experiences and technical excellence.',
   tag: ['2 Companies', '6+ Years of Experience', '16+ Delivered Projects'],
