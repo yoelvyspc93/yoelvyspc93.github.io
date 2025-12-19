@@ -15,44 +15,68 @@
   padding: fn.rem(16);
 
   @include mx.respond-to('tablet') {
-    height: 100vh;
-    align-items: center;
+    min-height: 100vh;
   }
 }
 
 .content {
-  max-width: fn.rem(1200);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: fn.rem(32);
-}
-
-.paragraph {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  margin: 0;
+  max-width: fn.rem(1200);
 }
 
 .word {
+  margin: 0 fn.rem(12) 0 0;
   font-family: ty.$font__main;
-  font-size: fn.rem(24);
-  margin: 0;
-  margin-right: fn.rem(8);
+  font-size: ty.$heading-5;
+  line-height: 150%;
   font-weight: 400;
-  z-index: 1;
-  display: inline-block;
+}
+
+.emoji {
+  position: relative;
+  display: none;
 
   @include mx.respond-to('tablet') {
-    font-size: fn.rem(32);
-    margin-right: fn.rem(12);
+    display: block;
+    width: 32px;
   }
+}
 
-  @include mx.respond-to('desktop') {
-    font-size: fn.rem(36);
-    margin-right: fn.rem(14);
-  }
+.lottie {
+  position: absolute;
+  top: -8px;
+  left: -20px;
+  width: 72px;
+  height: 72px;
+}
+
+[data-label='developer'] .lottie {
+  top: 0;
+  left: -4px;
+  width: 54px;
+  height: 54px;
+}
+
+[data-label='brain'] .lottie {
+  top: -4px;
+  left: -16px;
+  width: 68px;
+  height: 68px;
+}
+
+[data-label='target'] .lottie {
+  top: 0;
+  left: -8px;
+  width: 54px;
+  height: 54px;
+}
+
+[data-label='tools'] .lottie {
+  top: 8px;
+  left: -2px;
+  width: 42px;
+  height: 42px;
 }
