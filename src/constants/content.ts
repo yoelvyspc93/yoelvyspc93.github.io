@@ -64,10 +64,8 @@ export const HEADER = {
 };
 
 export const ABOUT = {
-  description: [
-    'I am a Computer Engineer with over 6 years of experience specializing in the modern web ecosystem. My core strength lies in translating complex business requirements into intuitive, pixel-perfect interfaces.',
-    'Beyond coding, I focus on the entire product lifecycle—from architectural decisions and SEO strategy to performance optimization and accessibility. I thrive in agile environments where innovation, code quality, and user satisfaction are paramount.',
-  ],
+  description:
+    'I am a 👨‍💻 Computer Engineer with over 6 years of experience specializing in the modern web ecosystem. My core strength lies in translating complex business requirements 🧠 into intuitive, 🎯 pixel-perfect interfaces. Beyond coding, I focus on the entire product lifecycle from 🛠️ architectural decisions and SEO strategy to ⚡ performance optimization and accessibility. I thrive in agile environments where 💡 innovation, 🚀 code quality, and user satisfaction are paramount.',
 };
 
 export const PROJECTS_SECTION = {
