@@ -159,6 +159,7 @@ export default function SlidingMenu() {
   if (breakpoint === 'desktop') return null;
 
   const numStairs = stairs[breakpoint];
+  const dialogId = 'mobile-navigation-menu';
 
   return (
     <div className={styles.container}>
@@ -167,6 +168,8 @@ export default function SlidingMenu() {
         className={styles.burger}
         aria-label={COMMON.openMenu}
         onClick={() => setIsOpen(true)}
+        aria-expanded={isOpen}
+        aria-controls={dialogId}
         style={{
           opacity: isOpen ? 0 : 1,
           pointerEvents: isOpen ? 'none' : 'auto',
@@ -200,6 +203,8 @@ export default function SlidingMenu() {
         role="dialog"
         aria-modal="true"
         aria-label={COMMON.navigationMenu}
+        id={dialogId}
+        aria-hidden={!isOpen}
       >
         <div className={styles.stairsContainer}>
           {Array.from({ length: numStairs }).map((_, idx) => (

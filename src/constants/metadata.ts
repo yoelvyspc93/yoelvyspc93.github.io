@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 const SITE_URL = 'https://yoelvyspc93.github.io';
-
+const SITE_NAME = 'Yoelvys Portfolio';
 const ROL = 'Senior Frontend Engineer';
 
 const description =
@@ -10,12 +10,46 @@ const description =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: `Yoelvys | ${ROL}`,
+  applicationName: SITE_NAME,
+  description,
+  keywords: [
+    'Yoelvys',
+    'Frontend Engineer',
+    'React',
+    'Next.js',
+    'TypeScript',
+    'Portfolio',
+    'Web performance',
+    'Accessibility',
+  ],
+  referrer: 'strict-origin-when-cross-origin',
   alternates: {
     canonical: new URL(SITE_URL),
   },
-  description,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      maxSnippet: -1,
+      maxImagePreview: 'large',
+      maxVideoPreview: -1,
+    },
+  },
+  formatDetection: {
+    email: true,
+    address: true,
+    telephone: false,
+  },
   authors: [{ name: 'Yoelvys Perez Cabrera' }],
-  //themeColor: '#1D212C',
+  category: 'technology',
+  colorScheme: 'dark',
+  viewport: { width: 'device-width', initialScale: 1, viewportFit: 'cover' },
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f8fafc' },
+    { media: '(prefers-color-scheme: dark)', color: '#0b1021' },
+  ],
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.png',
@@ -26,7 +60,7 @@ export const metadata: Metadata = {
     title: `Yoelvys | ${ROL}`,
     description,
     url: SITE_URL || '',
-    siteName: 'Yoelvys Portfolio',
+    siteName: SITE_NAME,
     images: [
       {
         url: SITE_URL + '/images/seo/og-image.png',

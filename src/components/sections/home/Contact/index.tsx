@@ -16,7 +16,12 @@ export function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    generateMailTo({ email, message });
+    const trimmedEmail = email.trim();
+    const trimmedMessage = message.trim();
+
+    if (!trimmedEmail || !trimmedMessage) return;
+
+    generateMailTo({ email: trimmedEmail, message: trimmedMessage });
   };
 
   return (
@@ -57,6 +62,10 @@ export function Contact() {
                 id="email"
                 value={email}
                 onChange={setEmail}
+                name="email"
+                autoComplete="email"
+                inputMode="email"
+                required
               />
               <TextAreaField
                 label={CONTACT.form.message.label}
@@ -64,6 +73,10 @@ export function Contact() {
                 id="message"
                 value={message}
                 onChange={setMessage}
+                name="message"
+                autoComplete="off"
+                minLength={12}
+                required
               />
               <Button
                 type="submit"

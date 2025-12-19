@@ -8,7 +8,8 @@ export const useMailTo = () => {
     ({ email, message }: { email: string; message: string }) => {
       const encodedTo = encodeURIComponent(to);
       const encodedSubject = encodeURIComponent(subject);
-      const encodedBody = encodeURIComponent(email + ', ' + message);
+      const body = `From: ${email}\n\n${message}`;
+      const encodedBody = encodeURIComponent(body);
 
       const url = `mailto:${encodedTo}?subject=${encodedSubject}&body=${encodedBody}`;
       globalThis.location.href = url;

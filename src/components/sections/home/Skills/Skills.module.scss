@@ -31,6 +31,19 @@
   }
 }
 
+.skillsStatic {
+  height: auto;
+  min-height: fn.rem(400);
+  padding: fn.rem(72) fn.rem(24) fn.rem(48);
+
+  .info {
+    position: relative;
+    inset: auto;
+    transform: none;
+    margin: 0 auto fn.rem(40);
+  }
+}
+
 .layer {
   position: absolute;
   inset: 0;
@@ -41,6 +54,15 @@
     pointer-events: auto;
     touch-action: pan-y;
   }
+}
+
+.layerStatic {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  padding: fn.rem(8) fn.rem(16) fn.rem(24);
+  pointer-events: none;
 }
 
 .title {
@@ -83,4 +105,22 @@
   &:active {
     cursor: grabbing;
   }
+}
+
+.skillCardStatic {
+  position: relative;
+  transform: none !important;
+  cursor: default;
+  pointer-events: none;
+  will-change: auto;
+}
+
+.srOnlyList {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
 }

@@ -10,6 +10,10 @@ interface Props {
   placeholders?: string[];
   interval?: number;
   'aria-describedby'?: string;
+  name?: string;
+  autoComplete?: string;
+  minLength?: number;
+  required?: boolean;
 }
 
 export const TextAreaField = ({
@@ -20,6 +24,10 @@ export const TextAreaField = ({
   placeholders = [],
   interval = 5000,
   'aria-describedby': ariaDescribedby,
+  name,
+  autoComplete = 'off',
+  minLength,
+  required = false,
 }: Props) => {
   const [current, setCurrent] = useState(0);
   const placeholderRef = useRef<HTMLSpanElement>(null);
@@ -82,10 +90,14 @@ export const TextAreaField = ({
       <div className={styles.textareaWrapper}>
         <textarea
           id={id}
+          name={name ?? id}
           className={styles.textarea}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           aria-describedby={ariaDescribedby}
+          autoComplete={autoComplete}
+          minLength={minLength}
+          required={required}
         />
         <span ref={placeholderRef} className={styles.placeholder}>
           {placeholders[current]}

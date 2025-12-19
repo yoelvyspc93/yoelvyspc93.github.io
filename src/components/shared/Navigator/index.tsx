@@ -16,7 +16,7 @@ export const Navigator = () => {
   }, []);
 
   return (
-    <nav className={styles.nav}>
+    <nav className={styles.nav} aria-label="Primary navigation">
       <LiquidGlass id="navigator-liquid-glass" />
       <div className={styles.navigator}>
         <ul>

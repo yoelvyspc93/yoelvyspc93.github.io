@@ -17,6 +17,7 @@ export const Footer = () => {
           fill
           priority
           className={styles.bgImage}
+          sizes="100vw"
         />
       </div>
 
