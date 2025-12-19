@@ -11,6 +11,10 @@ interface Props {
   placeholders?: string[];
   interval?: number;
   'aria-describedby'?: string;
+  name?: string;
+  autoComplete?: string;
+  inputMode?: 'text' | 'email';
+  required?: boolean;
 }
 
 export const InputField = ({
@@ -22,6 +26,10 @@ export const InputField = ({
   placeholders = [],
   interval = 5000,
   'aria-describedby': ariaDescribedby,
+  name,
+  autoComplete = 'off',
+  inputMode,
+  required = false,
 }: Props) => {
   const [current, setCurrent] = useState(0);
   const placeholderRef = useRef<HTMLSpanElement>(null);
@@ -88,13 +96,16 @@ export const InputField = ({
       </label>
       <div className={styles.inputWrapper}>
         <input
-          autoComplete="off"
+          autoComplete={autoComplete}
           type={type}
           id={id}
+          name={name ?? id}
           className={styles.input}
           value={value}
           onChange={(evt) => onChange(evt.target.value)}
           aria-describedby={ariaDescribedby}
+          inputMode={inputMode}
+          required={required}
         />
 
         {/* Always render placeholder and animate via GSAP */}

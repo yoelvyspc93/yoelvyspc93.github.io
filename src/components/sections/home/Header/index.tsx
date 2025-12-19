@@ -44,7 +44,12 @@ export function Header() {
   }, [prefersReducedMotion]);
 
   return (
-    <header id="header" className={styles.header} role="presentation">
+    <header
+      id="header"
+      className={styles.header}
+      aria-labelledby="hero-title"
+      aria-describedby="hero-desc"
+    >
       <div className={styles.inner}>
         <div className={styles.content}>
           <h1 id="hero-title" className={styles.title}>
@@ -68,9 +73,10 @@ export function Header() {
           ))}
           <CustomImage
             src="/images/header/avatar.webp"
-            alt="Header"
+            alt="Portrait of Yoelvys Pérez Cabrera"
             fill
             priority
+            sizes="(max-width: 900px) 90vw, 45vw"
           />
         </div>
       </div>

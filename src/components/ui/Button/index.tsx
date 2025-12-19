@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import styles from './Button.module.scss';
 import Link from 'next/link';
+import { clsx } from 'clsx';
 
 export interface ButtonProps {
   children: ReactNode;
@@ -27,7 +28,7 @@ export const Button = ({
     return (
       <a
         href={href}
-        className={`${styles.button} ${className}`}
+        className={clsx(styles.button, className)}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={ariaLabel}
@@ -42,7 +43,7 @@ export const Button = ({
     return (
       <Link
         href={href}
-        className={`${styles.button} ${className}`}
+        className={clsx(styles.button, className)}
         onClick={onClick}
         aria-label={ariaLabel}
       >
@@ -55,7 +56,7 @@ export const Button = ({
   return (
     <button
       type={type}
-      className={`${styles.button} ${className}`}
+      className={clsx(styles.button, className)}
       onClick={onClick}
       aria-label={ariaLabel}
     >

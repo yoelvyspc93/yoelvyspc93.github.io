@@ -75,7 +75,13 @@ export const ProjectItem = ({
         )}
       >
         <div className={styles.image}>
-          <CustomImage src={imageUrl} alt={title} fill blur />
+          <CustomImage
+            src={imageUrl}
+            alt={title}
+            fill
+            blur
+            sizes="(max-width: 900px) 100vw, 60vw"
+          />
         </div>
       </div>
     </div>

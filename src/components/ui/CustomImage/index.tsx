@@ -9,6 +9,7 @@ interface Props {
   height?: number;
   blur?: boolean;
   className?: string;
+  sizes?: string;
 }
 
 export const CustomImage = ({
@@ -20,6 +21,7 @@ export const CustomImage = ({
   height,
   blur = false,
   className,
+  sizes,
 }: Props) => {
   return (
     <Image
@@ -30,6 +32,7 @@ export const CustomImage = ({
       priority={priority}
       width={width}
       height={height}
+      sizes={sizes}
       placeholder={blur ? 'blur' : 'empty'}
       blurDataURL={
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR42mPsnHBckgEIGGEMACysA/U4E8v3AAAAAElFTkSuQmCC'
