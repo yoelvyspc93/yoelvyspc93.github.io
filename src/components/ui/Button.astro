@@ -1,0 +1,77 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+type ButtonType = 'button' | 'submit' | 'reset'
+
+export interface Props {
+	children: any
+	href?: string
+	external?: boolean
+	type?: ButtonType
+	className?: string
+	ariaLabel?: string
+
+	// Astro permite handlers con props (se enlazan con on:click)
+	onClick?: ((event: MouseEvent) => void) | undefined
+}
+
+const {
+	href,
+	external = false,
+	type = 'button',
+	className = '',
+	ariaLabel,
+	onClick,
+} = Astro.props
+
+const base =
+	'group relative z-[2] inline-flex items-center gap-0 rounded-[50px] bg-white border-0 cursor-pointer no-underline ' +
+	'px-8 py-4 md:py-5 md:pl-[42px] md:pr-8 md:gap-3 ' +
+	'shadow-[0_4px_4px_rgba(0,0,0,0.25),0_16px_116px_rgba(0,0,0,0.25),0_266px_106px_rgba(0,0,0,0.1)] ' +
+	'transition-[color] duration-[400ms] ease-[cubic-bezier(0.165,0.84,0.44,1)]'
+
+const content =
+	'w-full whitespace-nowrap text-center text-[16px] font-medium text-[#010101] no-underline ' +
+	'transition-all duration-300 ease-[cubic-bezier(1,0.01,0,1)] ' +
+	'md:text-[18px] lg:text-right lg:text-[20px] lg:leading-[23px] ' +
+	'lg:group-hover:-translate-x-[6px] lg:group-hover:text-white'
+
+const dot =
+	'hidden lg:block absolute top-[40%] left-5 -z-[1] h-3 w-3 rounded-full ' +
+	'bg-[var(--button-dot,#a855f7)] ' +
+	'transition-all duration-300 ease-[cubic-bezier(1,0.01,0,1)] ' +
+	'lg:group-hover:inset-[-2px] lg:group-hover:w-[calc(100%+4px)] lg:group-hover:h-[calc(100%+4px)] lg:group-hover:rounded-[50px]'
+---
+
+{
+	href ? (
+		external ? (
+			<a
+				href={href}
+				target="_blank"
+				rel="noopener noreferrer"
+				aria-label={ariaLabel}
+				class={`${base} ${className}`}
+			>
+				<span class={dot} aria-hidden="true" />
+				<span class={content}>
+					<slot />
+				</span>
+			</a>
+		) : (
+			<a href={href} aria-label={ariaLabel} class={`${base} ${className}`}>
+				<span class={dot} aria-hidden="true" />
+				<span class={content}>
+					<slot />
+				</span>
+			</a>
+		)
+	) : (
+		<button type={type} aria-label={ariaLabel} class={`${base} ${className}`}>
+			<span class={dot} aria-hidden="true" />
+			<span class={content}>
+				<slot />
+			</span>
+		</button>
+	)
+}

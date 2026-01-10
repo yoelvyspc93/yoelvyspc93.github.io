@@ -1,0 +1,99 @@
+---
+import LiquidGlass from '@/shared/LiquidGlass.astro'
+import { getCollection } from 'astro:content'
+
+const allBlogPosts = await getCollection('experience')
+
+console.log({ allBlogPosts })
+
+interface SocialLink {
+	platform: string
+	url: string
+	icon?: string
+}
+
+interface NavigationItem {
+	name: string
+	path: string
+}
+
+const navItems: NavigationItem[] = [
+	{
+		name: 'Home',
+		path: '/',
+	},
+	{
+		name: 'About',
+		path: '/about',
+	},
+	{
+		name: 'Projects',
+		path: '/projects',
+	},
+	{
+		name: 'Experience',
+		path: '/experience',
+	},
+]
+
+const socialLinks: SocialLink[] = [
+	{
+		platform: 'GitHub',
+		url: 'https://github.com/yoelvyspc93',
+	},
+	{
+		platform: 'LinkedIn',
+		url: 'https://www.linkedin.com/in/yoelvys-perez-cabrera',
+	},
+]
+
+const navFilterStyle =
+	"backdrop-filter: url('#navigator-liquid-glass') blur(4px) saturate(180%); -webkit-backdrop-filter: blur(10px) saturate(180%);"
+---
+
+<nav
+	class="fixed left-1/2 top-6 z-[1000] hidden -translate-x-1/2 gap-4 md:flex"
+>
+	<LiquidGlass id="navigator-liquid-glass" />
+	<div
+		class="flex items-center rounded-full border border-[rgba(155,207,252,0.1)] bg-[rgba(10,20,40,0.2)] px-8 py-2 shadow-[0_4px_30px_rgba(0,0,0,0.6)]"
+		style={navFilterStyle}
+	>
+		<ul class="flex list-none gap-8">
+			{
+				navItems.map((link) => (
+					<li class="whitespace-nowrap text-base font-medium">
+						<a
+							href={link.path}
+							class="text-white hover:bg-[linear-gradient(to_right,#86a7ff_0%,#9bcffc_100%)] hover:bg-clip-text hover:text-transparent"
+						>
+							{link.name}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+	<div
+		class="flex items-center rounded-full border border-[rgba(155,207,252,0.1)] bg-[rgba(10,20,40,0.2)] px-8 py-2 shadow-[0_4px_30px_rgba(0,0,0,0.6)]"
+		style={navFilterStyle}
+	>
+		<ul class="flex list-none gap-8">
+			{
+				socialLinks.map((sm) => (
+					<li class="text-base font-medium">
+						<a
+							aria-label={`link to ${sm.platform}`}
+							href={sm.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="text-white"
+						>
+							{sm.icon ?? sm.platform}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</nav>

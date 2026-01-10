@@ -1,0 +1,120 @@
+---
+import LiquidGlass from '@/shared/LiquidGlass.astro'
+
+interface NavigationItem {
+	name: string
+	path: string
+}
+
+const navItems: NavigationItem[] = [
+	{
+		name: 'Home',
+		path: '/',
+	},
+	{
+		name: 'About',
+		path: '/about',
+	},
+	{
+		name: 'Projects',
+		path: '/projects',
+	},
+	{
+		name: 'Experience',
+		path: '/experience',
+	},
+]
+
+const openMenu = 'Open menu'
+const closeMenu = 'Close menu'
+const navigationMenu = 'Navigation menu'
+
+const filterStyle =
+	"backdrop-filter: url('#liquid-glass-effect') blur(4px) saturate(180%); -webkit-backdrop-filter: blur(10px) saturate(180%);"
+---
+
+<div class="relative z-[1500] lg:hidden" data-sliding-menu>
+	<button
+		class="fixed right-6 top-6 z-[1510] flex h-[44px] w-[44px] flex-col items-center justify-center rounded-full border border-[rgba(155,207,252,0.1)] bg-[rgba(10,20,40,0.2)]"
+		aria-label={openMenu}
+		data-menu-open
+		style={filterStyle}
+	>
+		<span class="mb-2 block h-[2px] w-6 rounded bg-white"></span>
+		<span class="block h-[2px] w-6 rounded bg-white"></span>
+	</button>
+
+	<LiquidGlass id="liquid-glass-effect" />
+
+	<div
+		class="fixed inset-0 z-[1500] hidden h-screen w-screen bg-black/0"
+		role="dialog"
+		aria-modal="true"
+		aria-label={navigationMenu}
+		data-menu-overlay
+	>
+		<div class="absolute inset-0 flex h-full w-full" aria-hidden="true">
+			<div class="h-full w-1/2 bg-[#121212]"></div>
+			<div class="h-full w-1/2 bg-[#121212] md:w-1/3"></div>
+			<div class="hidden h-full w-1/3 bg-[#121212] md:block"></div>
+		</div>
+
+		<div
+			class="relative z-[1510] flex h-full w-full flex-col items-center justify-center px-4 py-8 text-center text-white"
+		>
+			<button
+				class="absolute right-10 top-6 z-[1511] flex h-8 w-8 items-center justify-center"
+				aria-label={closeMenu}
+				data-menu-close
+			>
+				<span class="absolute h-[3px] w-8 rounded bg-white rotate-45"></span>
+				<span class="absolute h-[3px] w-8 rounded bg-white -rotate-45"></span>
+			</button>
+
+			<ul class="flex flex-col gap-10" data-menu-links>
+				{
+					navItems.map(({ name, path }) => (
+						<li class="m-0">
+							<a href={path} class="text-[32px] font-medium text-white">
+								{name}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script is:inline>
+	;(() => {
+		const menu = document.querySelector('[data-sliding-menu]')
+		if (!menu) return
+		const overlay = menu.querySelector('[data-menu-overlay]')
+		const openButton = menu.querySelector('[data-menu-open]')
+		const closeButton = menu.querySelector('[data-menu-close]')
+
+		const openMenu = () => {
+			overlay?.classList.remove('hidden')
+		}
+
+		const closeMenu = () => {
+			overlay?.classList.add('hidden')
+		}
+
+		openButton?.addEventListener('click', openMenu)
+		closeButton?.addEventListener('click', closeMenu)
+
+		overlay?.addEventListener('click', (event) => {
+			if (event.target === overlay) {
+				closeMenu()
+			}
+		})
+
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape') {
+				closeMenu()
+			}
+		})
+	})()
+</script>

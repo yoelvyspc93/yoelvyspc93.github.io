@@ -1,0 +1,95 @@
+---
+import TagHeader from '@/shared/TagHeader.astro'
+import Button from '@/ui/Button.astro'
+
+type HeaderCopy = {
+	hello: string
+	name: string
+	role: string
+	description: string
+	download: string
+	contact: string
+	tags: string[]
+}
+
+const HEADER: HeaderCopy = {
+	hello: 'Hi, I’m',
+	name: 'Yoelvys',
+	role: 'Senior Frontend Engineer',
+	description:
+		'I bridge the gap between design and engineering, building high-performance, scalable web applications with React, Next.js, and TypeScript. Focused on exceptional user experiences and technical excellence.',
+	download: 'Download CV',
+	contact: "Let's Talk",
+	tags: ['2 Companies', '6+ Years of Experience', '16+ Delivered Projects'],
+}
+---
+
+<section
+	id="hero"
+	class="relative bg-[#000000] grid min-h-[900px] place-items-center overflow-hidden px-4 py-[120px] md:pb-4 md:pt-[180px] lg:min-h-screen lg:py-0"
+	aria-labelledby="hero-title"
+	aria-describedby="hero-desc"
+>
+	<div
+		class="relative z-10 flex w-full max-w-[1200px] flex-col items-center justify-center gap-[50px] md:gap-[100px] lg:flex-row lg:items-center lg:justify-between lg:gap-0"
+	>
+		<div
+			class="mx-auto flex w-full max-w-[620px] flex-col items-center gap-[18px] text-center lg:mx-0 lg:max-w-[620px] lg:items-start lg:text-left"
+		>
+			<h1
+				id="hero-title"
+				class="font-sans text-4xl font-extrabold uppercase leading-none tracking-tight text-white sm:text-5xl md:text-6xl"
+			>
+				{HEADER.hello}
+				<span class="text-fuchsia-300">{HEADER.name}</span>
+			</h1>
+
+			<p
+				id="hero-desc"
+				class="max-w-[620px] text-lg leading-[140%] tracking-[0.02em] text-white/85 md:mt-5 md:text-xl"
+			>
+				{HEADER.description}
+			</p>
+
+			<div
+				class="mt-6 flex flex-wrap justify-center gap-4 md:mt-8 lg:justify-start"
+			>
+				<Button
+					href="https://linkedin.com/in/yoelvys-perez-cabrera"
+					aria-label="Download my Curriculum Vitae"
+				>
+					{HEADER.download}
+				</Button>
+				<Button href="#contact" aria-label="Let's Talk">
+					{HEADER.contact}
+				</Button>
+			</div>
+		</div>
+
+		<div
+			class="relative order-2 aspect-[504/688] w-[300px] right-8 md:w-[350px] lg:order-0 lg:absolute lg:right-0 lg:top-[-55%] lg:w-[500px]"
+		>
+			<TagHeader
+				label={HEADER.tags[0]}
+				className="absolute z-1 right-[-20%] top-[10%] md:right-[-20%] md:top-[10%] lg:right-[0%] lg:top-[16%]"
+			/>
+			<TagHeader
+				label={HEADER.tags[1]}
+				className="absolute z-1 bottom-[26%] left-[-2%] md:bottom-[28%] md:left-[-10%] lg:bottom-[28%] lg:left-[10%]"
+			/>
+			<TagHeader
+				label={HEADER.tags[2]}
+				className="absolute z-1 bottom-[0%] right-[-20%] md:bottom-[14%] md:right-[-40%] lg:bottom-[14%] lg:right-[-20%]"
+			/>
+
+			<div class="absolute inset-0 overflow-hidden rounded-[28px]">
+				<img
+					src="/images/header/avatar.webp"
+					alt="Portrait of Yoelvys Pérez Cabrera"
+					class="h-full w-full object-cover"
+					loading="eager"
+				/>
+			</div>
+		</div>
+	</div>
+</section>

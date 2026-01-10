@@ -1,0 +1,23 @@
+---
+interface Props {
+	id?: string
+}
+
+const { id = 'liquid-glass-effect' } = Astro.props
+---
+
+<svg width="0" height="0" class="absolute">
+	<filter id={id} x="0" y="0" width="100%" height="100%">
+		<feTurbulence
+			type="turbulence"
+			baseFrequency="0"
+			numOctaves="2"
+			result="noise"></feTurbulence>
+		<feDisplacementMap
+			in="SourceGraphic"
+			in2="noise"
+			scale="26"
+			xChannelSelector="R"
+			yChannelSelector="G"></feDisplacementMap>
+	</filter>
+</svg>

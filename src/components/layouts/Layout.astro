@@ -1,0 +1,35 @@
+---
+import { ClientRouter } from 'astro:transitions'
+import Navigator from '@/shared/Navigator.astro'
+import SlidingMenu from '@/shared/SlidingMenu.astro'
+
+import '@/styles/global.css'
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Yoelvys Perez Cabrera | Portfolio</title>
+		<ClientRouter />
+	</head>
+	<body>
+		<Navigator />
+		<SlidingMenu />
+		<slot />
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #212121;
+		color: #fff;
+	}
+</style>

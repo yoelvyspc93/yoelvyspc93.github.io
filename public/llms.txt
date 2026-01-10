@@ -1,0 +1,77 @@
+# Yoelvys Pérez Cabrera — Frontend Developer
+
+> I am a Computer Engineer with over 6 years of experience, specializing in frontend development. My passion lies in building complex, high-performance web applications using React and Next.js. I focus on creating intuitive, accessible, and efficient user interfaces, driven by a problem-solving mindset and a constant desire to innovate.
+
+## Who I Am
+**Name:** Yoelvys Pérez Cabrera
+**Role:** Frontend Developer
+**Location:** Cuba (Remote)
+**Education:** Computer Engineer from University Central de Las Villas (Cuba)
+**Current Focus:** Building scalable frontend architectures, optimizing web performance, and crafting motion-rich interfaces.
+
+## My Technical Expertise
+I possess a strong command of modern web technologies, with a particular focus on the React ecosystem.
+
+**Core Frontend:**
+- **React & Next.js:** Deep expertise in App Router, Server Components, and Static Export.
+- **TypeScript:** Strict typing for robust and maintainable code.
+- **JavaScript (ESNext):** Advanced knowledge of the language fundamentals.
+- **HTML5 & CSS3:** Semantic markup and modern styling (SCSS Modules, CSS Variables).
+
+**State & Architecture:**
+- **Redux:** Complex state management.
+- **GraphQL & REST APIs:** Efficient data fetching and integration.
+- **Design Systems:** Building reusable component libraries.
+
+**Animation & UI:**
+- **GSAP:** Advanced interactions and scroll-driven animations.
+- **Matter.js:** Physics-based UI elements.
+- **Lottie:** Vector-based animations.
+- **Spline:** 3D web experiences.
+- **Figma:** Design collaboration and implementation.
+
+**Testing & Quality:**
+- **Cypress:** End-to-end testing.
+- **Jest & React Testing Library:** Unit and integration testing.
+- **Storybook & Chromatic:** UI component development and visual regression testing.
+
+**Other Tools & Platforms:**
+- **Webflow & WordPress:** CMS and landing page development.
+- **Python & Django:** Backend familiarity.
+- **React Native:** Mobile development basics.
+
+## My Projects
+Here are some of the key projects I have worked on, showcasing my ability to deliver high-quality production code:
+
+### 1. Pioneerz
+**Description:** A modern platform for selling NFTs with a focus on advanced animations and a seamless user experience.
+**My Contribution:** Developed the full frontend architecture using Next.js. I implemented dynamic animations with GSAP and SwiperJS, ensured accessibility (light/dark mode), and established a rigorous testing workflow with Storybook and Cypress.
+**Stack:** Next.js, GSAP, SwiperJS, Lottie, Storybook, Chromatic, React Testing Library, Cypress.
+
+### 2. Dspot Website
+**Description:** The corporate website for DSpot, a digital studio offering design and software solutions.
+**My Contribution:** Built the site using Next.js and React with TypeScript. I focused on creating a smooth, responsive experience with GSAP animations that reflect the company's brand identity.
+**Stack:** Next.js, GSAP, Lottie, Spline, Storybook, Chromatic, React Testing Library, Cypress.
+
+### 3. Henig Diamond
+**Description:** An elegant landing page featuring 3D animations, an interactive map, and an intelligent chatbot.
+**My Contribution:** Designed and developed the site in Webflow, integrating custom code for GSAP animations and Spline 3D elements to create an immersive luxury experience.
+**Stack:** Webflow, GSAP, Spline.
+
+### 4. Kubeshark
+**Description:** A responsive landing page designed to highlight the main features of the Kubeshark SaaS product.
+**My Contribution:** Developed the official site in Webflow, focusing on technical storytelling, clarity, and performance across all devices.
+**Stack:** Webflow.
+
+### 5. FlowSev
+**Description:** A modern landing page for FlowSev.ai.
+**My Contribution:** Built the page in Webflow with a focus on a clean aesthetic and smooth scrolling animations to guide user attention.
+**Stack:** Webflow.
+
+## Contact & External Profiles
+
+**Email:** yoelvyspc93@gmail.com
+
+**LinkedIn:** https://linkedin.com/in/yoelvys
+
+**GitHub:** https://github.com/yoelvyspc93

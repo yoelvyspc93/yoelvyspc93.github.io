@@ -1,0 +1,55 @@
+---
+import { getNavigationItems } from '@/constants/navigator'
+import { COMMON } from '@/constants/content'
+import CustomImage from '../ui/CustomImage.astro'
+
+const navItems = getNavigationItems().filter(
+	(link) => link.name !== COMMON.nav.home && link.name !== COMMON.nav.contact
+)
+---
+
+<footer
+	class="relative isolate h-[15vh] min-h-[15vh] w-full overflow-hidden px-4 py-8 md:px-6 md:py-10 lg:px-0 lg:py-12"
+>
+	<div class="pointer-events-none absolute inset-0 z-0">
+		<div
+			class="absolute inset-0 z-[1] h-full w-full bg-[linear-gradient(to_bottom,#010101f7_50%,#010101e4_100%)]"
+			aria-hidden="true"
+		>
+		</div>
+		<div class="absolute inset-0">
+			<CustomImage
+				src="/images/footer/yoelvys.svg"
+				alt="Yoelvys"
+				fill
+				priority
+				className="h-full w-full object-contain object-bottom"
+			/>
+		</div>
+	</div>
+
+	<div
+		class="relative z-[1] mx-auto flex h-0 flex-col items-center justify-between gap-4 text-center md:h-[15vh] md:flex-row md:gap-5 lg:h-[7vh] max-w-[1200px]"
+	>
+		<p class="order-1 text-lg leading-[150%] text-white md:order-0">
+			{COMMON.footer.copyright}
+		</p>
+
+		<nav class="" aria-label="Footer navigation">
+			<ul class="flex flex-wrap justify-center gap-5 md:gap-7">
+				{
+					navItems.map((link) => (
+						<li>
+							<a
+								href={link.path}
+								class="text-lg leading-[150%] text-white transition-all duration-300 hover:bg-[linear-gradient(to_right,#86a7ff_0%,#9bcffc_100%)] hover:bg-clip-text hover:text-transparent"
+							>
+								{link.name}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+	</div>
+</footer>
