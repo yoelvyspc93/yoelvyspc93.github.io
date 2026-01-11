@@ -20,21 +20,21 @@ const hidePlaceholder = value.length > 0
 ---
 
 <div class="flex w-full flex-col gap-2">
-	<label for={id} class="text-base text-white md:text-lg lg:text-xl">
+	<label for={id} class="text-text-large text-white">
 		{label}
 	</label>
 	<div class="relative w-full">
 		<textarea
 			id={id}
 			aria-describedby={ariaDescribedby}
-			class="min-h-[100px] w-full resize-none rounded-[20px] border-2 border-transparent bg-white/5 px-4 py-2.5 text-base text-white outline-none focus-visible:shadow-[0_0_4px_1px_rgba(255,255,255,0.2)] md:min-h-[130px]"
+			class="min-h-[100px] w-full resize-none rounded-[20px] border-2 border-transparent bg-white/5 px-4 py-2.5 text-text-medium text-white outline-none focus-visible:shadow-[0_0_4px_1px_rgba(255,255,255,0.2)] md:min-h-[130px]"
 		>
 			{value}
 		</textarea>
 		{
 			placeholderText && (
 				<span
-					class={`pointer-events-none absolute left-4 top-3 text-base text-white/60 ${
+					class={`pointer-events-none absolute left-4 top-3 text-text-medium text-white/60 ${
 						hidePlaceholder ? 'hidden' : ''
 					}`}
 				>

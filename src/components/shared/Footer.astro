@@ -13,7 +13,7 @@ const navItems = getNavigationItems().filter(
 >
 	<div class="pointer-events-none absolute inset-0 z-0">
 		<div
-			class="absolute inset-0 z-[1] h-full w-full bg-[linear-gradient(to_bottom,#010101f7_50%,#010101e4_100%)]"
+			class="absolute inset-0 z-[1] h-full w-full bg-gradient-to-b from-black/97 via-black/95 to-black/90"
 			aria-hidden="true"
 		>
 		</div>
@@ -31,7 +31,7 @@ const navItems = getNavigationItems().filter(
 	<div
 		class="relative z-[1] mx-auto flex h-0 flex-col items-center justify-between gap-4 text-center md:h-[15vh] md:flex-row md:gap-5 lg:h-[7vh] max-w-[1200px]"
 	>
-		<p class="order-1 text-lg leading-[150%] text-white md:order-0">
+		<p class="order-1 text-text-large leading-[150%] text-white md:order-0">
 			{COMMON.footer.copyright}
 		</p>
 
@@ -42,7 +42,7 @@ const navItems = getNavigationItems().filter(
 						<li>
 							<a
 								href={link.path}
-								class="text-lg leading-[150%] text-white transition-all duration-300 hover:bg-[linear-gradient(to_right,#86a7ff_0%,#9bcffc_100%)] hover:bg-clip-text hover:text-transparent"
+								class="text-text-large leading-[150%] text-white transition-all duration-300 hover:bg-linear-gradient hover:bg-clip-text hover:text-transparent"
 							>
 								{link.name}
 							</a>

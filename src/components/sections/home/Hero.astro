@@ -26,7 +26,7 @@ const HEADER: HeaderCopy = {
 
 <section
 	id="hero"
-	class="relative bg-[#000000] grid min-h-[900px] place-items-center overflow-hidden px-4 py-[120px] md:pb-4 md:pt-[180px] lg:min-h-screen lg:py-0"
+	class="relative grid min-h-[900px] place-items-center overflow-hidden bg-black px-4 py-[120px] md:pb-4 md:pt-[180px] lg:min-h-screen lg:py-0"
 	aria-labelledby="hero-title"
 	aria-describedby="hero-desc"
 >
@@ -38,15 +38,15 @@ const HEADER: HeaderCopy = {
 		>
 			<h1
 				id="hero-title"
-				class="font-sans text-4xl font-extrabold uppercase leading-none tracking-tight text-white sm:text-5xl md:text-6xl"
+				class="font-display text-heading-1 font-extrabold uppercase leading-none tracking-tight text-white"
 			>
 				{HEADER.hello}
-				<span class="text-fuchsia-300">{HEADER.name}</span>
+				<span class="text-pink-purple">{HEADER.name}</span>
 			</h1>
 
 			<p
 				id="hero-desc"
-				class="max-w-[620px] text-lg leading-[140%] tracking-[0.02em] text-white/85 md:mt-5 md:text-xl"
+				class="max-w-[620px] text-text-large leading-[140%] tracking-[0.02em] text-white/85 md:mt-5"
 			>
 				{HEADER.description}
 			</p>
