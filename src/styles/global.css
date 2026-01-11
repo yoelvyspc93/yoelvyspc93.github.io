@@ -1,1 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
+
+@font-face {
+  font-family: "Audiowide";
+  src: url("/fonts/audiowide.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-display: "Audiowide", "Montserrat", system-ui, sans-serif;
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-dark-gray: #121212;
+  --color-pink-purple: #86a7ff;
+  --color-violet-blue: #9bcffc;
+
+  --background-image-linear-gradient: linear-gradient(
+    to right,
+    var(--color-pink-purple) 0%,
+    var(--color-violet-blue) 100%
+  );
+
+  --text-heading-1: clamp(42px, 6vw, 75px);
+  --text-heading-2: clamp(32px, 5vw, 64px);
+  --text-heading-3: clamp(28px, 4.5vw, 54px);
+  --text-heading-4: clamp(26px, 4vw, 48px);
+  --text-heading-5: clamp(20px, 3vw, 32px);
+  --text-heading-6: clamp(18px, 2.5vw, 24px);
+
+  --text-text-small: clamp(12px, 1.8vw, 14px);
+  --text-text-medium: clamp(14px, 2vw, 16px);
+  --text-text-large: clamp(16px, 2.2vw, 18px);
+  --text-text-xlarge: clamp(18px, 2.5vw, 20px);
+}
+
+@layer base {
+  body {
+    @apply font-sans text-white bg-black;
+  }
+}

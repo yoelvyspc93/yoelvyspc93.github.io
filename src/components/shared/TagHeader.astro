@@ -10,7 +10,7 @@ const { label, className } = Astro.props
 const filterStyle =
 	"backdrop-filter: url('#tag-header-liquid-glass') blur(4px) saturate(180%); -webkit-backdrop-filter: blur(10px) saturate(180%);"
 const mergedClass = [
-	'inline-flex items-center justify-center rounded-full border border-[rgba(155,207,252,0.1)] bg-[rgba(10,20,40,0.2)] px-5 py-2 shadow-[0_4px_30px_rgba(0,0,0,0.6)]',
+	'inline-flex items-center justify-center rounded-full border border-violet-blue/10 bg-black/20 px-5 py-2 shadow-[0_4px_30px_rgba(0,0,0,0.6)]',
 	className,
 ]
 	.filter(Boolean)
@@ -19,5 +19,5 @@ const mergedClass = [
 
 <div class={mergedClass} style={filterStyle}>
 	<LiquidGlass id="tag-header-liquid-glass" />
-	<span class="whitespace-nowrap text-base text-white">{label}</span>
+	<span class="whitespace-nowrap text-text-small text-white">{label}</span>
 </div>
