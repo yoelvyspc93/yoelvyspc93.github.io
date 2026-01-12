@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets'
 import TagHeader from '@/shared/TagHeader.astro'
 import Button from '@/ui/Button.astro'
 
@@ -67,7 +68,7 @@ const HEADER: HeaderCopy = {
 		</div>
 
 		<div
-			class="relative order-2 aspect-[504/688] w-[300px] right-8 md:w-[350px] lg:order-0 lg:absolute lg:right-0 lg:top-[-55%] lg:w-[500px]"
+			class="relative order-2 aspect-504/688 w-[300px] right-8 md:w-[350px] lg:order-0 lg:absolute lg:right-0 lg:top-[-40%] lg:w-[500px]"
 		>
 			<TagHeader
 				label={HEADER.tags[0]}
@@ -83,11 +84,14 @@ const HEADER: HeaderCopy = {
 			/>
 
 			<div class="absolute inset-0 overflow-hidden rounded-[28px]">
-				<img
+				<Image
 					src="/images/header/avatar.webp"
 					alt="Portrait of Yoelvys Pérez Cabrera"
 					class="h-full w-full object-cover"
 					loading="eager"
+					layout="constrained"
+					width={504}
+					height={688}
 				/>
 			</div>
 		</div>
