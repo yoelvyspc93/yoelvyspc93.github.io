@@ -3,7 +3,7 @@
 
 @font-face {
   font-family: "Audiowide";
-  src: url("/fonts/audiowide.woff2") format("woff2");
+  src: url("fonts/audiowide.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -19,11 +19,9 @@
   --color-pink-purple: #86a7ff;
   --color-violet-blue: #9bcffc;
 
-  --background-image-linear-gradient: linear-gradient(
-    to right,
-    var(--color-pink-purple) 0%,
-    var(--color-violet-blue) 100%
-  );
+  --background-image-linear-gradient: linear-gradient(to right,
+      var(--color-pink-purple) 0%,
+      var(--color-violet-blue) 100%);
 
   --text-heading-1: clamp(42px, 6vw, 75px);
   --text-heading-2: clamp(32px, 5vw, 64px);
