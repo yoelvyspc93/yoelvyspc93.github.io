@@ -25,6 +25,8 @@ const experience = defineCollection({
     period: z.string(),
     company: z.string(),
     rol: z.string(),
+    image: z.array(z.string()),
+    order: z.number(),
   }),
 });
 
