@@ -17,17 +17,17 @@ const { number, title, content } = Astro.props as Props
 		class="grid w-full
       max-w-[600px]
       [grid-template-areas:'index_title''content_content']
-      [grid-template-columns:20px_1fr]
+      grid-cols-[20px_1fr]
       gap-5 items-center p-4
       transition-colors duration-300 ease-out
       md:max-w-[1000px]
       md:[grid-template-areas:'index_title_icon''index_content_icon']
-      md:[grid-template-columns:40px_1fr_64px]
+      md:grid-cols-[40px_1fr_64px]
       md:gap-x-16 md:gap-y-5
       md:p-8
       lg:max-w-[1200px]
       lg:[grid-template-areas:'index_title_content_icon']
-      lg:[grid-template-columns:40px_400px_1fr_64px]
+			lg:grid-cols-[40px_400px_1fr_64px]
       lg:p-16"
 	>
 		<span
@@ -47,10 +47,7 @@ const { number, title, content } = Astro.props as Props
 		</h3>
 
 		<p
-			class="[grid-area:content]
-        font-sans font-normal text-text-large text-white text-left
-        [text-wrap:balance]
-        lg:group-hover:text-black"
+			class="[grid-area:content] font-sans font-normal text-text-large text-white text-left text-balance lg:group-hover:text-black"
 		>
 			{content}
 		</p>

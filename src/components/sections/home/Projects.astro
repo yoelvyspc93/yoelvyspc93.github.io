@@ -15,13 +15,10 @@ const PROJECTS_SECTION: ProjectsSectionCopy = {
 	seeMore: 'See more',
 }
 
-// Carga de content collection
 const allProjects = await getCollection('projects')
 const latestProjects = allProjects
 	.map((p) => p.data)
 	.filter((p) => p.isFavorite)
-
-// UI-only: sin refs, sin animaciones, sin hover overlay compartido.
 ---
 
 <section
@@ -41,7 +38,7 @@ const latestProjects = allProjects
 			latestProjects.map((project) => (
 				<a
 					href={`/projects#project-${project.id}`}
-					class="relative z-[1] no-underline bg-transparent border-0"
+					class="relative z-1 no-underline bg-transparent border-0"
 					aria-label={`${project.title} project`}
 				>
 					<article class="w-full px-4">
