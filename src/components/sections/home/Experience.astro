@@ -1,0 +1,121 @@
+---
+import { Image } from 'astro:assets'
+import { getCollection, render } from 'astro:content'
+
+const entries = await getCollection('experience')
+
+const items = await Promise.all(
+	entries
+		.sort((a, b) => a.data.order - b.data.order)
+		.map(async (entry) => {
+			const { Content } = await render(entry)
+
+			return {
+				period: entry.data.period,
+				company: entry.data.company,
+				rol: entry.data.rol,
+				image: entry.data.image,
+				Content,
+			}
+		})
+)
+---
+
+<section
+	id="experience"
+	aria-labelledby="experience-heading"
+	class="text-white/85 py-[clamp(48px,8vw,96px)] h-full max-h-full overflow-hidden"
+>
+	<div
+		class="w-[min(1180px,92vw)] mx-auto flex flex-col items-center justify-center gap-[100px]"
+	>
+		<h2
+			id="experience-heading"
+			class="text-center font-display font-normal uppercase text-heading-2 text-white"
+		>
+			My <span class="text-pink-purple">Experience</span>
+		</h2>
+
+		<ol class="relative pl-[clamp(72px,9vw,120px)]">
+			<li
+				aria-hidden="true"
+				class="absolute left-[clamp(32px,5vw,50px)] top-3 bottom-0 w-[5px] overflow-hidden pointer-events-none"
+			>
+				<span
+					class="absolute inset-0 bg-linear-gradient"
+					style="
+            -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-size: 100% 100%;
+            mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+            mask-repeat: no-repeat;
+            mask-size: 100% 100%;
+          "
+				></span>
+			</li>
+
+			{
+				items.map((item, index) => (
+					<li
+						class="
+            relative grid grid-cols-1 gap-6 pb-14
+            md:grid-cols-[clamp(180px,24vw,280px)_1fr]
+            md:gap-x-[clamp(24px,5vw,64px)] md:gap-y-6
+            md:pb-[clamp(56px,10vw,140px)]
+          "
+					>
+						<div
+							aria-hidden="true"
+							class="
+              absolute top-2
+              left-[calc(clamp(32px,5vw,50px)-clamp(72px,9vw,120px)+2px)]
+              -translate-x-1/2
+              w-6 h-6 rounded-full
+              bg-violet-blue
+              shadow-[0_0_0_4px_rgba(134,167,255,0.18)]
+            "
+						/>
+
+						<div class="text-left">
+							<p class="font-display text-heading-6 uppercase tracking-[-0.32px] text-white mb-1.5">
+								{item.period}
+							</p>
+							<p class="m-0 text-white text-text-large uppercase font-medium">
+								{item.company}
+							</p>
+							<p class="mt-1 text-white/70 text-text-large font-normal">
+								{item.rol}
+							</p>
+						</div>
+
+						<div class="max-w-[720px]">
+							<div class="text-white/75 text-text-large text-pretty leading-normal [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_li]:mt-2">
+								<item.Content />
+							</div>
+
+							{item.image?.length ? (
+								<div
+									class="mt-[clamp(12px,2vw,20px)] grid grid-cols-2 gap-[clamp(12px,2vw,20px)]"
+									role="list"
+								>
+									{item.image.map((img) => (
+										<div role="listitem">
+											<Image
+												src={`/images/projects/${img}.webp`}
+												alt={`${img} experience`}
+												width={800}
+												height={600}
+												loading="lazy"
+												class="block w-full h-auto rounded-xl outline-1 outline-white/5"
+											/>
+										</div>
+									))}
+								</div>
+							) : null}
+						</div>
+					</li>
+				))
+			}
+		</ol>
+	</div>
+</section>

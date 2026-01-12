@@ -1,0 +1,62 @@
+---
+import CircleButton from '@/ui/CircleButton.astro'
+
+type Props = {
+	number: string
+	title: string
+	content: string
+}
+
+const { number, title, content } = Astro.props as Props
+---
+
+<div
+	class="w-full flex flex-col items-center justify-center cursor-pointer group"
+>
+	<div
+		class="grid w-full
+      max-w-[600px]
+      [grid-template-areas:'index_title''content_content']
+      [grid-template-columns:20px_1fr]
+      gap-5 items-center p-4
+      transition-colors duration-300 ease-out
+      md:max-w-[1000px]
+      md:[grid-template-areas:'index_title_icon''index_content_icon']
+      md:[grid-template-columns:40px_1fr_64px]
+      md:gap-x-16 md:gap-y-5
+      md:p-8
+      lg:max-w-[1200px]
+      lg:[grid-template-areas:'index_title_content_icon']
+      lg:[grid-template-columns:40px_400px_1fr_64px]
+      lg:p-16"
+	>
+		<span
+			class="[grid-area:index]
+        font-normal text-heading-6 text-white
+        lg:group-hover:text-black"
+		>
+			{number}
+		</span>
+
+		<h3
+			class="[grid-area:title]
+        font-sans font-bold text-heading-5 text-white text-left
+        lg:group-hover:text-black"
+		>
+			{title}
+		</h3>
+
+		<p
+			class="[grid-area:content]
+        font-sans font-normal text-text-large text-white text-left
+        [text-wrap:balance]
+        lg:group-hover:text-black"
+		>
+			{content}
+		</p>
+
+		<div class="[grid-area:icon] hidden md:block justify-self-end">
+			<CircleButton />
+		</div>
+	</div>
+</div>
