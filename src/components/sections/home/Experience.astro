@@ -1,8 +1,8 @@
 ---
-import { Image } from 'astro:assets'
 import { getCollection, render } from 'astro:content'
 
 const entries = await getCollection('experience')
+const projectImageBase = `${import.meta.env.BASE_URL}images/projects/`
 
 const items = await Promise.all(
 	entries
@@ -98,20 +98,18 @@ const items = await Promise.all(
 									class="mt-[clamp(12px,2vw,20px)] grid grid-cols-2 gap-[clamp(12px,2vw,20px)]"
 									role="list"
 								>
-									{item.image.map((img) => (
-										<div role="listitem">
-											<Image
-												src={`/portfolio-astro/images/projects/${img}.webp`}
-												alt={`${img} experience`}
-												width={800}
-												height={600}
-												loading="lazy"
-												class="block w-full h-auto rounded-xl outline-1 outline-white/5"
-											/>
-										</div>
-									))}
-								</div>
-							) : null}
+								{item.image.map((img) => (
+									<div role="listitem">
+										<img
+											src={`${projectImageBase}${img}.webp`}
+											alt={`${img} experience`}
+											loading="lazy"
+											class="block w-full h-auto rounded-xl outline-1 outline-white/5"
+										/>
+									</div>
+								))}
+							</div>
+						) : null}
 						</div>
 					</li>
 				))
