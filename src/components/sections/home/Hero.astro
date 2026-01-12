@@ -3,6 +3,8 @@ import { Image } from 'astro:assets'
 import TagHeader from '@/shared/TagHeader.astro'
 import Button from '@/ui/Button.astro'
 
+import avatar from '@/public/images/header/avatar.webp'
+
 type HeaderCopy = {
 	hello: string
 	name: string
@@ -85,7 +87,7 @@ const HEADER: HeaderCopy = {
 
 			<div class="absolute inset-0 overflow-hidden rounded-[28px]">
 				<Image
-					src="/public/images/header/avatar.webp"
+					src={avatar}
 					alt="Portrait of Yoelvys Pérez Cabrera"
 					class="h-full w-full object-cover"
 					loading="eager"

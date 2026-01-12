@@ -33,9 +33,9 @@ const filterStyle =
 	"backdrop-filter: url('#liquid-glass-effect') blur(4px) saturate(180%); -webkit-backdrop-filter: blur(10px) saturate(180%);"
 ---
 
-<div class="relative z-[1500] lg:hidden" data-sliding-menu>
+<div class="relative z-1500 lg:hidden" data-sliding-menu>
 	<button
-		class="fixed right-6 top-6 z-[1510] flex h-[44px] w-[44px] flex-col items-center justify-center rounded-full border border-violet-blue/10 bg-black/20"
+		class="fixed right-6 top-6 z-1510 flex h-[44px] w-[44px] flex-col items-center justify-center rounded-full border border-violet-blue/10 bg-black/20"
 		aria-label={openMenu}
 		data-menu-open
 		style={filterStyle}
@@ -47,7 +47,7 @@ const filterStyle =
 	<LiquidGlass id="liquid-glass-effect" />
 
 	<div
-		class="fixed inset-0 z-[1500] hidden h-screen w-screen bg-black/0"
+		class="fixed inset-0 z-1500 hidden h-screen w-screen bg-black/0"
 		role="dialog"
 		aria-modal="true"
 		aria-label={navigationMenu}
@@ -60,10 +60,10 @@ const filterStyle =
 		</div>
 
 		<div
-			class="relative z-[1510] flex h-full w-full flex-col items-center justify-center px-4 py-8 text-center text-white"
+			class="relative z-1510 flex h-full w-full flex-col items-center justify-center px-4 py-8 text-center text-white"
 		>
 			<button
-				class="absolute right-10 top-6 z-[1511] flex h-8 w-8 items-center justify-center"
+				class="absolute right-10 top-6 z-1511 flex h-8 w-8 items-center justify-center"
 				aria-label={closeMenu}
 				data-menu-close
 			>

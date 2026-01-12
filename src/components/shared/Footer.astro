@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets'
+import yoelvys from '@/public/images/footer/yoelvys.svg'
 
 const navItems = [
 	{
@@ -30,13 +31,13 @@ const navItems = [
 >
 	<div class="pointer-events-none absolute inset-0 z-0">
 		<div
-			class="absolute inset-0 z-[1] h-full w-full bg-gradient-to-b from-black/97 via-black/95 to-black/90"
+			class="absolute inset-0 z-1 h-full w-full bg-linear-to-b from-black/97 via-black/95 to-black/90"
 			aria-hidden="true"
 		>
 		</div>
 		<div class="absolute inset-0">
 			<Image
-				src="/public/images/footer/yoelvys.svg"
+				src={yoelvys}
 				alt="Yoelvys"
 				loading="lazy"
 				layout="constrained"
