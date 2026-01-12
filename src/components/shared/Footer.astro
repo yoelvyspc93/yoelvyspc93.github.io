@@ -1,11 +1,28 @@
 ---
-import { getNavigationItems } from '@/constants/navigator'
-import { COMMON } from '@/constants/content'
-import CustomImage from '../ui/CustomImage.astro'
+import { Image } from 'astro:assets'
 
-const navItems = getNavigationItems().filter(
-	(link) => link.name !== COMMON.nav.home && link.name !== COMMON.nav.contact
-)
+const navItems = [
+	{
+		name: 'Home',
+		path: '/',
+	},
+	{
+		name: 'About',
+		path: '/about',
+	},
+	{
+		name: 'Projects',
+		path: '/projects',
+	},
+	{
+		name: 'Experience',
+		path: '/experience',
+	},
+	{
+		name: 'Contact',
+		path: '/contact',
+	},
+]
 ---
 
 <footer
@@ -18,21 +35,23 @@ const navItems = getNavigationItems().filter(
 		>
 		</div>
 		<div class="absolute inset-0">
-			<CustomImage
+			<Image
 				src="/images/footer/yoelvys.svg"
 				alt="Yoelvys"
-				fill
-				priority
-				className="h-full w-full object-contain object-bottom"
+				loading="lazy"
+				layout="constrained"
+				width={1177}
+				height={116}
+				class="h-full w-full object-contain object-bottom"
 			/>
 		</div>
 	</div>
 
 	<div
-		class="relative z-[1] mx-auto flex h-0 flex-col items-center justify-between gap-4 text-center md:h-[15vh] md:flex-row md:gap-5 lg:h-[7vh] max-w-[1200px]"
+		class="relative z-1 mx-auto flex h-0 flex-col items-center justify-between gap-4 text-center md:h-[15vh] md:flex-row md:gap-5 lg:h-[7vh] max-w-[1200px]"
 	>
 		<p class="order-1 text-text-large leading-[150%] text-white md:order-0">
-			{COMMON.footer.copyright}
+			©{new Date().getFullYear()} Yoelvys. All rights reserved.
 		</p>
 
 		<nav class="" aria-label="Footer navigation">

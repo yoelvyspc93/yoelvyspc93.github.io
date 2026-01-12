@@ -1,0 +1,119 @@
+---
+import Footer from '@/shared/Footer.astro'
+import Button from '@/ui/Button.astro'
+import InputField from '@/ui/InputField.astro'
+import TextAreaField from '@/ui/TextAreaField.astro'
+
+export const socialLinks = [
+	{
+		platform: 'GitHub',
+		url: 'https://github.com/yoelvyspc93',
+	},
+	{
+		platform: 'LinkedIn',
+		url: 'https://www.linkedin.com/in/yoelvys-perez-cabrera',
+	},
+]
+
+const TO = 'yoelvyspc93@gmail.com'
+const SUBJECT = 'Contact from portfolio'
+---
+
+<div
+	class="relative h-screen overflow-hidden [clip-path:polygon(0%_0%,100%_0%,100%_100%,0%_100%)]"
+>
+	<div class="relative bottom-0 h-full w-full">
+		<section
+			id="contact"
+			aria-label="Contact me"
+			class="flex h-full flex-col items-center justify-between px-4 pb-4 pt-[100px] md:pb-0 md:pt-[160px]"
+		>
+			<div
+				class="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-12 px-4 lg:flex-row lg:gap-20"
+			>
+				<div class="w-full flex-1 max-w-[492px] md:max-w-full">
+					<h2 class="mb-4 font-display text-heading-2 font-bold">Contact Me</h2>
+
+					<div
+						class="mb-10 flex max-w-[600px] flex-col gap-4 font-sans text-text-large leading-normal text-pretty text-white"
+					>
+						<p>
+							I'm currently open to new opportunities and collaborations.
+							Whether you have a question regarding a project or want to discuss
+							a potential role, my inbox is open.
+						</p>
+						<p>I typically respond within 24 hours.</p>
+					</div>
+
+					<ul class="flex list-none flex-row gap-3 p-0">
+						{
+							socialLinks.map((sm) => (
+								<li>
+									<a
+										aria-label={`link to ${sm.platform}`}
+										href={sm.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="h-11 w-auto rounded-lg bg-dark-gray p-2.5 flex items-center justify-center"
+									>
+										{sm.platform}
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+
+				<form
+					id="contact-form"
+					class="flex w-full flex-1 max-w-[492px] flex-col gap-[30px] rounded-[24px] bg-dark-gray px-[30px] py-10 md:max-w-full"
+				>
+					<InputField
+						label="Email"
+						type="email"
+						id="email"
+						placeholders={['Your email']}
+					/>
+
+					<TextAreaField
+						label="Message"
+						id="message"
+						placeholders={[
+							'Write your message here...',
+							'Tell me about your project',
+							'How can I help you?',
+							'Share your idea or request',
+						]}
+					/>
+
+					<div class="mt-4 flex w-full justify-end">
+						<Button type="submit" aria-label="Send message button">
+							Send Message
+						</Button>
+					</div>
+				</form>
+			</div>
+
+			<Footer />
+		</section>
+	</div>
+</div>
+
+<script define:vars={{ TO, SUBJECT }}>
+	const form = document.getElementById('contact-form')
+	form?.addEventListener('submit', (e) => {
+		e.preventDefault()
+
+		const email = (document.getElementById('email')?.value || '').trim()
+		const message = (document.getElementById('message')?.value || '').trim()
+
+		if (!email || !message) return
+
+		const encodedTo = encodeURIComponent(TO)
+		const encodedSubject = encodeURIComponent(SUBJECT)
+		const body = `From: ${email}\n\n${message}`
+		const encodedBody = encodeURIComponent(body)
+
+		globalThis.location.href = `mailto:${encodedTo}?subject=${encodedSubject}&body=${encodedBody}`
+	})
+</script>

@@ -1,7 +1,9 @@
 ---
+order: 2
 period: '2020 - 2022'
 company: 'Datazucar'
 rol: 'Fullstack Developer'
+image: []
 ---
 
 Served as a key developer for the "Versat ERP" ecosystem, managing complex data flows for enterprise resource planning.
