@@ -11,7 +11,7 @@
 
 @theme {
   --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
-  --font-display: "Audiowide", "Montserrat", system-ui, sans-serif;
+  --font-display: "Audiowide", system-ui, sans-serif;
 
   --color-white: #ffffff;
   --color-black: #000000;
@@ -30,10 +30,10 @@
   --text-heading-5: clamp(20px, 3vw, 32px);
   --text-heading-6: clamp(18px, 2.5vw, 24px);
 
-  --text-text-small: clamp(12px, 1.8vw, 14px);
-  --text-text-medium: clamp(14px, 2vw, 16px);
-  --text-text-large: clamp(16px, 2.2vw, 18px);
-  --text-text-xlarge: clamp(18px, 2.5vw, 20px);
+  --text-small: clamp(12px, 1.8vw, 14px);
+  --text-medium: clamp(14px, 2vw, 16px);
+  --text-large: clamp(16px, 2.2vw, 18px);
+  --text-xlarge: clamp(18px, 2.5vw, 20px);
 }
 
 @layer base {
