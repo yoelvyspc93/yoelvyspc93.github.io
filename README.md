@@ -10,19 +10,19 @@ This project is a personal Frontend Developer portfolio designed to present prof
 
 <details open>
   <summary>Header</summary>
-  <img src="https://yoelvyspc93.github.io/portfolio-astro/preview/header.webp" />
+  <img src="https://raw.githubusercontent.com/yoelvyspc93/portfolio-astro/refs/heads/main/public/preview/header.webp" />
 </details>
 <details>
   <summary>Projects</summary>
-  <img src="https://yoelvyspc93.github.io/portfolio-astro/preview/project.webp" />
+  <img src="https://raw.githubusercontent.com/yoelvyspc93/portfolio-astro/refs/heads/main/public/preview/project.webp" />
 </details>
 <details>
   <summary>Experience</summary>
-  <img src="https://yoelvyspc93.github.io/portfolio-astro/preview/experience.webp" />
+  <img src="https://raw.githubusercontent.com/yoelvyspc93/portfolio-astro/refs/heads/main/public/preview/experience.webp" />
 </details>
 <details>
   <summary>Skills</summary>
-  <img src="https://yoelvyspc93.github.io/portfolio-astro/preview/skills.webp" />
+  <img src="https://raw.githubusercontent.com/yoelvyspc93/portfolio-astro/refs/heads/main/public/preview/skills.webp" />
 </details>
 
 ## Features
