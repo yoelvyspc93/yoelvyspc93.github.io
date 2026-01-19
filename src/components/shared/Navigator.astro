@@ -29,6 +29,14 @@ const navItems: NavigationItem[] = [
 		name: 'Experience',
 		path: '/experience',
 	},
+	{
+		name: 'Skills',
+		path: '/skills',
+	},
+	{
+		name: 'Contact',
+		path: '/contact',
+	},
 ]
 
 const socialLinks: SocialLink[] = [
@@ -46,7 +54,10 @@ const navFilterStyle =
 	"backdrop-filter: url('#navigator-liquid-glass') blur(4px) saturate(180%); -webkit-backdrop-filter: blur(10px) saturate(180%);"
 ---
 
-<nav class="fixed left-1/2 top-6 z-1000 hidden -translate-x-1/2 gap-4 md:flex">
+<nav
+	class="fixed left-1/2 top-6 z-1000 hidden -translate-x-1/2 gap-4 md:flex"
+	aria-label="Main navigation"
+>
 	<LiquidGlass id="navigator-liquid-glass" />
 	<div
 		class="flex items-center rounded-full border border-violet-blue/10 bg-black/20 px-8 py-2 shadow-[0_4px_30px_rgba(0,0,0,0.6)]"

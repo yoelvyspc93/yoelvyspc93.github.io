@@ -67,27 +67,37 @@ const SUBJECT = 'Contact from portfolio'
 				<form
 					id="contact-form"
 					class="flex w-full flex-1 max-w-[492px] flex-col gap-[30px] rounded-[24px] bg-dark-gray px-[30px] py-10 md:max-w-full"
+					aria-label="Contact form"
+					novalidate
 				>
-					<InputField
-						label="Email"
-						type="email"
-						id="email"
-						placeholders={['Your email']}
-					/>
+					<div>
+						<InputField
+							label="Email"
+							type="email"
+							id="email"
+							placeholders={['Your email']}
+							required={true}
+							ariaDescribedby="email-error"
+						/>
+					</div>
 
-					<TextAreaField
-						label="Message"
-						id="message"
-						placeholders={[
-							'Write your message here...',
-							'Tell me about your project',
-							'How can I help you?',
-							'Share your idea or request',
-						]}
-					/>
+					<div>
+						<TextAreaField
+							label="Message"
+							id="message"
+							placeholders={[
+								'Write your message here...',
+								'Tell me about your project',
+								'How can I help you?',
+								'Share your idea or request',
+							]}
+							required={true}
+							ariaDescribedby="message-error"
+						/>
+					</div>
 
 					<div class="mt-4 flex w-full justify-end">
-						<Button type="submit" aria-label="Send message button">
+						<Button type="submit" aria-label="Send message">
 							Send Message
 						</Button>
 					</div>
@@ -101,13 +111,71 @@ const SUBJECT = 'Contact from portfolio'
 
 <script define:vars={{ TO, SUBJECT }}>
 	const form = document.getElementById('contact-form')
+	const emailInput = document.getElementById('email')
+	const messageInput = document.getElementById('message')
+	const emailError = document.getElementById('email-error')
+	const messageError = document.getElementById('message-error')
+
+	const validateEmail = (email) => {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+		return emailRegex.test(email)
+	}
+
+	const showError = (element, message) => {
+		if (element) {
+			element.textContent = message
+			element.classList.remove('sr-only')
+		}
+	}
+
+	const hideError = (element) => {
+		if (element) {
+			element.textContent = ''
+			element.classList.add('sr-only')
+		}
+	}
+
 	form?.addEventListener('submit', (e) => {
 		e.preventDefault()
 
-		const email = (document.getElementById('email')?.value || '').trim()
-		const message = (document.getElementById('message')?.value || '').trim()
+		const email = (emailInput?.value || '').trim()
+		const message = (messageInput?.value || '').trim()
 
-		if (!email || !message) return
+		let isValid = true
+
+		// Validate email
+		if (!email) {
+			showError(emailError, 'Email is required')
+			emailInput?.setAttribute('aria-invalid', 'true')
+			isValid = false
+		} else if (!validateEmail(email)) {
+			showError(emailError, 'Please enter a valid email')
+			emailInput?.setAttribute('aria-invalid', 'true')
+			isValid = false
+		} else {
+			hideError(emailError)
+			emailInput?.setAttribute('aria-invalid', 'false')
+		}
+
+		// Validate message
+		if (!message) {
+			showError(messageError, 'Message is required')
+			messageInput?.setAttribute('aria-invalid', 'true')
+			isValid = false
+		} else {
+			hideError(messageError)
+			messageInput?.setAttribute('aria-invalid', 'false')
+		}
+
+		if (!isValid) {
+			// Focus first invalid field
+			if (!email || !validateEmail(email)) {
+				emailInput?.focus()
+			} else if (!message) {
+				messageInput?.focus()
+			}
+			return
+		}
 
 		const encodedTo = encodeURIComponent(TO)
 		const encodedSubject = encodeURIComponent(SUBJECT)
@@ -115,5 +183,20 @@ const SUBJECT = 'Contact from portfolio'
 		const encodedBody = encodeURIComponent(body)
 
 		globalThis.location.href = `mailto:${encodedTo}?subject=${encodedSubject}&body=${encodedBody}`
+	})
+
+	// Clear errors on input
+	emailInput?.addEventListener('input', () => {
+		if (emailInput.value.trim()) {
+			hideError(emailError)
+			emailInput.setAttribute('aria-invalid', 'false')
+		}
+	})
+
+	messageInput?.addEventListener('input', () => {
+		if (messageInput.value.trim()) {
+			hideError(messageError)
+			messageInput.setAttribute('aria-invalid', 'false')
+		}
 	})
 </script>

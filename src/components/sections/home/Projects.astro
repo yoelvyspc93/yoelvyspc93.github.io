@@ -23,9 +23,11 @@ const latestProjects = allProjects
 
 <section
 	id="projects"
+	aria-labelledby="projects-heading"
 	class="flex flex-col items-center max-w-full h-auto max-h-full gap-6 py-16 md:gap-8 md:py-20 lg:gap-12 lg:pt-36 lg:pb-24 xl:gap-15"
 >
 	<h2
+		id="projects-heading"
 		class="font-display text-heading-2 font-normal text-white uppercase text-center px-4"
 	>
 		{latestProjects.length}
@@ -33,22 +35,22 @@ const latestProjects = allProjects
 		<span class="text-pink-purple">{PROJECTS_SECTION.latestHighlight}</span>
 	</h2>
 
-	<div class="relative w-full flex flex-col isolate">
+	<div class="relative w-full flex flex-col isolate" role="list">
 		{
 			latestProjects.map((project) => (
-				<a
-					href={`/projects#project-${project.id}`}
-					class="relative z-1 no-underline bg-transparent border-0"
-					aria-label={`${project.title} project`}
-				>
-					<article class="w-full px-4">
+				<article class="relative z-1 w-full px-4" role="listitem">
+					<a
+						href={`/projects#project-${project.id}`}
+						class="block no-underline bg-transparent border-0"
+						aria-label={`View project ${project.title}`}
+					>
 						<ProjectsCard
 							number={project.id}
 							title={project.title}
 							content={project.shortDescription}
 						/>
-					</article>
-				</a>
+					</a>
+				</article>
 			))
 		}
 	</div>
