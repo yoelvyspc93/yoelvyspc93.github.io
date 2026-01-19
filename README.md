@@ -1,39 +1,39 @@
-# Frontend Portfolio (Astro)
+# Portfolio of Yoelvys Pérez Cabrera
 
-A high-performance personal portfolio for frontend developers, built with Astro and optimized for recruiters, tech leads, and fellow developers.
+A high-impact personal portfolio built with Astro to showcase frontend skills, projects, and experience.
 
 ## Overview
 
-This project is a personal frontend developer portfolio focused on presenting professional experience, featured projects, and technical skills in a clean and accessible format. The site is designed to be fast, SEO-friendly, and easy to customize, making it suitable for showcasing your profile to hiring teams and collaborators.
+This project is a personal Frontend Developer portfolio designed to present professional work, technical expertise, and career highlights in a clear, recruiter-friendly format. It includes curated content such as featured projects, professional experience, core skills, and a direct contact section, all optimized for fast performance and accessibility.
 
 ## Preview
 
-![Portfolio Preview](./public/preview.png)
+![Portfolio Preview](https://yoelvyspc93.github.io/portfolio-astro/preview.webp)
 
 ## Features
 
-- Fast performance with Astro’s static-first architecture
-- Responsive design for mobile, tablet, and desktop
+- Fast performance with Astro and static-first rendering
+- Responsive design for desktop, tablet, and mobile
 - SEO-friendly metadata and semantic HTML
-- Projects showcase with clear call-to-action links
-- Accessibility best practices baked in
-- Modular sections for easy content updates
+- Projects showcase with rich descriptions and links
+- Accessibility best practices and keyboard-friendly UI
+- Smooth motion and interactive visuals where appropriate
 
 ## Sections Included
 
-- **About**: Professional summary, role focus, and personal value proposition
-- **Projects**: Selected work with descriptions, tech stack, and links
-- **Experience**: Career timeline and responsibilities
-- **Skills**: Core frontend competencies and tooling
-- **Contact**: Direct ways to reach you
+- **About:** concise professional summary and positioning
+- **Projects:** selected work with roles, stacks, and outcomes
+- **Experience:** timeline of roles, responsibilities, and impact
+- **Skills:** core frontend technologies and tools
+- **Contact:** direct links for outreach and collaboration
 
 ## Tech Stack
 
-- **Astro**: Static-first framework for fast, modern websites
-- **TypeScript**: Safer, maintainable code with static typing support
-- **Tailwind CSS**: Utility-first styling for consistent UI and rapid iteration
-- **GSAP**: Optional motion effects for polished interactions
-- **Matter.js**: Optional physics-based visuals and creative effects
+- **Astro:** static-first framework for fast, SEO-focused sites
+- **TypeScript:** type-safe JavaScript for maintainable UI logic
+- **Tailwind CSS:** utility-first styling for consistent design systems
+- **GSAP:** animation toolkit for smooth UI motion
+- **Matter.js:** physics-based interactions for advanced visuals
 
 ## Project Structure
 
@@ -60,24 +60,24 @@ This project is a personal frontend developer portfolio focused on presenting pr
 ### Installation
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/yoelvyspc93/portfolio-astro.git
 cd portfolio-astro
-npm install
+yarn install
 ```
 
 ### Run the Development Server
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 Open `http://localhost:4321` in your browser.
 
 ## Available Scripts
 
-- `npm run dev`: Start the local development server
-- `npm run build`: Build the production site into `dist/`
-- `npm run preview`: Preview the production build locally
+- `yarn dev`: Start the local development server
+- `yarn build`: Build the production site into `dist/`
+- `yarn preview`: Preview the production build locally
 
 ## Customization Guide
 
@@ -88,39 +88,15 @@ Open `http://localhost:4321` in your browser.
 
 ## SEO & Performance
 
-Astro ships minimal JavaScript by default and prioritizes static rendering, which results in fast page loads and high Lighthouse scores. Combine this with semantic HTML, descriptive metadata, and optimized assets to deliver a portfolio that ranks well and provides a strong user experience.
+This portfolio follows modern SEO and performance practices:
 
-## Deployment
-
-### GitHub Pages
-
-1. Build the site:
-
-```bash
-npm run build
-```
-
-2. Deploy the `dist/` output directory to GitHub Pages.
-
-Common approaches include:
-- Using GitHub Actions to deploy `dist/` on every push
-- Manually uploading `dist/` to the `gh-pages` branch
-
-## Contributing
-
-This project is open to contributions. If you want to improve or adapt it:
-
-1. Open an issue to discuss changes or report bugs.
-2. Fork the repository and create a feature branch.
-3. Submit a pull request with a clear description of the update.
-
-## License
-
-No license file is included in this repository. If you plan to distribute or reuse the code publicly, add a LICENSE file (for example, MIT) to clarify usage rights.
+- Astro outputs minimal, static HTML by default for fast load times.
+- Semantic HTML improves accessibility and search engine parsing.
+- Asset optimization and scoped CSS reduce payload size.
 
 ## Author / Contact
 
-- **Author**: Your Name
-- **GitHub**: https://github.com/your-handle
-- **LinkedIn**: https://www.linkedin.com/in/your-handle
-- **Email**: you@example.com
+- **Author**: Yoelvys Perez Cabrera
+- **GitHub**: https://github.com/yoelvyspc93
+- **LinkedIn**: https://www.linkedin.com/in/yoelvys-perez-cabrera
+- **Email**: yoelvyspc93@gamil.com
