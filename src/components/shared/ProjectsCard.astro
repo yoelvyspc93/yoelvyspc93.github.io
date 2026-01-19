@@ -12,6 +12,7 @@ const { number, title, content } = Astro.props as Props
 
 <div
 	class="w-full flex flex-col items-center justify-center cursor-pointer group"
+	role="presentation"
 >
 	<div
 		class="grid w-full
@@ -34,6 +35,7 @@ const { number, title, content } = Astro.props as Props
 			class="[grid-area:index]
         font-normal text-heading-6 text-white
         lg:group-hover:text-black"
+			aria-hidden="true"
 		>
 			{number}
 		</span>
@@ -52,7 +54,10 @@ const { number, title, content } = Astro.props as Props
 			{content}
 		</p>
 
-		<div class="[grid-area:icon] hidden md:block justify-self-end">
+		<div
+			class="[grid-area:icon] hidden md:block justify-self-end"
+			aria-hidden="true"
+		>
 			<CircleButton />
 		</div>
 	</div>

@@ -17,7 +17,7 @@ const items = await Promise.all(
 				image: entry.data.image,
 				Content,
 			}
-		})
+		}),
 )
 ---
 
@@ -94,23 +94,20 @@ const items = await Promise.all(
 							</div>
 
 							{item.image?.length ? (
-								<div
-									class="mt-[clamp(12px,2vw,20px)] grid grid-cols-2 gap-[clamp(12px,2vw,20px)]"
-									role="list"
-								>
+								<ul class="mt-[clamp(12px,2vw,20px)] grid grid-cols-2 gap-[clamp(12px,2vw,20px)] list-none p-0">
 									{item.image.map((img) => (
-										<div role="listitem">
+										<li>
 											<Image
 												src={`/portfolio-astro/images/projects/${img}.webp`}
-												alt={`${img} experience`}
+												alt={`Image of the project ${item.company} - ${img}`}
 												width={800}
 												height={600}
 												loading="lazy"
 												class="block w-full h-auto rounded-xl outline-1 outline-white/5"
 											/>
-										</div>
+										</li>
 									))}
-								</div>
+								</ul>
 							) : null}
 						</div>
 					</li>

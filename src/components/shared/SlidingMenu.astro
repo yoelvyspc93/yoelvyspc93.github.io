@@ -37,16 +37,20 @@ const filterStyle =
 	<button
 		class="fixed right-6 top-6 z-1510 flex h-[44px] w-[44px] flex-col items-center justify-center rounded-full border border-violet-blue/10 bg-black/20"
 		aria-label={openMenu}
+		aria-expanded="false"
+		aria-controls="navigation-menu"
 		data-menu-open
 		style={filterStyle}
 	>
-		<span class="mb-2 block h-[2px] w-6 rounded bg-white"></span>
-		<span class="block h-[2px] w-6 rounded bg-white"></span>
+		<span class="mb-2 block h-[2px] w-6 rounded bg-white" aria-hidden="true"
+		></span>
+		<span class="block h-[2px] w-6 rounded bg-white" aria-hidden="true"></span>
 	</button>
 
 	<LiquidGlass id="liquid-glass-effect" />
 
 	<div
+		id="navigation-menu"
 		class="fixed inset-0 z-1500 hidden h-screen w-screen bg-black/0"
 		role="dialog"
 		aria-modal="true"

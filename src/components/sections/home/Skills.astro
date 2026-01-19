@@ -1,0 +1,264 @@
+---
+const skills = [
+	'Next.js',
+	'CSS3',
+	'Redux',
+	'Figma',
+	'React',
+	'Storybook',
+	'Jest',
+	'React Native',
+	'Webflow',
+	'TypeScript',
+	'Cypress',
+	'WordPress',
+	'Python',
+	'JavaScript',
+	'Chromatic',
+	'Django',
+	'HTML5',
+]
+---
+
+<section
+	id="skills"
+	aria-labelledby="skills-heading"
+	class="relative z-1 h-screen w-full max-w-full overflow-hidden bg-dark-gray shadow-[0_16px_16px_rgba(0,0,0,0.25)] touch-pan-y"
+>
+	<div
+		class="pointer-events-none absolute left-1/2 top-1/2 z-1 flex max-w-[800px] min-w-[350px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-6 px-4 text-center"
+	>
+		<h2
+			id="skills-heading"
+			class="font-display font-normal text-white text-heading-2 uppercase"
+		>
+			My <span class="text-pink-purple">Skills</span>
+		</h2>
+		<p class="m-0 mx-auto max-w-[800px] text-center text-heading-5 text-white">
+			My tech stack is focused on the JavaScript ecosystem, prioritizing tools
+			that enable speed, scalability, and type safety.
+		</p>
+	</div>
+
+	<div
+		data-skills-layer
+		class="pointer-events-none absolute inset-0 z-2 touch-pan-y lg:pointer-events-auto"
+	>
+		{
+			skills.map((skill) => (
+				<div
+					data-skill-card
+					class="pointer-events-auto absolute flex select-none items-center justify-center rounded-xl bg-white px-[clamp(20px,2.5vw,24px)] pb-[clamp(10px,2.2vw,14px)] pt-[clamp(8px,2.2vw,12px)] text-heading-5 font-medium text-[#1a1a1a] will-change-transform cursor-grab active:cursor-grabbing"
+					role="button"
+					tabindex="0"
+					aria-label={`Skill card ${skill}. Drag to interact.`}
+					data-skill-name={skill}
+				>
+					{skill}
+				</div>
+			))
+		}
+	</div>
+</section>
+
+<script>
+	import { gsap } from 'gsap'
+	import { ScrollTrigger } from 'gsap/ScrollTrigger'
+	import {
+		Engine,
+		World,
+		Bodies,
+		Runner,
+		Body,
+		Mouse,
+		MouseConstraint,
+		type Body as MatterBody,
+	} from 'matter-js'
+
+	gsap.registerPlugin(ScrollTrigger)
+
+	const randomBetween = (min: number, max: number): number => {
+		const buf = globalThis.crypto.getRandomValues(new Uint8Array(1))
+		return (buf[0] / 255) * (max - min) + min
+	}
+
+	const sectionEl = document.getElementById('skills') as HTMLElement | null
+	const layerEl = sectionEl?.querySelector(
+		'[data-skills-layer]',
+	) as HTMLElement | null
+	const cards = Array.from(
+		sectionEl?.querySelectorAll('[data-skill-card]') ?? [],
+	) as HTMLElement[]
+
+	if (sectionEl && layerEl && cards.length) {
+		sectionEl.style.touchAction = 'pan-y'
+
+		const engine = Engine.create()
+		const world = engine.world
+		world.gravity.y = 1
+
+		const runner = Runner.create()
+
+		const rect = sectionEl.getBoundingClientRect()
+		let sectionWidth = rect.width
+		let sectionHeight = rect.height
+
+		const ground = Bodies.rectangle(
+			sectionWidth / 2,
+			sectionHeight + 50,
+			sectionWidth,
+			100,
+			{ isStatic: true, restitution: 0.4, friction: 0.5 },
+		)
+
+		const leftWall = Bodies.rectangle(
+			-50,
+			sectionHeight / 2,
+			100,
+			sectionHeight * 2,
+			{ isStatic: true },
+		)
+
+		const rightWall = Bodies.rectangle(
+			sectionWidth + 50,
+			sectionHeight / 2,
+			100,
+			sectionHeight * 2,
+			{ isStatic: true },
+		)
+
+		World.add(world, [ground, leftWall, rightWall])
+
+		const mouse = Mouse.create(layerEl)
+
+		type MouseWithHandlers = typeof mouse & {
+			mousewheel?: (e: WheelEvent) => void
+			touchmove?: (e: TouchEvent) => void
+			touchstart?: (e: TouchEvent) => void
+			touchend?: (e: TouchEvent) => void
+		}
+
+		const mw = mouse as MouseWithHandlers
+		if (mw.mousewheel) {
+			layerEl.removeEventListener(
+				'wheel',
+				mw.mousewheel as unknown as EventListener,
+			)
+			layerEl.removeEventListener(
+				'mousewheel',
+				mw.mousewheel as unknown as EventListener,
+			)
+			layerEl.removeEventListener(
+				'DOMMouseScroll',
+				mw.mousewheel as unknown as EventListener,
+			)
+		}
+
+		const mouseConstraint = MouseConstraint.create(engine, {
+			mouse,
+			constraint: {
+				stiffness: 0.8,
+				render: { visible: false },
+			},
+		})
+		World.add(world, mouseConstraint)
+
+		const bodies: MatterBody[] = cards
+			.map((card) => {
+				const w = card.offsetWidth
+				const h = card.offsetHeight
+				const x = randomBetween(w / 2, sectionWidth - w / 2)
+				const y = -h - randomBetween(0, 200)
+
+				gsap.set(card, { x: x - w / 2, y: y - h / 2, rotation: 0 })
+
+				const body = Bodies.rectangle(x, y, w, h, {
+					restitution: 0.4,
+					friction: 0.3,
+					frictionAir: 0.02,
+					angle: randomBetween(-Math.PI / 8, Math.PI / 8),
+				})
+
+				Body.setAngularVelocity(body, randomBetween(-0.05, 0.05))
+				World.add(world, body)
+				return body
+			})
+			.filter(Boolean)
+
+		let rafId: number | null = null
+
+		const sync = () => {
+			for (let i = 0; i < bodies.length; i++) {
+				const body = bodies[i]
+				const card = cards[i]
+				if (!card) continue
+
+				gsap.set(card, {
+					x: body.position.x - card.offsetWidth / 2,
+					y: body.position.y - card.offsetHeight / 2,
+					rotation: (body.angle * 180) / Math.PI,
+				})
+			}
+			rafId = requestAnimationFrame(sync)
+		}
+
+		const st = ScrollTrigger.create({
+			trigger: sectionEl,
+			start: 'top center',
+			onEnter: () => {
+				Runner.run(runner, engine)
+				if (rafId == null) rafId = requestAnimationFrame(sync)
+			},
+			onLeave: () => {
+				Runner.stop(runner)
+				if (rafId != null) {
+					cancelAnimationFrame(rafId)
+					rafId = null
+				}
+			},
+			onEnterBack: () => {
+				Runner.run(runner, engine)
+				if (rafId == null) rafId = requestAnimationFrame(sync)
+			},
+			onLeaveBack: () => {
+				Runner.stop(runner)
+				if (rafId != null) {
+					cancelAnimationFrame(rafId)
+					rafId = null
+				}
+			},
+		})
+
+		const onResize = () => {
+			const r = sectionEl.getBoundingClientRect()
+			sectionWidth = r.width
+			sectionHeight = r.height
+
+			Body.setPosition(ground, { x: sectionWidth / 2, y: sectionHeight + 50 })
+			Body.setPosition(leftWall, { x: -50, y: sectionHeight / 2 })
+			Body.setPosition(rightWall, {
+				x: sectionWidth + 50,
+				y: sectionHeight / 2,
+			})
+
+			ScrollTrigger.refresh()
+		}
+
+		window.addEventListener('resize', onResize)
+
+		const cleanup = () => {
+			window.removeEventListener('resize', onResize)
+			st.kill()
+
+			if (rafId != null) cancelAnimationFrame(rafId)
+			rafId = null
+
+			Runner.stop(runner)
+			Engine.clear(engine)
+			for (const t of ScrollTrigger.getAll()) t.kill()
+		}
+
+		window.addEventListener('pagehide', cleanup, { once: true })
+		window.addEventListener('astro:before-swap', cleanup, { once: true })
+	}
+</script>
