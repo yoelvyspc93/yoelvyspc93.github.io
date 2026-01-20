@@ -23,7 +23,7 @@ const skills = [
 <section
 	id="skills"
 	aria-labelledby="skills-heading"
-	class="relative z-1 h-screen w-full max-w-full overflow-hidden bg-dark-gray shadow-[0_16px_16px_rgba(0,0,0,0.25)] touch-pan-y"
+	class="relative z-1 h-screen w-full max-w-full overflow-hidden bg-dark-gray shadow-soft touch-pan-y"
 >
 	<div
 		class="pointer-events-none absolute left-1/2 top-1/2 z-1 flex max-w-[800px] min-w-[350px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-6 px-4 text-center"
@@ -48,7 +48,7 @@ const skills = [
 			skills.map((skill) => (
 				<div
 					data-skill-card
-					class="pointer-events-auto absolute flex select-none items-center justify-center rounded-xl bg-white px-[clamp(20px,2.5vw,24px)] pb-[clamp(10px,2.2vw,14px)] pt-[clamp(8px,2.2vw,12px)] text-heading-5 font-medium text-[#1a1a1a] will-change-transform cursor-grab active:cursor-grabbing"
+					class="pointer-events-auto absolute flex select-none items-center justify-center rounded-xl bg-white px-[clamp(20px,2.5vw,24px)] pb-[clamp(10px,2.2vw,14px)] pt-[clamp(8px,2.2vw,12px)] text-heading-5 font-medium text-ink shadow-soft will-change-transform cursor-grab active:cursor-grabbing"
 					role="button"
 					tabindex="0"
 					aria-label={`Skill card ${skill}. Drag to interact.`}

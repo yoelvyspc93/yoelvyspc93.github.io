@@ -18,10 +18,20 @@
   --color-dark-gray: #121212;
   --color-pink-purple: #86a7ff;
   --color-violet-blue: #9bcffc;
+  --color-ink: #1a1a1a;
 
   --background-image-linear-gradient: linear-gradient(to right,
       var(--color-pink-purple) 0%,
       var(--color-violet-blue) 100%);
+
+  --shadow-accent: 0 0 0 4px color-mix(in srgb, var(--color-pink-purple) 18%, transparent);
+  --shadow-button:
+    0 4px 4px color-mix(in srgb, var(--color-black) 25%, transparent),
+    0 16px 116px color-mix(in srgb, var(--color-black) 25%, transparent),
+    0 266px 106px color-mix(in srgb, var(--color-black) 10%, transparent);
+  --shadow-focus: 0 0 4px 1px color-mix(in srgb, var(--color-white) 20%, transparent);
+  --shadow-glass: 0 4px 30px color-mix(in srgb, var(--color-black) 60%, transparent);
+  --shadow-soft: 0 16px 16px color-mix(in srgb, var(--color-black) 25%, transparent);
 
   --text-heading-1: clamp(42px, 6vw, 75px);
   --text-heading-2: clamp(32px, 5vw, 64px);
