@@ -1,0 +1,9 @@
+@layer components {
+  .dot-small {
+    @apply size-2 rounded-full bg-primary;
+  }
+
+  .dot-large {
+    @apply size-4 md:size-6 xl:size-8 rounded-full bg-primary;
+  }
+}

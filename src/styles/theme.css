@@ -1,0 +1,33 @@
+@theme {
+  /* Fonts */
+  --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-display: "Audiowide", system-ui, sans-serif;
+
+  /* Colors */
+  --color-primary: oklch(0.60 0.17 276);
+  --color-white: oklch(1 0 0);
+  --color-black: oklch(0 0 0);
+  --color-neutral: oklch(0.15 0 0);
+  --color-accent: oklch(0.82 0.10 240);
+  --color-surface-base: oklch(0.96 0.03 280);
+  --color-surface-soft: oklch(0.93 0.04 285);
+
+  /* Typography */
+  --text-heading-1: clamp(42px, 6vw, 75px);
+  --text-heading-2: clamp(32px, 5vw, 64px);
+  --text-heading-3: clamp(28px, 4.5vw, 54px);
+  --text-heading-4: clamp(26px, 4vw, 48px);
+  --text-heading-5: clamp(20px, 3vw, 32px);
+  --text-heading-6: clamp(18px, 2.5vw, 24px);
+  --text-small: clamp(14px, 2vw, 16px);
+  --text-medium: clamp(16px, 2.2vw, 18px);
+  --text-large: clamp(18px, 2.5vw, 20px);
+
+  /* Effects */
+  --shadow-small: 0 2px 4px rgba(0, 0, 0, 0.25);
+  --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.25);
+  --shadow-large: 0 8px 16px rgba(0, 0, 0, 0.25);
+  --blur-small: blur(100px);
+  --blur-medium: blur(200px);
+  --blur-large: blur(300px);
+}
