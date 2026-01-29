@@ -1,7 +1,7 @@
 ---
 import { ClientRouter } from 'astro:transitions'
-import Navigator from '@/shared/Navigator.astro'
-import SlidingMenu from '@/shared/SlidingMenu.astro'
+// import Navigator from '@/shared/Navigator.astro'
+// import SlidingMenu from '@/shared/SlidingMenu.astro'
 
 import '@/styles/global.css'
 ---
@@ -11,6 +11,12 @@ import '@/styles/global.css'
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+		/>
 		<meta
 			name="description"
 			content="Portfolio of Yoelvys Pérez Cabrera - Senior Frontend Engineer specializing in React, Next.js, and TypeScript. Over 6 years of experience building high-performance web applications."
@@ -23,8 +29,8 @@ import '@/styles/global.css'
 	</head>
 	<body>
 		<a href="#main-content" class="skip-link">skip to main content</a>
-		<Navigator />
-		<SlidingMenu />
+		<!-- <Navigator />
+		<SlidingMenu /> -->
 		<slot />
 	</body>
 </html>
