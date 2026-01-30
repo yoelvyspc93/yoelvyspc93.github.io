@@ -1,9 +1,6 @@
 ---
-import { Image } from 'astro:assets'
-import TagHeader from '@/shared/TagHeader.astro'
+import DualOrbs from '@/shared/DualOrbs.astro'
 import Button from '@/ui/Button.astro'
-
-import avatar from '@/public/images/header/avatar.webp'
 
 type HeaderCopy = {
 	hello: string
@@ -12,7 +9,6 @@ type HeaderCopy = {
 	description: string
 	download: string
 	contact: string
-	tags: string[]
 }
 
 const HEADER: HeaderCopy = {
@@ -22,83 +18,70 @@ const HEADER: HeaderCopy = {
 	description:
 		'I bridge the gap between design and engineering, building high-performance, scalable web applications with React, Next.js, and TypeScript. Focused on exceptional user experiences and technical excellence.',
 	download: 'Download CV',
-	contact: "Let's Talk",
-	tags: ['2 Companies', '6+ Years of Experience', '16+ Delivered Projects'],
+	contact: 'Let’s Talk',
 }
 ---
 
 <section
 	id="hero"
-	class="relative grid min-h-[900px] place-items-center overflow-hidden bg-black px-4 py-[120px] md:pb-4 md:pt-[180px] lg:min-h-screen lg:py-0"
+	class="relative isolate grid min-h-screen place-items-center overflow-hidden px-4 py-24 sm:px-6"
 	aria-labelledby="hero-title"
 	aria-describedby="hero-desc"
 >
-	<div
-		class="relative z-10 flex w-full max-w-[1200px] flex-col items-center justify-center gap-[50px] md:gap-[100px] lg:flex-row lg:items-center lg:justify-between lg:gap-0"
-	>
-		<div
-			class="mx-auto flex w-full max-w-[620px] flex-col items-center gap-[18px] text-center lg:mx-0 lg:max-w-[620px] lg:items-start lg:text-left"
-		>
-			<h1
-				id="hero-title"
-				class="font-display text-heading-1 font-extrabold uppercase leading-none tracking-tight text-white"
-			>
-				{HEADER.hello}
-				<span class="text-pink-purple">{HEADER.name}</span>
-			</h1>
+	<!-- Base background -->
+	<div aria-hidden="true" class="absolute inset-0 z-0 bg-white"></div>
 
-			<p
-				id="hero-desc"
-				class="max-w-[620px] text-large leading-[140%] tracking-[0.02em] text-white/85 md:mt-5"
-			>
-				{HEADER.description}
-			</p>
-
-			<div
-				class="mt-6 flex flex-wrap justify-center gap-4 md:mt-8 lg:justify-start"
-			>
-				<Button
-					href="https://linkedin.com/in/yoelvys-perez-cabrera"
-					external={true}
-					aria-label="Visit my LinkedIn profile"
-				>
-					{HEADER.download}
-				</Button>
-				<Button href="#contact" aria-label="Go to the contact section">
-					{HEADER.contact}
-				</Button>
-			</div>
+	<!-- Orbs (decorative) -->
+	<div aria-hidden="true" class="pointer-events-none absolute inset-0 z-10">
+		<div class="absolute -top-24 -right-2 opacity-90">
+			<DualOrbs variant="left" />
 		</div>
-
-		<div
-			class="relative order-2 aspect-504/688 w-[300px] right-8 md:w-[350px] lg:order-0 lg:absolute lg:right-0 lg:top-[-40%] lg:w-[500px]"
-		>
-			<TagHeader
-				label={HEADER.tags[0]}
-				className="absolute z-1 right-[-20%] top-[10%] md:right-[-20%] md:top-[10%] lg:right-[0%] lg:top-[16%]"
-			/>
-			<TagHeader
-				label={HEADER.tags[1]}
-				className="absolute z-1 bottom-[26%] left-[-2%] md:bottom-[28%] md:left-[-10%] lg:bottom-[28%] lg:left-[10%]"
-			/>
-			<TagHeader
-				label={HEADER.tags[2]}
-				className="absolute z-1 bottom-[0%] right-[-20%] md:bottom-[14%] md:right-[-40%] lg:bottom-[14%] lg:right-[-20%]"
-			/>
-
-			<div class="absolute inset-0 overflow-hidden rounded-[28px]">
-				<Image
-					src={avatar}
-					alt="Portrait of Yoelvys"
-					class="h-full w-full object-cover"
-					loading="eager"
-					layout="constrained"
-					priority={true}
-					width={504}
-					height={688}
-					fetchpriority="high"
-				/>
-			</div>
+		<div class="absolute -bottom-28 -left-1 opacity-80">
+			<DualOrbs variant="right" />
 		</div>
 	</div>
+
+	<!-- Overlay glass + blur -->
+	<div
+		aria-hidden="true"
+		class="pointer-events-none absolute inset-0 z-20 bg-section"
+	>
+	</div>
+
+	<!-- Texture on top -->
+	<div
+		aria-hidden="true"
+		class="pointer-events-none absolute inset-0 z-30 bg-texture"
+	>
+	</div>
+
+	<!-- Content -->
+	<header
+		class="relative z-40 w-full max-w-[664px] text-center flex flex-col items-center justify-center gap-8"
+	>
+		<h1 id="hero-title">{HEADER.hello} <span>{HEADER.name}</span></h1>
+		<p id="hero-desc">{HEADER.description}</p>
+
+		<div class="flex flex-wrap items-center justify-center gap-4">
+			<Button
+				variant="primary"
+				size="large"
+				href="/cv.pdf"
+				external={false}
+				aria-label="Download my CV"
+			>
+				{HEADER.download}
+			</Button>
+
+			<Button
+				href="#contact"
+				variant="outlined"
+				size="large"
+				external={false}
+				aria-label="Go to the contact section"
+			>
+				{HEADER.contact}
+			</Button>
+		</div>
+	</header>
 </section>

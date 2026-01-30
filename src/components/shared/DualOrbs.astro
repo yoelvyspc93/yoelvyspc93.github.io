@@ -8,16 +8,16 @@ const { variant = 'left', class: className = '' } = Astro.props
 
 const pos = {
 	left: {
-		a: 'absolute -top-[clamp(0.75rem,2vw,1.5rem)] right-[clamp(-0.5rem,-1.5vw,-1rem)]',
-		b: 'relative',
+		a: 'absolute -top-1/4 -right-1/2',
+		b: 'relative top-1/4 right-1/2',
 	},
 	center: {
-		a: 'absolute top-1/2 -translate-y-1/2 left-[clamp(-1.25rem,-3vw,-2.25rem)]',
-		b: 'relative',
+		a: 'absolute top-1/4 right-1/2',
+		b: 'relative -top-1/4 -right-1/2',
 	},
 	right: {
-		a: 'absolute bottom-[clamp(-0.5rem,-1.5vw,-1rem)] right-[clamp(-1.25rem,-3vw,-2.25rem)]',
-		b: 'relative',
+		a: 'absolute -top-1/2 right-1/4',
+		b: 'relative top-1/4 -right-1/2',
 	},
 }
 ---
@@ -50,48 +50,72 @@ const pos = {
 
 	const prefersReduced =
 		typeof window !== 'undefined' &&
-		window.matchMedia &&
-		window.matchMedia('(prefers-reduced-motion: reduce)').matches
+		window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
 
-	if (!prefersReduced) {
+	const kill = () => {
+		document.querySelectorAll('[data-orb-pair]').forEach((el) => {
+			gsap.killTweensOf(el)
+			gsap.killTweensOf(el.querySelector('[data-orb="base"]'))
+			gsap.killTweensOf(el.querySelector('[data-orb="top"]'))
+		})
+	}
+
+	const init = () => {
+		if (prefersReduced) return
+
 		document.querySelectorAll('[data-orb-pair]').forEach((el) => {
 			const base = el.querySelector('[data-orb="base"]')
 			const top = el.querySelector('[data-orb="top"]')
-			const variant = el.getAttribute('data-variant')
+			if (!base || !top) return
 
-			const dir = variant === 'right' ? 1 : variant === 'center' ? -1 : 1
+			// evita duplicados si Astro re-hidrata/transiciona
+			gsap.killTweensOf([base, top])
 
-			gsap.set([base, top], { transformOrigin: '50% 50%' })
+			const variant = el.getAttribute('data-variant') || 'left'
+			const dir = variant === 'center' ? -1 : 1
 
+			gsap.set([base, top], {
+				transformOrigin: '50% 50%',
+				willChange: 'transform',
+			})
+
+			// rotación lenta continua
 			gsap.to(base, {
 				rotate: 360 * dir,
-				duration: 40,
+				duration: 60,
 				ease: 'none',
 				repeat: -1,
 			})
-
 			gsap.to(top, {
 				rotate: -360 * dir,
-				duration: 55,
+				duration: 85,
 				ease: 'none',
 				repeat: -1,
 			})
 
-			gsap.to([base, top], {
-				y: () => gsap.utils.random(-10, -18),
-				duration: 6.5,
-				ease: 'sine.inOut',
-				yoyo: true,
+			// movimiento suave (drift)
+			const tl = gsap.timeline({
 				repeat: -1,
+				yoyo: true,
+				defaults: { ease: 'sine.inOut' },
 			})
 
-			gsap.to(top, {
-				x: () => gsap.utils.random(-10, 10),
-				duration: 7.5,
-				ease: 'sine.inOut',
-				yoyo: true,
-				repeat: -1,
-			})
+			tl.to([base, top], { y: -24, duration: 4 }, 0)
+			tl.to(top, { x: 20 * dir, duration: 5 }, 0)
+			tl.to(base, { x: -26 * dir, duration: 6 }, 0.5)
 		})
 	}
+
+	// carga normal
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', init, { once: true })
+	} else {
+		init()
+	}
+
+	// soporte Astro transitions
+	document.addEventListener('astro:page-load', init)
+
+	// cleanup antes de swap (evita animaciones duplicadas)
+	document.addEventListener('astro:before-swap', kill)
 </script>
