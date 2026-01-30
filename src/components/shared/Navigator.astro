@@ -1,11 +1,5 @@
 ---
-import LiquidGlass from '@/shared/LiquidGlass.astro'
-
-interface SocialLink {
-	platform: string
-	url: string
-	icon?: string
-}
+import Button from '@/ui/Button.astro'
 
 interface NavigationItem {
 	name: string
@@ -15,89 +9,201 @@ interface NavigationItem {
 const navItems: NavigationItem[] = [
 	{
 		name: 'Home',
-		path: '/',
+		path: '#hero',
 	},
 	{
 		name: 'About',
-		path: '/about',
+		path: '#about',
 	},
 	{
 		name: 'Projects',
-		path: '/projects',
+		path: '#projects',
 	},
 	{
 		name: 'Experience',
-		path: '/experience',
+		path: '#experience',
 	},
 	{
 		name: 'Skills',
-		path: '/skills',
+		path: '#skills',
 	},
 	{
 		name: 'Contact',
-		path: '/contact',
+		path: '#contact',
 	},
 ]
-
-const socialLinks: SocialLink[] = [
-	{
-		platform: 'GitHub',
-		url: 'https://github.com/yoelvyspc93',
-	},
-	{
-		platform: 'LinkedIn',
-		url: 'https://www.linkedin.com/in/yoelvys-perez-cabrera',
-	},
-]
-
-const navFilterStyle =
-	"backdrop-filter: url('#navigator-liquid-glass') blur(4px) saturate(180%); -webkit-backdrop-filter: blur(10px) saturate(180%);"
 ---
 
-<nav
-	class="fixed left-1/2 top-6 z-1000 hidden -translate-x-1/2 gap-4 md:flex"
-	aria-label="Main navigation"
->
-	<LiquidGlass id="navigator-liquid-glass" />
-	<div
-		class="flex items-center rounded-full border border-violet-blue/10 bg-black/20 px-8 py-2 shadow-[0_4px_30px_rgba(0,0,0,0.6)]"
-		style={navFilterStyle}
-	>
-		<ul class="flex list-none gap-8">
-			{
-				navItems.map((link) => (
-					<li class="whitespace-nowrap text-medium font-medium">
-						<a
-							href={link.path}
-							class="text-white hover:bg-linear-gradient hover:bg-clip-text hover:text-transparent"
-						>
-							{link.name}
-						</a>
-					</li>
-				))
-			}
-		</ul>
+<header class="fixed inset-x-0 top-6 z-50">
+	<div class="mx-auto max-w-7xl">
+		<nav class="relative overflow-hidden bg-section rounded-full" data-nav>
+			<div class="absolute inset-0 pointer-events-none bg-texture"></div>
+
+			<div class="relative flex items-center justify-between gap-3 px-2 py-2">
+				<a
+					href="#hero"
+					class="grid size-10 place-items-center rounded-full font-display text-xl leading-none text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+					aria-label="Go to top"
+					data-nav-link
+					data-target="hero"
+				>
+					<h5>Y</h5>
+				</a>
+
+				<ul class="hidden items-center gap-8 md:flex" data-nav-list>
+					{
+						navItems.map((item) => {
+							const id = item.path.replace('#', '')
+							return (
+								<li>
+									<a
+										href={item.path}
+										class="group relative inline-flex flex-col items-center gap-2 text-sm font-medium text-black/70 transition-colors hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-2 py-1"
+										data-nav-link
+										data-target={id}
+									>
+										<span>{item.name}</span>
+										<span
+											class="absolute -bottom-2 dot dot-sm opacity-0 translate-y-1 transition-all duration-200 group-hover:opacity-60 group-hover:translate-y-0"
+											aria-hidden="true"
+											data-dot
+										/>
+									</a>
+								</li>
+							)
+						})
+					}
+				</ul>
+
+				<Button
+					variant="primary"
+					size="small"
+					href="/cv.pdf"
+					external={false}
+					aria-label="Download my CV"
+				>
+					Download CV
+				</Button>
+			</div>
+		</nav>
 	</div>
-	<div
-		class="flex items-center rounded-full border border-violet-blue/10 bg-black/20 px-8 py-2 shadow-[0_4px_30px_rgba(0,0,0,0.6)]"
-		style={navFilterStyle}
-	>
-		<ul class="flex list-none gap-8">
-			{
-				socialLinks.map((sm) => (
-					<li class="text-medium font-medium">
-						<a
-							aria-label={`link to ${sm.platform}`}
-							href={sm.url}
-							target="_blank"
-							rel="noopener noreferrer"
-							class="text-white"
-						>
-							{sm.icon ?? sm.platform}
-						</a>
-					</li>
-				))
+</header>
+
+<script>
+	const nav = document.querySelector('[data-nav]')
+	if (!nav) throw new Error('Navigation: [data-nav] not found')
+
+	const links = Array.from(nav.querySelectorAll('[data-nav-link]'))
+	const getTargetId = (a: HTMLElement) => a.getAttribute('data-target') || ''
+
+	const dots = new Map()
+	for (const a of links) {
+		const dot = a.querySelector('[data-dot]')
+		if (dot) dots.set(a, dot)
+	}
+
+	// Si tienes un contenedor que scrollea, ponle data-scroll-root
+	// Ej: <main data-scroll-root class="h-screen overflow-y-auto">...</main>
+	const scrollRoot = document.querySelector('[data-scroll-root]') || window
+
+	const uniq = new Map()
+	for (const a of links) {
+		const id = getTargetId(a as HTMLElement)
+		if (!id || uniq.has(id)) continue
+		const el = document.getElementById(id)
+		if (el) uniq.set(id, el)
+	}
+	const sections = Array.from(uniq.values())
+
+	const setActive = (activeId: string) => {
+		for (const a of links) {
+			const isActive = getTargetId(a as HTMLElement) === activeId
+
+			if (isActive) a.setAttribute('aria-current', 'true')
+			else a.removeAttribute('aria-current')
+
+			const dot = dots.get(a)
+			if (!dot) continue
+
+			dot.classList.toggle('opacity-0', !isActive)
+			dot.classList.toggle('opacity-100', isActive)
+			dot.classList.toggle('translate-y-1', !isActive)
+			dot.classList.toggle('translate-y-0', isActive)
+		}
+	}
+
+	// Click => activo inmediato
+	for (const a of links) {
+		a.addEventListener('click', () => {
+			const id = getTargetId(a as HTMLElement)
+			if (id) setActive(id)
+		})
+	}
+
+	// Hash => refresh / back-forward
+	const syncFromHash = () => {
+		const id = (location.hash || '').replace('#', '')
+		if (id) setActive(id)
+	}
+	window.addEventListener('hashchange', syncFromHash)
+
+	// Scroll-spy por posición (robusto con header fixed)
+	let raf = 0
+	const getHeaderOffset = () => {
+		// altura real del header fixed
+		const header = document.querySelector('header.fixed')
+		return header ? header.getBoundingClientRect().height : 0
+	}
+
+	const pickActiveSection = () => {
+		const offset = getHeaderOffset()
+		const anchorY = offset + 24 // “línea” donde decides activo
+
+		let best = null
+		let bestDist = Infinity
+
+		for (const s of sections) {
+			const rect = s.getBoundingClientRect()
+			// sección visible en viewport
+			const isInView = rect.bottom > anchorY && rect.top < window.innerHeight
+			if (!isInView) continue
+
+			const dist = Math.abs(rect.top - anchorY)
+			if (dist < bestDist) {
+				bestDist = dist
+				best = s
 			}
-		</ul>
-	</div>
-</nav>
+		}
+
+		if (best?.id) setActive(best.id)
+	}
+
+	const onScroll = () => {
+		if (raf) return
+		raf = requestAnimationFrame(() => {
+			raf = 0
+			pickActiveSection()
+		})
+	}
+
+	// Bind scroll (window o contenedor)
+	const rootEl = scrollRoot === window ? window : scrollRoot
+	rootEl.addEventListener('scroll', onScroll, { passive: true })
+	window.addEventListener('resize', onScroll, { passive: true })
+
+	// Inicial
+	if (location.hash) syncFromHash()
+	else if (sections[0]?.id) setActive(sections[0].id)
+	onScroll()
+
+	// Limpieza
+	window.addEventListener(
+		'pagehide',
+		() => {
+			rootEl.removeEventListener('scroll', onScroll)
+			window.removeEventListener('resize', onScroll)
+			if (raf) cancelAnimationFrame(raf)
+		},
+		{ once: true }
+	)
+</script>

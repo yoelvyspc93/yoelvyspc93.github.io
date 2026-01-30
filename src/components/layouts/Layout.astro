@@ -1,6 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions'
-// import Navigator from '@/shared/Navigator.astro'
+import Navigator from '@/shared/Navigator.astro'
 // import SlidingMenu from '@/shared/SlidingMenu.astro'
 
 import '@/styles/global.css'
@@ -29,8 +29,8 @@ import '@/styles/global.css'
 	</head>
 	<body>
 		<a href="#main-content" class="skip-link">skip to main content</a>
-		<!-- <Navigator />
-		<SlidingMenu /> -->
+		<Navigator />
+		<!-- <SlidingMenu /> -->
 		<slot />
 	</body>
 </html>

@@ -3,7 +3,7 @@ import Layout from '@/layouts/Layout.astro'
 // import DualOrbs from '@/shared/DualOrbs.astro'
 // import Button from '@/ui/Button.astro'
 import Hero from '@/sections/home/Hero.astro'
-// import About from '@/sections/home/About.astro'
+import About from '@/sections/home/About.astro'
 // import Projects from '@/sections/home/Projects.astro'
 // import Experience from '@/sections/home/Experience.astro'
 // import Contact from '@/sections/home/Contact.astro'
@@ -13,5 +13,30 @@ import Hero from '@/sections/home/Hero.astro'
 <Layout>
 	<main id="main-content">
 		<Hero />
+		<About />
+		<section
+			id="projects"
+			class="h-screen bg-blue-100 flex items-center justify-center"
+		>
+			<h2>Projects</h2>
+		</section>
+		<section
+			id="experience"
+			class="h-screen bg-emerald-100 flex items-center justify-center"
+		>
+			<h2>Experience</h2>
+		</section>
+		<section
+			id="skills"
+			class="h-screen bg-indigo-100 flex items-center justify-center"
+		>
+			<h2>Skills</h2>
+		</section>
+		<section
+			id="contact"
+			class="h-screen bg-purple-100 flex items-center justify-center"
+		>
+			<h2>Contact</h2>
+		</section>
 	</main>
 </Layout>
