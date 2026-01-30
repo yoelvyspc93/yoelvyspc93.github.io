@@ -1,19 +1,34 @@
+---
+import { Image } from 'astro:assets'
+
+const body = [
+	'I am a Computer Engineer with over 6 years of experience specializing in the modern web ecosystem. My core strength lies in translating complex business requirements into intuitive, pixel-perfect interfaces.',
+	'Beyond coding, I focus on the entire product lifecycle—from architectural decisions and SEO strategy to performance optimization and accessibility. I thrive in agile environments where innovation, code quality, and user satisfaction are paramount.',
+]
+---
+
 <section
 	id="about"
-	aria-labelledby="about-heading"
-	class="flex items-center justify-center mb-16 max-w-full p-4 text-white bg-dark-gray md:min-h-screen"
+	class="relative isolate min-h-screen flex justify-center items-center"
+	aria-labelledby="about-title"
 >
-	<h2 id="about-heading" class="sr-only">About</h2>
-
-	<div class="w-full max-w-[1200px]">
-		<p class="text-center font-sans text-heading-5 leading-[150%] font-normal">
-			I am a 👨‍💻 Computer Engineer with over 6 years of experience specializing
-			in the modern web ecosystem. My core strength lies in translating complex
-			business requirements 🧠 into intuitive, 🎯 pixel-perfect interfaces.
-			Beyond coding, I focus on the entire product lifecycle from 🛠️
-			architectural decisions and SEO strategy to ⚡ performance optimization
-			and accessibility. I thrive in agile environments where 💡 innovation, 🚀
-			code quality, and user satisfaction are paramount.
-		</p>
+	<div class="mx-auto max-w-7xl">
+		<header class="lg:order-2">
+			<h2 id="about-title" class="sr-only">About</h2>
+		</header>
+		<div class="grid items-center gap-10 grid-cols-1 lg:grid-cols-2">
+			<Image
+				src="/images/about.webp"
+				alt="Portrait of Yoelvys Pérez Cabrera"
+				loading="lazy"
+				decoding="async"
+				class="object-cover"
+				width="560"
+				height="560"
+			/>
+			<div class="mt-6 space-y-5">
+				{body.map((p) => <p>{p}</p>)}
+			</div>
+		</div>
 	</div>
 </section>
