@@ -1,0 +1,38 @@
+@layer components {
+  .dot {
+    @apply rounded-full bg-primary;
+  }
+
+  .dot-sm {
+    @apply size-2;
+  }
+
+  .dot-md {
+    @apply size-3;
+  }
+
+  .dot-lg {
+    @apply size-4;
+  }
+
+  .dot-xl {
+    @apply size-6 xl:size-8;
+  }
+
+  .dot-neutral {
+    @apply bg-neutral;
+  }
+
+  .bg-texture {
+    background: url('/images/texture.svg');
+    background-repeat: repeat;
+    background-size: 239.5px 250px;
+    opacity: 0.05;
+  }
+
+  .bg-section {
+    background: var(--color-bg-opacity);
+    backdrop-filter: blur(100px);
+    -webkit-backdrop-filter: blur(100px);
+  }
+}

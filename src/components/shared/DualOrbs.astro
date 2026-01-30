@@ -1,0 +1,97 @@
+---
+export interface Props {
+	variant?: 'left' | 'center' | 'right'
+	class?: string
+}
+
+const { variant = 'left', class: className = '' } = Astro.props
+
+const pos = {
+	left: {
+		a: 'absolute -top-[clamp(0.75rem,2vw,1.5rem)] right-[clamp(-0.5rem,-1.5vw,-1rem)]',
+		b: 'relative',
+	},
+	center: {
+		a: 'absolute top-1/2 -translate-y-1/2 left-[clamp(-1.25rem,-3vw,-2.25rem)]',
+		b: 'relative',
+	},
+	right: {
+		a: 'absolute bottom-[clamp(-0.5rem,-1.5vw,-1rem)] right-[clamp(-1.25rem,-3vw,-2.25rem)]',
+		b: 'relative',
+	},
+}
+---
+
+<div
+	class={`relative inline-block ${className}`}
+	data-orb-pair
+	data-variant={variant}
+	style="
+    --orb: 25vw;
+    --orb2: 25vw;
+  "
+>
+	<div
+		class={`rounded-full bg-accent`}
+		data-orb="base"
+		style="width:var(--orb);height:var(--orb);"
+	>
+	</div>
+	<div
+		class={`rounded-full bg-primary ${pos[variant].a}`}
+		data-orb="top"
+		style="width:var(--orb2);height:var(--orb2);"
+	>
+	</div>
+</div>
+
+<script>
+	import gsap from 'gsap'
+
+	const prefersReduced =
+		typeof window !== 'undefined' &&
+		window.matchMedia &&
+		window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+	if (!prefersReduced) {
+		document.querySelectorAll('[data-orb-pair]').forEach((el) => {
+			const base = el.querySelector('[data-orb="base"]')
+			const top = el.querySelector('[data-orb="top"]')
+			const variant = el.getAttribute('data-variant')
+
+			const dir = variant === 'right' ? 1 : variant === 'center' ? -1 : 1
+
+			gsap.set([base, top], { transformOrigin: '50% 50%' })
+
+			gsap.to(base, {
+				rotate: 360 * dir,
+				duration: 40,
+				ease: 'none',
+				repeat: -1,
+			})
+
+			gsap.to(top, {
+				rotate: -360 * dir,
+				duration: 55,
+				ease: 'none',
+				repeat: -1,
+			})
+
+			gsap.to([base, top], {
+				y: () => gsap.utils.random(-10, -18),
+				duration: 6.5,
+				ease: 'sine.inOut',
+				yoyo: true,
+				repeat: -1,
+			})
+
+			gsap.to(top, {
+				x: () => gsap.utils.random(-10, 10),
+				duration: 7.5,
+				ease: 'sine.inOut',
+				yoyo: true,
+				repeat: -1,
+			})
+		})
+	}
+</script>
