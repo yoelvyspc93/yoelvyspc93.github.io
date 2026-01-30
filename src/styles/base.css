@@ -57,6 +57,7 @@
     color: var(--color-black);
     font-size: var(--text-large);
     line-height: 1.5;
+    text-wrap: pretty;
   }
 
   .sr-only {
