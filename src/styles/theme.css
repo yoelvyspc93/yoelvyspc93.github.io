@@ -12,6 +12,8 @@
   --color-surface-base: oklch(0.96 0.03 280);
   --color-surface-soft: oklch(0.93 0.04 285);
 
+  --color-bg-opacity: oklch(1 0 0 / 0.6);
+
   /* Typography */
   --text-heading-1: clamp(42px, 6vw, 75px);
   --text-heading-2: clamp(32px, 5vw, 64px);
@@ -27,7 +29,4 @@
   --shadow-small: 0 2px 4px rgba(0, 0, 0, 0.25);
   --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.25);
   --shadow-large: 0 8px 16px rgba(0, 0, 0, 0.25);
-  --blur-small: blur(100px);
-  --blur-medium: blur(200px);
-  --blur-large: blur(300px);
 }

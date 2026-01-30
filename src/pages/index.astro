@@ -1,5 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro'
+import DualOrbs from '@/shared/DualOrbs.astro'
+import Button from '@/ui/Button.astro'
 // import Hero from '@/sections/home/Hero.astro'
 // import About from '@/sections/home/About.astro'
 // import Projects from '@/sections/home/Projects.astro'
@@ -10,12 +12,38 @@ import Layout from '@/layouts/Layout.astro'
 
 <Layout>
 	<main id="main-content">
-		<div class="dot"></div>
-		<!-- <Hero />
-		<About />
-		<Projects />
-		<Experience />
-		<Skills />
-		<Contact /> -->
+		<header
+			class="relative grid min-h-screen place-items-center overflow-hidden"
+		>
+			<div class="absolute top-0 right-5 z-0">
+				<DualOrbs variant="left" />
+			</div>
+
+			<div
+				aria-hidden="true"
+				class="pointer-events-none absolute inset-0 z-10 bg-section"
+			>
+			</div>
+
+			<div
+				aria-hidden="true"
+				class="pointer-events-none absolute inset-0 z-20 bg-texture"
+			>
+			</div>
+
+			<div class="relative z-30 mx-auto max-w-[720px] px-6 text-center">
+				<h1>Hi, I’m <span>Yoelvys</span></h1>
+				<p>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi cum
+					iure vel assumenda? Commodi reiciendis aut quo sapiente ea, soluta
+					neque autem? Voluptate et repellat facilis, esse vitae nam minima.
+				</p>
+
+				<div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+					<Button type="button">Descargar CV</Button>
+					<Button type="button">Contactarme</Button>
+				</div>
+			</div>
+		</header>
 	</main>
 </Layout>
