@@ -1,63 +1,201 @@
 ---
-import Button from '@/ui/Button.astro'
-import ProjectsCard from '@/shared/ProjectsCard.astro'
+import CircleButton from '@/ui/CircleButton.astro'
+import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
+import 'swiper/css'
 
-type ProjectsSectionCopy = {
-	latest: string
-	latestHighlight: string
-	seeMore: string
-}
 
-const PROJECTS_SECTION: ProjectsSectionCopy = {
-	latest: 'Latest',
-	latestHighlight: 'Projects',
-	seeMore: 'See more',
-}
+const all = await getCollection('projects')
 
-const allProjects = await getCollection('projects')
-const latestProjects = allProjects
-	.map((p) => p.data)
-	.filter((p) => p.isFavorite)
+const featured = all
+	.filter(({ data }) => Boolean(data.isFavorite))
+	.sort((a, b) => Number(b.data.id) - Number(a.data.id))
 ---
 
 <section
 	id="projects"
-	aria-labelledby="projects-heading"
-	class="flex flex-col items-center max-w-full h-auto max-h-full gap-6 py-16 md:gap-8 md:py-20 lg:gap-12 lg:pt-36 lg:pb-24 xl:gap-15"
+	class="relative overflow-hidden py-16 sm:py-20 bg-surface-soft"
+	aria-labelledby="projects-title"
 >
-	<h2
-		id="projects-heading"
-		class="font-display text-heading-2 font-normal text-white uppercase text-center px-4"
-	>
-		{latestProjects.length}
-		{PROJECTS_SECTION.latest}{' '}
-		<span class="text-pink-purple">{PROJECTS_SECTION.latestHighlight}</span>
-	</h2>
+	<div class="absolute inset-0 bg-texture"></div>
 
-	<div class="relative w-full flex flex-col isolate" role="list">
-		{
-			latestProjects.map((project) => (
-				<article class="relative z-1 w-full px-4" role="listitem">
-					<a
-						href={`/projects#project-${project.id}`}
-						class="block no-underline bg-transparent border-0"
-						aria-label={`View project ${project.title}`}
-					>
-						<ProjectsCard
-							number={project.id}
-							title={project.title}
-							content={project.shortDescription}
-						/>
-					</a>
-				</article>
-			))
-		}
+	<div class="relative mx-auto max-w-7xl px-4">
+		<header class="text-center">
+			<h2 id="projects-title">{featured.length} Latest <span>Projects</span></h2>
+		</header>
+
+		<div class="mt-10 sm:mt-12">
+			<div
+				class="swiper select-none"
+				data-projects-swiper
+				aria-roledescription="carousel"
+				aria-label="Featured projects"
+			>
+				<div class="swiper-wrapper h-auto max-h-[500px]">
+					{
+						featured.map((entry, idx) => {
+							const p = entry.data
+
+							return (
+								<div class="swiper-slide" aria-roledescription="slide" aria-label={`Project ${idx + 1} of ${featured.length}`}>
+									<article class="grid items-center gap-10 lg:grid-cols-2">
+										<!-- Copy -->
+										<div class="order-2 lg:order-1">
+											<h3
+												class="text-balance font-bold"
+												data-swiper-parallax="-100"
+											>
+												{p.title}
+											</h3>
+
+											<p class="mt-4 max-w-xl text-pretty" data-swiper-parallax="-200">
+												{p.shortDescription}
+											</p>
+
+											{p.techStack?.length ? (
+												<ul
+													class="mt-6 flex flex-wrap gap-2"
+													aria-label="Tech stack"
+													data-swiper-parallax="-300"
+												>
+													{p.techStack.slice(0, 8).map((tech) => (
+														<li class="rounded-full bg-white/70 px-3 py-1 text-sm">
+															{tech}
+														</li>
+													))}
+												</ul>
+											) : null}
+										</div>
+
+										<!-- Visual -->
+										<div class="order-1 lg:order-2" 
+										data-swiper-parallax="-400"
+												data-swiper-parallax-duration="300">
+											<figure
+												class="relative mx-auto w-full max-w-[720px]"
+												
+											>
+													<Image
+														src={p.imageUrl}
+														alt={`${p.title} project preview`}
+														class="h-auto w-full"
+														loading="lazy"
+														decoding="async"
+														width={554}
+														height={554}
+													/>
+											</figure>
+										</div>
+									</article>
+								</div>
+							)
+						})
+					}
+				</div>
+			</div>
+
+			<!-- Controls -->
+			<div class="flex items-center justify-center gap-6 z-10">
+				<button
+					type="button"
+					class="group inline-flex items-center justify-center rounded-full rotate-180"
+					data-projects-prev
+					aria-label="Previous project"
+				>
+					<CircleButton />
+				</button>
+
+				<div
+					class="projects-pagination flex items-center gap-3"
+					data-projects-pagination
+					aria-label="Choose project"
+				/>
+
+				<button
+					type="button"
+					class="group inline-flex items-center justify-center rounded-full"
+					data-projects-next
+					aria-label="Next project"
+				>
+					<CircleButton />
+				</button>
+			</div>
+		</div>
 	</div>
 
-	<div class="pt-2">
-		<Button href="/projects" aria-label="See more projects">
-			{PROJECTS_SECTION.seeMore}
-		</Button>
-	</div>
 </section>
+
+
+<style>
+	/* Pagination bullets (uses your .dot utilities) */
+	.projects-pagination :global(.swiper-pagination-bullet) {
+		opacity: 1;
+		transition: transform 200ms ease, opacity 200ms ease;
+	}
+	.projects-pagination :global(.swiper-pagination-bullet-active) {
+		transform: scale(1.25);
+	}
+	/* Ensure focusable bullets still show focus */
+	.projects-pagination :global(.swiper-pagination-bullet:focus-visible) {
+		outline: 2px solid oklch(0.60 0.17 276);
+		outline-offset: 4px;
+		border-radius: 9999px;
+	}
+</style>
+
+<script>
+	import Swiper from 'swiper'
+	import { Navigation, Pagination, Parallax, A11y } from 'swiper/modules'
+
+	const root = document.querySelector('[data-projects-swiper]')
+	const buttonPrev = document.querySelector('[data-projects-prev]')
+	const buttonNext = document.querySelector('[data-projects-next]')
+	const pagination = document.querySelector('[data-projects-pagination]')
+
+	const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false
+
+	let swiper: Swiper | undefined;
+
+	const mount = () => {
+		if (swiper || !root || !buttonPrev || !buttonNext || !pagination) return
+
+		swiper = new Swiper(root as HTMLElement, {
+			modules: [Navigation, Pagination, Parallax, A11y],
+			slidesPerView: 1,
+			spaceBetween: 0,
+			speed: prefersReducedMotion ? 0 : 900,
+			grabCursor: true,
+			parallax: !prefersReducedMotion,
+			watchSlidesProgress: true,
+			a11y: {
+				enabled: true,
+			},
+			navigation: {
+				prevEl: buttonPrev as HTMLElement,
+				nextEl: buttonNext as HTMLElement,
+				disabledClass: 'opacity-40 pointer-events-none',
+			},
+			pagination: {
+				el: pagination as HTMLElement,
+				clickable: true,
+				bulletElement: 'button',
+				bulletClass: 'dot dot-md dot-neutral',
+				bulletActiveClass: '!bg-primary',
+				renderBullet: (index, className) =>
+					`<button type="button" class="${className}" aria-label="Go to project ${index + 1}"></button>`,
+			},
+		})
+	}
+
+	const unmount = () => {
+		if (!swiper) return
+		swiper.destroy(true, true)
+		swiper = undefined
+	}
+
+	mount()
+
+	// Astro view transitions / navigation safety
+	document.addEventListener('astro:before-swap', unmount)
+	document.addEventListener('pagehide', unmount)
+</script>

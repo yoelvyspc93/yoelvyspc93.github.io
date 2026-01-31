@@ -4,10 +4,6 @@ import yoelvys from '@/public/images/footer/yoelvys.svg'
 
 const navItems = [
 	{
-		name: 'Home',
-		path: '/',
-	},
-	{
 		name: 'About',
 		path: '/about',
 	},
@@ -31,31 +27,12 @@ const navItems = [
 ---
 
 <footer
-	class="relative isolate h-[15vh] min-h-[15vh] w-full overflow-hidden px-4 py-8 md:px-6 md:py-10 lg:px-0 lg:py-12"
+	class="relative isolate w-full overflow-hidden px-4 py-8 md:px-6 md:py-10 lg:px-0 lg:py-12"
 >
-	<div class="pointer-events-none absolute inset-0 z-0">
-		<div
-			class="absolute inset-0 z-1 h-full w-full bg-linear-to-b from-black/97 via-black/95 to-black/90"
-			aria-hidden="true"
-		>
-		</div>
-		<div class="absolute inset-0">
-			<Image
-				src={yoelvys}
-				alt="Yoelvys"
-				loading="lazy"
-				layout="constrained"
-				width={1177}
-				height={116}
-				class="h-full w-full object-contain object-bottom"
-			/>
-		</div>
-	</div>
-
 	<div
 		class="relative z-1 mx-auto flex h-0 flex-col items-center justify-between gap-4 text-center md:h-[15vh] md:flex-row md:gap-5 lg:h-[7vh] max-w-[1200px]"
 	>
-		<p class="order-1 text-large leading-[150%] text-white md:order-0">
+		<p class="order-1 text-large leading-[150%] md:order-0">
 			©{new Date().getFullYear()} Yoelvys. All rights reserved.
 		</p>
 
@@ -66,7 +43,7 @@ const navItems = [
 						<li>
 							<a
 								href={link.path}
-								class="text-large leading-[150%] text-white transition-all duration-300 hover:bg-linear-gradient hover:bg-clip-text hover:text-transparent"
+								class="text-large leading-[150%]  transition-all duration-300 hover:bg-linear-gradient hover:bg-clip-text hover:text-transparent"
 							>
 								{link.name}
 							</a>
