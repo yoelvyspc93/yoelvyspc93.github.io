@@ -1,4 +1,6 @@
 ---
+import Tag from '@/shared/Tag.astro'
+
 const skills = [
 	'Next.js',
 	'CSS3',
@@ -42,16 +44,14 @@ const skills = [
 	>
 		{
 			skills.map((skill) => (
-				<div
+				<Tag
+					size="large"
+					class="pointer-events-auto absolute select-none will-change-transform cursor-grab active:cursor-grabbing"
 					data-skill-card
-					class="pointer-events-auto absolute flex select-none items-center justify-center rounded-xl bg-white px-[clamp(20px,2.5vw,24px)] pb-[clamp(10px,2.2vw,14px)] pt-[clamp(8px,2.2vw,12px)] text-heading-5 font-medium text-[#1a1a1a] will-change-transform cursor-grab active:cursor-grabbing"
-					role="button"
-					tabindex="0"
 					aria-label={`Skill card ${skill}. Drag to interact.`}
-					data-skill-name={skill}
 				>
 					{skill}
-				</div>
+				</Tag>
 			))
 		}
 	</div>

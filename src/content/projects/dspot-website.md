@@ -2,7 +2,7 @@
 id: '05'
 title: 'Dspot Website'
 shortDescription: 'Corporate website for DSpot, a digital studio offering design and software solutions.'
-imageUrl: '/images/projects/dspot-website.webp'
+imageUrl: ['/images/projects/dspot-website.webp']
 techStack:
   - 'Next.js'
   - 'GSAP'

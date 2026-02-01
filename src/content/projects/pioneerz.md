@@ -1,8 +1,13 @@
 ---
-id: '01'
+id: '02'
 title: 'Pioneerz'
 shortDescription: 'Modern platform for selling NFTs with advanced animations and seamless experience.'
-imageUrl: '/images/projects/pioneerz.webp'
+imageUrl:
+  [
+    '/images/projects/pioneerz1.png',
+    '/images/projects/pioneerz3.png',
+    '/images/projects/pioneerz2.png',
+  ]
 techStack:
   - 'Next.js'
   - 'GSAP'
@@ -12,7 +17,7 @@ techStack:
   - 'Chromatic'
   - 'React Testing Library'
   - 'Cypress'
-isFavorite: false
+isFavorite: true
 effects:
   start: '#B0E3CD'
   end: '#D5D1EC'

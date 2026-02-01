@@ -1,0 +1,22 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+type Size = 'small' | 'large'
+
+export interface Props extends HTMLAttributes<'span'> {
+	size?: Size
+	class?: string
+}
+
+const { size = 'small', class: className = '', ...props } = Astro.props
+
+const base =
+	'inline-flex items-center justify-center bg-white rounded-full text-black'
+
+const sizes: Record<Size, string> = {
+	small: 'px-4 py-2 text-sm',
+	large: 'px-6 py-3 md:px-9 md:py-5 text-large shadow-small',
+}
+---
+
+<span class={`${base} ${sizes[size]} ${className}`} {...props}><slot /></span>
