@@ -1,8 +1,8 @@
 ---
-id: '04'
+id: '01'
 title: 'Henig Diamond'
 shortDescription: 'Informational landing page with 3D animations, an interactive map, and an intelligent chatbot.'
-imageUrl: '/images/projects/henig-diamond.webp'
+imageUrl: ['/images/projects/henig-diamond.webp']
 techStack:
   - 'Webflow'
   - 'GSAP'

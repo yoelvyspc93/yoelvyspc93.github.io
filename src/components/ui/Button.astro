@@ -8,18 +8,13 @@ type Variant = 'primary' | 'outlined'
 type AnchorAttrs = HTMLAttributes<'a'>
 type ButtonAttrs = HTMLAttributes<'button'>
 
-export interface Props {
-	children: any
-
+export interface Props extends AnchorAttrs, ButtonAttrs {
 	size?: Size
 	variant?: Variant
 	class?: string
-
 	href?: string
 	external?: boolean
 	type?: ButtonType
-
-	attrs?: AnchorAttrs | ButtonAttrs
 }
 
 const {
@@ -29,7 +24,7 @@ const {
 	size = 'large',
 	variant = 'primary',
 	class: className,
-	attrs = {},
+	...props
 } = Astro.props
 
 const base =
@@ -60,12 +55,12 @@ const classes = `${base} ${sizes[size]} ${variants[variant]} ${className ?? ''}`
 			class={classes}
 			target={external ? '_blank' : undefined}
 			rel={external ? 'noopener noreferrer' : undefined}
-			{...(attrs as AnchorAttrs)}
+			{...(props as AnchorAttrs)}
 		>
 			<slot />
 		</a>
 	) : (
-		<button type={type} class={classes} {...(attrs as ButtonAttrs)}>
+		<button type={type} class={classes} {...(props as ButtonAttrs)}>
 			<slot />
 		</button>
 	)

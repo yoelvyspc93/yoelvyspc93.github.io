@@ -1,4 +1,5 @@
 ---
+import Tag from '@/shared/Tag.astro'
 import CircleButton from '@/ui/CircleButton.astro'
 import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
@@ -9,12 +10,12 @@ const all = await getCollection('projects')
 
 const featured = all
 	.filter(({ data }) => Boolean(data.isFavorite))
-	.sort((a, b) => Number(b.data.id) - Number(a.data.id))
+	.sort((a, b) => Number(a.data.id) - Number(b.data.id))
 ---
 
 <section
 	id="projects"
-	class="relative overflow-hidden py-16 sm:py-20 bg-surface-soft"
+	class="relative min-h-screen overflow-hidden py-16 sm:py-20 bg-surface-soft"
 	aria-labelledby="projects-title"
 >
 	<div class="absolute inset-0 bg-texture"></div>
@@ -24,7 +25,7 @@ const featured = all
 			<h2 id="projects-title">{featured.length} Latest <span>Projects</span></h2>
 		</header>
 
-		<div class="mt-10 sm:mt-12">
+		<div class="mt-20 sm:mt-12">
 			<div
 				class="swiper select-none"
 				data-projects-swiper
@@ -40,50 +41,42 @@ const featured = all
 								<div class="swiper-slide" aria-roledescription="slide" aria-label={`Project ${idx + 1} of ${featured.length}`}>
 									<article class="grid items-center gap-10 lg:grid-cols-2">
 										<!-- Copy -->
-										<div class="order-2 lg:order-1">
-											<h3
-												class="text-balance font-bold"
-												data-swiper-parallax="-100"
-											>
-												{p.title}
-											</h3>
+										<div class="order-2 lg:order-1 max-w-[440px] flex flex-col gap-10">
+											<h3 data-swiper-parallax="-100">{p.title}</h3>
 
-											<p class="mt-4 max-w-xl text-pretty" data-swiper-parallax="-200">
+											<p class="max-w-xl text-pretty" data-swiper-parallax="-150">
 												{p.shortDescription}
 											</p>
 
 											{p.techStack?.length ? (
 												<ul
-													class="mt-6 flex flex-wrap gap-2"
+													class="flex flex-wrap gap-2"
 													aria-label="Tech stack"
-													data-swiper-parallax="-300"
+													data-swiper-parallax="-200"
 												>
-													{p.techStack.slice(0, 8).map((tech) => (
-														<li class="rounded-full bg-white/70 px-3 py-1 text-sm">
-															{tech}
+													{p.techStack.map((tech, index) => (
+														<li data-swiper-parallax={-20 * (index + 1)}>
+															<Tag>{tech}</Tag>
 														</li>
 													))}
 												</ul>
 											) : null}
 										</div>
 
-										<!-- Visual -->
-										<div class="order-1 lg:order-2" 
-										data-swiper-parallax="-400"
-												data-swiper-parallax-duration="300">
-											<figure
-												class="relative mx-auto w-full max-w-[720px]"
-												
-											>
+										<div class="order-1 lg:order-2">
+											<figure class="relative mx-auto w-[500px] h-[400px]" >
+												{p.imageUrl.map((image, index) => (
 													<Image
-														src={p.imageUrl}
+														src={image}
 														alt={`${p.title} project preview`}
-														class="h-auto w-full"
+														class="absolute inset-0 w-[500px] h-[400px]"
 														loading="lazy"
 														decoding="async"
-														width={554}
-														height={554}
+														width={500}
+														height={400}
+														data-swiper-parallax={-1 * (100 * index + 1)}
 													/>
+												))}
 											</figure>
 										</div>
 									</article>
@@ -95,7 +88,7 @@ const featured = all
 			</div>
 
 			<!-- Controls -->
-			<div class="flex items-center justify-center gap-6 z-10">
+			<div class="mt-20 flex items-center justify-center gap-6 z-10">
 				<button
 					type="button"
 					class="group inline-flex items-center justify-center rounded-full rotate-180"
@@ -127,16 +120,12 @@ const featured = all
 
 
 <style>
-	/* Pagination bullets (uses your .dot utilities) */
 	.projects-pagination :global(.swiper-pagination-bullet) {
 		opacity: 1;
 		transition: transform 200ms ease, opacity 200ms ease;
 	}
-	.projects-pagination :global(.swiper-pagination-bullet-active) {
-		transform: scale(1.25);
-	}
-	/* Ensure focusable bullets still show focus */
 	.projects-pagination :global(.swiper-pagination-bullet:focus-visible) {
+		transform: scale(1.5) !important;
 		outline: 2px solid oklch(0.60 0.17 276);
 		outline-offset: 4px;
 		border-radius: 9999px;
@@ -163,7 +152,7 @@ const featured = all
 			modules: [Navigation, Pagination, Parallax, A11y],
 			slidesPerView: 1,
 			spaceBetween: 0,
-			speed: prefersReducedMotion ? 0 : 900,
+			speed: prefersReducedMotion ? 0 : 1500,
 			grabCursor: true,
 			parallax: !prefersReducedMotion,
 			watchSlidesProgress: true,

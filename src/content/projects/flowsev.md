@@ -1,11 +1,11 @@
 ---
-id: '03'
+id: '04'
 title: 'FlowSev'
 shortDescription: "Modern and responsive landing page created to showcase FlowSev.ai's features."
-imageUrl: '/images/projects/flowsev.webp'
+imageUrl: ['/images/projects/flowsev.webp']
 techStack:
   - 'Webflow'
-isFavorite: true
+isFavorite: false
 effects:
   start: '#634DB5'
   end: '#544375'
