@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets'
+import Tag from './Tag.astro'
+
+type Props = {
+	title: string
+	description: string
+	images: string[]
+	techs: string[]
+}
+
+const { title, description, techs, images } = Astro.props
+---
+
+<article class="grid items-center gap-10 lg:grid-cols-2">
+	<!-- Copy -->
+	<div class="order-2 lg:order-1 max-w-[440px] flex flex-col gap-10">
+		<h3 data-swiper-parallax="-100">{title}</h3>
+
+		<p class="max-w-xl text-pretty" data-swiper-parallax="-150">
+			{description}
+		</p>
+
+		{
+			techs?.length ? (
+				<ul
+					class="flex flex-wrap gap-2"
+					aria-label="Tech stack"
+					data-swiper-parallax="-200"
+				>
+					{techs.map((tech, index) => (
+						<li data-swiper-parallax={-20 * (index + 1)}>
+							<Tag>{tech}</Tag>
+						</li>
+					))}
+				</ul>
+			) : null
+		}
+	</div>
+
+	<figure class="relative mx-auto w-[500px] h-[400px] order-1 lg:order-2">
+		{
+			images.map((image, index) => (
+				<Image
+					src={image}
+					alt={`${title} project preview`}
+					class="absolute inset-0 w-[500px] h-[400px]"
+					loading="lazy"
+					decoding="async"
+					width={500}
+					height={400}
+					data-swiper-parallax={-1 * (100 * index + 1)}
+				/>
+			))
+		}
+	</figure>
+</article>
