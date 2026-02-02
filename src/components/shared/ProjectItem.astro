@@ -13,14 +13,11 @@ const { title, description, techs, images } = Astro.props
 ---
 
 <article class="grid items-center gap-10 lg:grid-cols-2">
-	<!-- Copy -->
 	<div class="order-2 lg:order-1 max-w-[440px] flex flex-col gap-10">
 		<h3 data-swiper-parallax="-100">{title}</h3>
-
 		<p class="max-w-xl text-pretty" data-swiper-parallax="-150">
 			{description}
 		</p>
-
 		{
 			techs?.length ? (
 				<ul
@@ -37,13 +34,13 @@ const { title, description, techs, images } = Astro.props
 			) : null
 		}
 	</div>
-
 	<figure class="relative mx-auto w-[500px] h-[400px] order-1 lg:order-2">
 		{
 			images.map((image, index) => (
 				<Image
 					src={image}
-					alt={`${title} project preview`}
+					alt=""
+					aria-hidden="true"
 					class="absolute inset-0 w-[500px] h-[400px]"
 					loading="lazy"
 					decoding="async"
@@ -53,5 +50,8 @@ const { title, description, techs, images } = Astro.props
 				/>
 			))
 		}
+		<figcaption class="sr-only">
+			{title} project preview
+		</figcaption>
 	</figure>
 </article>
