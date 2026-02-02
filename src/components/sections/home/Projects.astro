@@ -1,15 +1,13 @@
 ---
-import Tag from '@/shared/Tag.astro'
+import ProjectItem from '@/shared/ProjectItem.astro'
 import CircleButton from '@/ui/CircleButton.astro'
-import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
 import 'swiper/css'
-
 
 const all = await getCollection('projects')
 
 const featured = all
-	.filter(({ data }) => Boolean(data.isFavorite))
+	.filter(({ data }) => Boolean(data.favorite))
 	.sort((a, b) => Number(a.data.id) - Number(b.data.id))
 ---
 
@@ -18,11 +16,13 @@ const featured = all
 	class="relative min-h-screen overflow-hidden py-16 sm:py-20 bg-surface-soft"
 	aria-labelledby="projects-title"
 >
-	<div class="absolute inset-0 bg-texture"></div>
+	<div aria-hidden="true" class="absolute inset-0 bg-texture"></div>
 
 	<div class="relative mx-auto max-w-7xl px-4">
 		<header class="text-center">
-			<h2 id="projects-title">{featured.length} Latest <span>Projects</span></h2>
+			<h2 id="projects-title">
+				{featured.length} Latest <span>Projects</span>
+			</h2>
 		</header>
 
 		<div class="mt-20 sm:mt-12">
@@ -35,51 +35,20 @@ const featured = all
 				<div class="swiper-wrapper h-auto max-h-[500px]">
 					{
 						featured.map((entry, idx) => {
-							const p = entry.data
+							const { title, overview, images, technologies } = entry.data
 
 							return (
-								<div class="swiper-slide" aria-roledescription="slide" aria-label={`Project ${idx + 1} of ${featured.length}`}>
-									<article class="grid items-center gap-10 lg:grid-cols-2">
-										<!-- Copy -->
-										<div class="order-2 lg:order-1 max-w-[440px] flex flex-col gap-10">
-											<h3 data-swiper-parallax="-100">{p.title}</h3>
-
-											<p class="max-w-xl text-pretty" data-swiper-parallax="-150">
-												{p.shortDescription}
-											</p>
-
-											{p.techStack?.length ? (
-												<ul
-													class="flex flex-wrap gap-2"
-													aria-label="Tech stack"
-													data-swiper-parallax="-200"
-												>
-													{p.techStack.map((tech, index) => (
-														<li data-swiper-parallax={-20 * (index + 1)}>
-															<Tag>{tech}</Tag>
-														</li>
-													))}
-												</ul>
-											) : null}
-										</div>
-
-										<div class="order-1 lg:order-2">
-											<figure class="relative mx-auto w-[500px] h-[400px]" >
-												{p.imageUrl.map((image, index) => (
-													<Image
-														src={image}
-														alt={`${p.title} project preview`}
-														class="absolute inset-0 w-[500px] h-[400px]"
-														loading="lazy"
-														decoding="async"
-														width={500}
-														height={400}
-														data-swiper-parallax={-1 * (100 * index + 1)}
-													/>
-												))}
-											</figure>
-										</div>
-									</article>
+								<div
+									class="swiper-slide"
+									aria-roledescription="slide"
+									aria-label={`Project ${idx + 1} of ${featured.length}`}
+								>
+									<ProjectItem
+										title={title}
+										overview={overview}
+										images={images}
+										technologies={technologies}
+									/>
 								</div>
 							)
 						})
@@ -102,7 +71,8 @@ const featured = all
 					class="projects-pagination flex items-center gap-3"
 					data-projects-pagination
 					aria-label="Choose project"
-				/>
+				>
+				</div>
 
 				<button
 					type="button"
@@ -115,22 +85,22 @@ const featured = all
 			</div>
 		</div>
 	</div>
-
 </section>
 
-
-<style>
+<!-- <style>
 	.projects-pagination :global(.swiper-pagination-bullet) {
 		opacity: 1;
-		transition: transform 200ms ease, opacity 200ms ease;
+		transition:
+			transform 200ms ease,
+			opacity 200ms ease;
 	}
 	.projects-pagination :global(.swiper-pagination-bullet:focus-visible) {
 		transform: scale(1.5) !important;
-		outline: 2px solid oklch(0.60 0.17 276);
+		outline: 2px solid oklch(0.6 0.17 276);
 		outline-offset: 4px;
 		border-radius: 9999px;
 	}
-</style>
+</style> -->
 
 <script>
 	import Swiper from 'swiper'
@@ -141,9 +111,10 @@ const featured = all
 	const buttonNext = document.querySelector('[data-projects-next]')
 	const pagination = document.querySelector('[data-projects-pagination]')
 
-	const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false
+	const prefersReducedMotion =
+		window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false
 
-	let swiper: Swiper | undefined;
+	let swiper: Swiper | undefined
 
 	const mount = () => {
 		if (swiper || !root || !buttonPrev || !buttonNext || !pagination) return

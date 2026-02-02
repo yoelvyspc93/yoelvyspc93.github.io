@@ -1,6 +1,8 @@
 ---
 order: 3
-period: '2013 – 2018'
+period:
+  start: '2013'
+  end: '2018'
 company: 'University'
 rol: 'Computer Engineering'
 image: []
