@@ -1,0 +1,86 @@
+name: Lighthouse Report (on deploy)
+
+on:
+  workflow_run:
+    workflows: ['Deploy Astro to GitHub Pages']
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lighthouse-pages
+  cancel-in-progress: true
+
+jobs:
+  lighthouse:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - name: Install
+        run: yarn install --frozen-lockfile
+
+      - name: Resolve GitHub Pages URL
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          OWNER="${{ github.repository_owner }}"
+          REPO="$(echo "${{ github.repository }}" | cut -d/ -f2)"
+
+          URL=$(gh api "repos/${OWNER}/${REPO}/pages" --jq '.html_url' 2>/dev/null || echo "")
+          if [ -z "$URL" ] || [ "$URL" = "null" ]; then
+            echo "Could not resolve GitHub Pages URL. Skipping."
+            exit 0
+          fi
+
+          echo "PAGES_URL=${URL}" >> $GITHUB_ENV
+          echo "Resolved Pages URL: ${URL}"
+
+      - name: Wait for Pages to be ready
+        run: |
+          if [ -z "${PAGES_URL}" ]; then
+            echo "No PAGES_URL found; skipping."
+            exit 0
+          fi
+
+          for i in {1..60}; do
+            if curl -sSfL "${PAGES_URL}" > /dev/null; then
+              echo "Pages is reachable."
+              exit 0
+            fi
+            echo "Waiting for Pages... (${i}/60)"
+            sleep 5
+          done
+
+          echo "Pages did not become reachable in time. Skipping."
+          exit 0
+
+      - name: Run Lighthouse CI (report only)
+        run: |
+          if [ -z "${PAGES_URL}" ]; then
+            echo "No PAGES_URL found; skipping."
+            exit 0
+          fi
+
+          yarn dlx @lhci/cli@0.13.x autorun \
+            --config=./lighthouserc.json \
+            --collect.url="${PAGES_URL}" || true
+
+      - name: Upload Lighthouse report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: lighthouse-report
+          if-no-files-found: warn
