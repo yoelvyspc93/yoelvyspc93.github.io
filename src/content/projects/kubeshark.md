@@ -2,7 +2,9 @@
 id: '03'
 title: 'Kubeshark'
 shortDescription: "Landing page designed to highlight Kubeshark's main features with a clean and responsive design."
-imageUrl: ['/images/projects/kubeshark.webp']
+imageUrl:
+  - /images/projects/kubeshark1.webp
+  - /images/projects/kubeshark2.webp
 techStack:
   - 'Webflow'
 isFavorite: true

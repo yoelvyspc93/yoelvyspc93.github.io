@@ -3,11 +3,9 @@ id: '02'
 title: 'Pioneerz'
 shortDescription: 'Modern platform for selling NFTs with advanced animations and seamless experience.'
 imageUrl:
-  [
-    '/images/projects/pioneerz1.png',
-    '/images/projects/pioneerz3.png',
-    '/images/projects/pioneerz2.png',
-  ]
+  - /images/projects/pioneerz1.webp
+  - /images/projects/pioneerz3.webp
+  - /images/projects/pioneerz2.webp
 techStack:
   - 'Next.js'
   - 'GSAP'
