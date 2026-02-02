@@ -7,7 +7,7 @@ import 'swiper/css'
 const all = await getCollection('projects')
 
 const featured = all
-	.filter(({ data }) => Boolean(data.isFavorite))
+	.filter(({ data }) => Boolean(data.favorite))
 	.sort((a, b) => Number(a.data.id) - Number(b.data.id))
 ---
 
@@ -35,8 +35,7 @@ const featured = all
 				<div class="swiper-wrapper h-auto max-h-[500px]">
 					{
 						featured.map((entry, idx) => {
-							const { title, shortDescription, imageUrl, techStack } =
-								entry.data
+							const { title, overview, images, technologies } = entry.data
 
 							return (
 								<div
@@ -46,9 +45,9 @@ const featured = all
 								>
 									<ProjectItem
 										title={title}
-										description={shortDescription}
-										images={imageUrl}
-										techs={techStack}
+										overview={overview}
+										images={images}
+										technologies={technologies}
 									/>
 								</div>
 							)
