@@ -4,7 +4,7 @@
   --font-display: "Audiowide", system-ui, sans-serif;
 
   /* Colors */
-  --color-primary: oklch(0.60 0.17 276);
+  --color-primary: oklch(0.575 0.17 276);
   --color-white: oklch(1 0 0);
   --color-black: oklch(0 0 0);
   --color-neutral: oklch(0.15 0 0);
