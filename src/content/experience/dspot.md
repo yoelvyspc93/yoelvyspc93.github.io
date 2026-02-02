@@ -1,6 +1,8 @@
 ---
 order: 1
-period: '2022 - Present'
+period:
+  start: '2022'
+  end: 'Present'
 company: 'Dspot Team'
 rol: 'Senior Frontend Developer'
 image: ['flowsev', 'dspot-website']

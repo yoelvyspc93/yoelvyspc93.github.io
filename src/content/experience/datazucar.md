@@ -1,6 +1,8 @@
 ---
 order: 2
-period: '2020 - 2022'
+period:
+  start: '2020'
+  end: '2022'
 company: 'Datazucar'
 rol: 'Fullstack Developer'
 image: []

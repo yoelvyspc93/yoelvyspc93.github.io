@@ -19,6 +19,8 @@ const items = await Promise.all(
 			}
 		})
 )
+
+const getDateTime = (value: string) => (value === 'Present' ? '9999' : value)
 ---
 
 <section
@@ -73,10 +75,18 @@ const items = await Promise.all(
             "
 						/>
 
-						<div class="text-left">
-							<h5>{item.period}</h5>
-							<p>{item.company}</p>
-							<p>{item.rol}</p>
+						<div class="text-left flex flex-col gap-1">
+							<h5 class="font-bold">{item.company}</h5>
+							<p class="text-small">
+								<time datetime={getDateTime(item.period.start)}>
+									{item.period.start}
+								</time>
+								{' - '}
+								<time datetime={getDateTime(item.period.end)}>
+									{item.period.end}
+								</time>
+							</p>
+							<span class="text-small">{item.rol}</span>
 						</div>
 
 						<div class="max-w-[720px]">

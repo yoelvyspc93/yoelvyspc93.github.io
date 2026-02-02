@@ -22,7 +22,10 @@ const projects = defineCollection({
 const experience = defineCollection({
   type: 'content',
   schema: z.object({
-    period: z.string(),
+    period: z.object({
+      start: z.string(),
+      end: z.string(),
+    }),
     company: z.string(),
     rol: z.string(),
     image: z.array(z.string()),
