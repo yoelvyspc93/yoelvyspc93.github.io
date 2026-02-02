@@ -1,0 +1,107 @@
+---
+import { Image } from 'astro:assets'
+
+type Period = { start: string; end: string }
+
+type ExperienceItemData = {
+	period: Period
+	company: string
+	rol: string
+	image?: string[]
+	Content: any
+}
+
+export interface Props {
+	item: ExperienceItemData
+	index: number
+}
+
+const { item, index } = Astro.props
+
+const headingId = `experience-item-${index}-company`
+const periodId = `experience-item-${index}-period`
+const roleId = `experience-item-${index}-role`
+
+const getDateTime = (value: string) => (value === 'Present' ? '9999' : value)
+
+const startDateTime = getDateTime(item.period.start)
+const endDateTime = getDateTime(item.period.end)
+
+const isPresent = item.period.end === 'Present'
+const dateLabel = isPresent
+	? `${item.period.start} to present`
+	: `${item.period.start} to ${item.period.end}`
+---
+
+<li class="relative">
+	<div
+		aria-hidden="true"
+		class="absolute top-2
+      left-[calc(clamp(32px,5vw,50px)-clamp(72px,9vw,120px)+2px)]
+      -translate-x-1/2
+      w-6 h-6 rounded-full
+      bg-primary
+      shadow-[0_0_0_4px_rgba(134,167,255,0.18)]"
+	>
+	</div>
+
+	<article
+		class="grid grid-cols-1 gap-6
+      md:grid-cols-[clamp(180px,24vw,280px)_1fr]
+      md:gap-x-[clamp(24px,5vw,64px)] md:gap-y-6"
+		aria-labelledby={headingId}
+		aria-describedby={`${periodId} ${roleId}`}
+	>
+		<header class="text-left flex flex-col gap-1">
+			<h3 id={headingId} class="font-bold text-heading-6">
+				{item.company}
+			</h3>
+
+			<p id={periodId} class="text-small">
+				<span class="sr-only"> {` ${dateLabel} `}</span>
+				<time datetime={startDateTime}>{item.period.start}</time>
+				<span aria-hidden="true">{' - '}</span>
+				<time datetime={endDateTime}>{item.period.end}</time>
+			</p>
+
+			<p id={roleId} class="text-small">
+				{item.rol}
+			</p>
+		</header>
+
+		<div class="max-w-[720px]">
+			<div
+				class="text-large text-pretty leading-normal [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_li]:mt-2"
+			>
+				<item.Content />
+			</div>
+
+			{
+				item.image?.length ? (
+					<figure class="mt-[clamp(12px,2vw,20px)]">
+						<figcaption class="sr-only">{`${item.company} work previews`}</figcaption>
+
+						<ul class="grid grid-cols-2 gap-[clamp(12px,2vw,20px)] list-none p-0">
+							{item.image.map((img, imgIndex) => (
+								<li>
+									<Image
+										src={`/images/projects/${img}.webp`}
+										alt={
+											imgIndex === 0 ? `${item.company} project preview` : ''
+										}
+										aria-hidden={imgIndex !== 0}
+										width={800}
+										height={600}
+										loading="lazy"
+										decoding="async"
+										class="block w-full h-auto rounded-xl outline-1 outline-white/5 pb-4"
+									/>
+								</li>
+							))}
+						</ul>
+					</figure>
+				) : null
+			}
+		</div>
+	</article>
+</li>

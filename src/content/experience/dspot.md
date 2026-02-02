@@ -5,7 +5,9 @@ period:
   end: 'Present'
 company: 'Dspot Team'
 rol: 'Senior Frontend Developer'
-image: ['flowsev', 'dspot-website']
+image:
+  - 'flowsev'
+  - 'dspot-website'
 ---
 
 Spearheading frontend development for diverse tech, SaaS, and Web3 projects, ensuring scalability and maintainability.
