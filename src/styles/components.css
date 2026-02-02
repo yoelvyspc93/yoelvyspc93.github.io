@@ -32,7 +32,7 @@
 
   .bg-section {
     background: var(--color-bg-opacity);
-    backdrop-filter: blur(100px);
     -webkit-backdrop-filter: blur(100px);
+    backdrop-filter: blur(100px);
   }
 }
