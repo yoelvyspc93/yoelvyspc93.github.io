@@ -51,5 +51,15 @@ const hidePlaceholder = value.length > 0
 				</span>
 			)
 		}
+		{
+			ariaDescribedby && (
+				<span
+					id={ariaDescribedby}
+					class="sr-only"
+					role="alert"
+					aria-live="polite"
+					aria-atomic="true"></span>
+			)
+		}
 	</div>
 </div>
