@@ -73,7 +73,7 @@ jobs:
             exit 0
           fi
 
-          yarn dlx @lhci/cli@0.13.x autorun \
+          npx --yes @lhci/cli@0.13.x autorun \
             --config=./lighthouserc.json \
             --collect.url="${PAGES_URL}" || true
 
