@@ -3,8 +3,7 @@ name: Lighthouse Report (on deploy)
 on:
   workflow_run:
     workflows: ['Deploy Astro to GitHub Pages']
-    types:
-      - completed
+    types: [completed]
 
 permissions:
   contents: read
