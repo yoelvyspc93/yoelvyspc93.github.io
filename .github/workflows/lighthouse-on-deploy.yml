@@ -66,16 +66,146 @@ jobs:
           echo "Pages did not become reachable in time. Skipping."
           exit 0
 
-      - name: Run Lighthouse CI (report only)
+      - name: Create LHCI configs (mobile & desktop)
         run: |
-          if [ -z "${PAGES_URL}" ]; then
-            echo "No PAGES_URL found; skipping."
-            exit 0
-          fi
+          node - <<'EOF'
+          const fs = require('fs')
 
+          const base = JSON.parse(fs.readFileSync('lighthouserc.json', 'utf8'))
+
+          const make = (preset, outDir) => ({
+            ci: {
+              collect: {
+                ...base.ci.collect,
+                settings: {
+                  ...(base.ci.collect?.settings ?? {}),
+                  preset,
+                  onlyCategories: ["performance","accessibility","best-practices","seo"]
+                }
+              },
+              assert: {
+                assertions: {
+                  "categories:accessibility": ["error", { minScore: 1 }],
+                  "categories:best-practices": ["error", { minScore: 1 }],
+                  "categories:seo": ["error", { minScore: 1 }]
+                }
+              },
+              upload: { target: "filesystem", outputDir: outDir }
+            }
+          })
+
+          fs.mkdirSync('lighthouse-report', { recursive: true })
+          fs.writeFileSync('lighthouserc.mobile.json', JSON.stringify(make('mobile', './lighthouse-report/mobile'), null, 2))
+          fs.writeFileSync('lighthouserc.desktop.json', JSON.stringify(make('desktop', './lighthouse-report/desktop'), null, 2))
+          EOF
+
+      - name: Run Lighthouse (mobile)
+        run: |
           npx --yes @lhci/cli@0.13.x autorun \
-            --config=./lighthouserc.json \
-            --collect.url="${PAGES_URL}" || true
+            --config=./lighthouserc.mobile.json \
+            --collect.url="${PAGES_URL}"
+
+      - name: Run Lighthouse (desktop)
+        run: |
+          npx --yes @lhci/cli@0.13.x autorun \
+            --config=./lighthouserc.desktop.json \
+            --collect.url="${PAGES_URL}"
+
+      - name: Enforce average performance >= 97
+        run: |
+          node - <<'EOF'
+          const fs = require('fs')
+          const path = require('path')
+
+          function firstJson(dir) {
+            if (!fs.existsSync(dir)) return null
+            const files = fs.readdirSync(dir).filter(f => f.endsWith('.json')).sort()
+            return files.length ? path.join(dir, files[0]) : null
+          }
+
+          function readScores(file) {
+            const r = JSON.parse(fs.readFileSync(file, 'utf8'))
+            const c = r.categories
+            return {
+              performance: c.performance.score,
+              accessibility: c.accessibility.score,
+              bestPractices: c['best-practices'].score,
+              seo: c.seo.score
+            }
+          }
+
+          const mobileFile = firstJson('./lighthouse-report/mobile')
+          const desktopFile = firstJson('./lighthouse-report/desktop')
+
+          if (!mobileFile || !desktopFile) {
+            console.log('Missing Lighthouse JSON reports; failing.')
+            process.exit(1)
+          }
+
+          const m = readScores(mobileFile)
+          const d = readScores(desktopFile)
+
+          const avgPerf = (m.performance + d.performance) / 2
+
+          const pct = (v) => Math.round(v * 100)
+          console.log(`Mobile  -> perf ${pct(m.performance)} | a11y ${pct(m.accessibility)} | bp ${pct(m.bestPractices)} | seo ${pct(m.seo)}`)
+          console.log(`Desktop -> perf ${pct(d.performance)} | a11y ${pct(d.accessibility)} | bp ${pct(d.bestPractices)} | seo ${pct(d.seo)}`)
+          console.log(`Average performance: ${pct(avgPerf)}`)
+
+          if (avgPerf < 0.97) process.exit(1)
+          EOF
+
+      - name: Lighthouse Summary
+        if: always()
+        run: |
+          node - <<'EOF'
+          const fs = require('fs')
+          const path = require('path')
+
+          const read = (dir) => {
+            if (!fs.existsSync(dir)) return null
+            const file = fs.readdirSync(dir).find(f => f.endsWith('.json'))
+            if (!file) return null
+            const r = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'))
+            const c = r.categories
+            return {
+              performance: Math.round(c.performance.score * 100),
+              accessibility: Math.round(c.accessibility.score * 100),
+              bestPractices: Math.round(c['best-practices'].score * 100),
+              seo: Math.round(c.seo.score * 100)
+            }
+          }
+
+          const mobile = read('./lighthouse-report/mobile')
+          const desktop = read('./lighthouse-report/desktop')
+
+          if (!mobile || !desktop) {
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, '## Lighthouse Report\n\nNo reports were generated.\n')
+            process.exit(0)
+          }
+
+          const avgPerf = Math.round((mobile.performance + desktop.performance) / 2)
+
+          const summary = `
+          ## 🚦 Lighthouse Report (Home)
+
+          | Category | Mobile | Desktop |
+          |---------|--------|---------|
+          | Performance | ${mobile.performance} | ${desktop.performance} |
+          | Accessibility | ${mobile.accessibility} | ${desktop.accessibility} |
+          | Best Practices | ${mobile.bestPractices} | ${desktop.bestPractices} |
+          | SEO | ${mobile.seo} | ${desktop.seo} |
+
+          **Average Performance:** ${avgPerf}
+
+          ### Rules
+          - Accessibility = 100
+          - Best Practices = 100
+          - SEO = 100
+          - Average Performance ≥ 97
+          `
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary)
+          EOF
 
       - name: Upload Lighthouse report artifact
         if: always()
