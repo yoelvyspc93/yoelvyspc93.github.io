@@ -2,7 +2,7 @@ name: Lighthouse Report (on deploy)
 
 on:
   workflow_run:
-    workflows: ['Deploy Astro to GitHub Pages']
+    workflows: ["Deploy Astro to GitHub Pages"]
     types: [completed]
 
 permissions:
@@ -72,13 +72,12 @@ jobs:
 
           const base = JSON.parse(fs.readFileSync('lighthouserc.json', 'utf8'))
 
-          const make = (preset, outDir) => ({
+          const common = {
             ci: {
               collect: {
                 ...base.ci.collect,
                 settings: {
                   ...(base.ci.collect?.settings ?? {}),
-                  preset,
                   onlyCategories: ["performance","accessibility","best-practices","seo"]
                 }
               },
@@ -88,14 +87,29 @@ jobs:
                   "categories:best-practices": ["error", { minScore: 1 }],
                   "categories:seo": ["error", { minScore: 1 }]
                 }
-              },
-              upload: { target: "filesystem", outputDir: outDir }
+              }
             }
-          })
+          }
+
+          const desktopCfg = JSON.parse(JSON.stringify(common))
+          desktopCfg.ci.collect.settings.preset = "desktop"
+          desktopCfg.ci.upload = { target: "filesystem", outputDir: "./lighthouse-report/desktop" }
+
+          // "Mobile" en LHCI se hace con formFactor + screenEmulation (no preset: mobile)
+          const mobileCfg = JSON.parse(JSON.stringify(common))
+          mobileCfg.ci.collect.settings.formFactor = "mobile"
+          mobileCfg.ci.collect.settings.screenEmulation = {
+            mobile: true,
+            width: 412,
+            height: 823,
+            deviceScaleFactor: 2.625,
+            disabled: false
+          }
+          mobileCfg.ci.upload = { target: "filesystem", outputDir: "./lighthouse-report/mobile" }
 
           fs.mkdirSync('lighthouse-report', { recursive: true })
-          fs.writeFileSync('lighthouserc.mobile.json', JSON.stringify(make('mobile', './lighthouse-report/mobile'), null, 2))
-          fs.writeFileSync('lighthouserc.desktop.json', JSON.stringify(make('desktop', './lighthouse-report/desktop'), null, 2))
+          fs.writeFileSync('lighthouserc.mobile.json', JSON.stringify(mobileCfg, null, 2))
+          fs.writeFileSync('lighthouserc.desktop.json', JSON.stringify(desktopCfg, null, 2))
           EOF
 
       - name: Run Lighthouse (mobile)
@@ -143,7 +157,6 @@ jobs:
 
           const m = readScores(mobileFile)
           const d = readScores(desktopFile)
-
           const avgPerf = (m.performance + d.performance) / 2
 
           const pct = (v) => Math.round(v * 100)
