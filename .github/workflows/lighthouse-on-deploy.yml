@@ -2,7 +2,7 @@ name: Lighthouse Report (on deploy)
 
 on:
   workflow_run:
-    workflows: ["Deploy Astro to GitHub Pages"]
+    workflows: ['Deploy Astro to GitHub Pages']
     types: [completed]
 
 permissions:
@@ -95,7 +95,6 @@ jobs:
           desktopCfg.ci.collect.settings.preset = "desktop"
           desktopCfg.ci.upload = { target: "filesystem", outputDir: "./lighthouse-report/desktop" }
 
-          // "Mobile" en LHCI se hace con formFactor + screenEmulation (no preset: mobile)
           const mobileCfg = JSON.parse(JSON.stringify(common))
           mobileCfg.ci.collect.settings.formFactor = "mobile"
           mobileCfg.ci.collect.settings.screenEmulation = {
@@ -130,10 +129,23 @@ jobs:
           const fs = require('fs')
           const path = require('path')
 
-          function firstJson(dir) {
+          function pickLhrJson(dir) {
             if (!fs.existsSync(dir)) return null
-            const files = fs.readdirSync(dir).filter(f => f.endsWith('.json')).sort()
-            return files.length ? path.join(dir, files[0]) : null
+            const files = fs.readdirSync(dir).filter(f => f.endsWith('.json'))
+
+            // prefer lhr-*.json if present
+            const lhr = files.find(f => /^lhr-.*\.json$/.test(f))
+            if (lhr) return path.join(dir, lhr)
+
+            // otherwise: find any json that has categories.performance
+            for (const f of files) {
+              try {
+                const p = path.join(dir, f)
+                const r = JSON.parse(fs.readFileSync(p, 'utf8'))
+                if (r?.categories?.performance?.score != null) return p
+              } catch {}
+            }
+            return null
           }
 
           function readScores(file) {
@@ -147,11 +159,11 @@ jobs:
             }
           }
 
-          const mobileFile = firstJson('./lighthouse-report/mobile')
-          const desktopFile = firstJson('./lighthouse-report/desktop')
+          const mobileFile = pickLhrJson('./lighthouse-report/mobile')
+          const desktopFile = pickLhrJson('./lighthouse-report/desktop')
 
           if (!mobileFile || !desktopFile) {
-            console.log('Missing Lighthouse JSON reports; failing.')
+            console.log('Could not locate LHR json reports; failing.')
             process.exit(1)
           }
 
@@ -174,26 +186,45 @@ jobs:
           const fs = require('fs')
           const path = require('path')
 
-          const read = (dir) => {
+          function pickLhrJson(dir) {
             if (!fs.existsSync(dir)) return null
-            const file = fs.readdirSync(dir).find(f => f.endsWith('.json'))
-            if (!file) return null
-            const r = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'))
-            const c = r.categories
-            return {
-              performance: Math.round(c.performance.score * 100),
-              accessibility: Math.round(c.accessibility.score * 100),
-              bestPractices: Math.round(c['best-practices'].score * 100),
-              seo: Math.round(c.seo.score * 100)
+            const files = fs.readdirSync(dir).filter(f => f.endsWith('.json'))
+            const lhr = files.find(f => /^lhr-.*\.json$/.test(f))
+            if (lhr) return path.join(dir, lhr)
+
+            for (const f of files) {
+              try {
+                const p = path.join(dir, f)
+                const r = JSON.parse(fs.readFileSync(p, 'utf8'))
+                if (r?.categories?.performance?.score != null) return p
+              } catch {}
             }
+            return null
           }
 
-          const mobile = read('./lighthouse-report/mobile')
-          const desktop = read('./lighthouse-report/desktop')
+          const mFile = pickLhrJson('./lighthouse-report/mobile')
+          const dFile = pickLhrJson('./lighthouse-report/desktop')
 
-          if (!mobile || !desktop) {
+          if (!mFile || !dFile) {
             fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, '## Lighthouse Report\n\nNo reports were generated.\n')
             process.exit(0)
+          }
+
+          const m = JSON.parse(fs.readFileSync(mFile, 'utf8')).categories
+          const d = JSON.parse(fs.readFileSync(dFile, 'utf8')).categories
+
+          const mobile = {
+            performance: Math.round(m.performance.score * 100),
+            accessibility: Math.round(m.accessibility.score * 100),
+            bestPractices: Math.round(d['best-practices'] ? m['best-practices'].score * 100 : m['best-practices'].score * 100),
+            seo: Math.round(m.seo.score * 100)
+          }
+
+          const desktop = {
+            performance: Math.round(d.performance.score * 100),
+            accessibility: Math.round(d.accessibility.score * 100),
+            bestPractices: Math.round(d['best-practices'].score * 100),
+            seo: Math.round(d.seo.score * 100)
           }
 
           const avgPerf = Math.round((mobile.performance + desktop.performance) / 2)
