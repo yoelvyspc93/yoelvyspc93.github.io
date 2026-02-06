@@ -92,4 +92,8 @@
   .skip-link:focus {
     top: 0;
   }
+
+  .section-container {
+    @apply relative overflow-hidden isolate min-h-screen md:min-h-[800px] xl:min-h-screen flex justify-center items-center;
+  }
 }
