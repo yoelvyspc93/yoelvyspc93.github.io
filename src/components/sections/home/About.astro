@@ -9,24 +9,26 @@ const body = [
 
 <section
 	id="about"
-	class="relative isolate min-h-screen flex justify-center items-center"
+	class="section-container px-4 py-10"
 	aria-labelledby="about-title"
 >
 	<div class="mx-auto max-w-7xl">
 		<header class="lg:order-2">
 			<h2 id="about-title" class="sr-only">Who I am</h2>
 		</header>
-		<div class="grid items-center gap-10 grid-cols-1 lg:grid-cols-2">
-			<Image
-				src="/images/about.webp"
-				alt="Portrait of Yoelvys Pérez Cabrera"
-				loading="lazy"
-				decoding="async"
-				class="object-cover"
-				width="560"
-				height="560"
-			/>
-			<div class="mt-6 space-y-5">
+		<div class="grid items-center gap-10 grid-cols-1 xl:grid-cols-2">
+			<div class="mx-auto size-[300px] md:size-[300px] xl:size-[500px]">
+				<Image
+					src="/images/about.webp"
+					alt="Portrait of Yoelvys Pérez Cabrera"
+					loading="lazy"
+					decoding="async"
+					class="h-full w-full object-cover"
+					width="560"
+					height="560"
+				/>
+			</div>
+			<div class="mt-6 space-y-5 max-w-[560px]">
 				{body.map((p) => <p>{p}</p>)}
 			</div>
 		</div>
