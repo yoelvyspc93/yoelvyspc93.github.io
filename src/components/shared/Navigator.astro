@@ -1,42 +1,23 @@
 ---
 import Button from '@/ui/Button.astro'
+import type { CollectionEntry } from 'astro:content'
 
-interface NavigationItem {
-	name: string
-	path: string
+type Props = {
+	navigation: CollectionEntry<'site'>['data']['navigation']
 }
 
-const navItems: NavigationItem[] = [
-	{
-		name: 'Home',
-		path: '#hero',
-	},
-	{
-		name: 'About',
-		path: '#about',
-	},
-	{
-		name: 'Projects',
-		path: '#projects',
-	},
-	{
-		name: 'Experience',
-		path: '#experience',
-	},
-	{
-		name: 'Skills',
-		path: '#skills',
-	},
-	{
-		name: 'Contact',
-		path: '#contact',
-	},
-]
+const { navigation } = Astro.props
+const homeLink = navigation.items[0]?.href ?? '#hero'
+const homeTargetId = homeLink.replace('#', '')
 ---
 
 <header class="fixed inset-x-0 top-6 z-50">
 	<div class="mx-auto max-w-7xl">
-		<nav class="relative overflow-hidden bg-section rounded-full" data-nav>
+		<nav
+			class="relative overflow-hidden bg-section rounded-full"
+			data-nav
+			aria-label={navigation.ariaLabel}
+		>
 			<div
 				aria-hidden="true"
 				class="absolute inset-0 pointer-events-none bg-texture"
@@ -45,28 +26,28 @@ const navItems: NavigationItem[] = [
 
 			<div class="relative flex items-center justify-between gap-3 px-2 py-2">
 				<a
-					href="#hero"
+					href={homeLink}
 					class="grid size-10 place-items-center rounded-full font-display text-xl leading-none text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
-					aria-label="Go to top"
+					aria-label={navigation.brandAriaLabel}
 					data-nav-link
-					data-target="hero"
+					data-target={homeTargetId}
 				>
-					<h5>Y</h5>
+					<span>{navigation.brand}</span>
 				</a>
 
 				<ul class="hidden items-center gap-8 md:flex" data-nav-list>
 					{
-						navItems.map((item) => {
-							const id = item.path.replace('#', '')
+						navigation.items.map((item) => {
+							const id = item.href.replace('#', '')
 							return (
 								<li>
 									<a
-										href={item.path}
+										href={item.href}
 										class="group relative inline-flex flex-col items-center gap-2 text-sm font-medium text-black/70 transition-colors hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-2 py-1"
 										data-nav-link
 										data-target={id}
 									>
-										<span>{item.name}</span>
+										<span>{item.label}</span>
 										<span
 											class="absolute -bottom-2 dot dot-sm opacity-0 translate-y-1 transition-all duration-200 group-hover:opacity-60 group-hover:translate-y-0"
 											aria-hidden="true"
@@ -82,11 +63,11 @@ const navItems: NavigationItem[] = [
 				<Button
 					variant="primary"
 					size="small"
-					href="/cv-yoelvys-perez-cabrera.pdf"
+					href={navigation.cta.href}
 					external
-					aria-label="Download my CV"
+					aria-label={navigation.cta.ariaLabel}
 				>
-					Download CV
+					{navigation.cta.label}
 				</Button>
 			</div>
 		</nav>

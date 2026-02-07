@@ -1,0 +1,229 @@
+{
+  "seo": {
+    "title": "Yoelvys Perez Cabrera | Portfolio",
+    "description": "Portfolio of Yoelvys Pérez Cabrera - Senior Frontend Engineer specializing in React, Next.js, and TypeScript. Over 6 years of experience building high-performance web applications.",
+    "canonicalPath": "/",
+    "ogImage": "/preview.webp",
+    "locale": "en_US",
+    "type": "website",
+    "twitterCard": "summary_large_image",
+    "language": "en"
+  },
+  "person": {
+    "name": "Yoelvys Pérez Cabrera",
+    "role": "Senior Frontend Engineer",
+    "email": "yoelvyspc93@gmail.com",
+    "location": "Cuba (Remote)",
+    "image": "/images/about.webp",
+    "sameAs": [
+      "https://github.com/yoelvyspc93",
+      "https://www.linkedin.com/in/yoelvys-perez-cabrera"
+    ]
+  },
+  "a11y": {
+    "skipLink": "Skip to main content"
+  },
+  "navigation": {
+    "brand": "Y",
+    "brandAriaLabel": "Go to top",
+    "ariaLabel": "Primary",
+    "items": [
+      {
+        "label": "Home",
+        "href": "#hero"
+      },
+      {
+        "label": "About",
+        "href": "#about"
+      },
+      {
+        "label": "Projects",
+        "href": "#projects"
+      },
+      {
+        "label": "Experience",
+        "href": "#experience"
+      },
+      {
+        "label": "Skills",
+        "href": "#skills"
+      },
+      {
+        "label": "FAQ",
+        "href": "#faq"
+      },
+      {
+        "label": "Contact",
+        "href": "#contact"
+      }
+    ],
+    "cta": {
+      "label": "Download CV",
+      "href": "/cv-yoelvys-perez-cabrera.pdf",
+      "ariaLabel": "Download my CV"
+    },
+    "menu": {
+      "openLabel": "Open menu",
+      "closeLabel": "Close menu",
+      "dialogLabel": "Navigation menu"
+    }
+  },
+  "hero": {
+    "eyebrow": "Hi, I’m",
+    "name": "Yoelvys",
+    "role": "Senior Frontend Engineer",
+    "description": "I bridge the gap between design and engineering, building high-performance, scalable web applications with React, Next.js, and TypeScript. Focused on exceptional user experiences and technical excellence.",
+    "ctaPrimary": {
+      "label": "Download CV",
+      "href": "/cv-yoelvys-perez-cabrera.pdf",
+      "ariaLabel": "Download my CV"
+    },
+    "ctaSecondary": {
+      "label": "Let’s Talk",
+      "href": "#contact",
+      "ariaLabel": "Go to the contact section"
+    }
+  },
+  "about": {
+    "title": "Who I am",
+    "body": [
+      "I am a Computer Engineer with over 6 years of experience specializing in the modern web ecosystem. My core strength lies in translating complex business requirements into intuitive, pixel-perfect interfaces.",
+      "Beyond coding, I focus on the entire product lifecycle—from architectural decisions and SEO strategy to performance optimization and accessibility. I thrive in agile environments where innovation, code quality, and user satisfaction are paramount."
+    ],
+    "image": {
+      "src": "/images/about.webp",
+      "alt": "Portrait of Yoelvys Pérez Cabrera"
+    },
+    "highlightsTitle": "Key takeaways",
+    "highlights": [
+      "6+ years delivering modern web applications.",
+      "Focus on architecture, SEO, performance, and accessibility.",
+      "Comfortable in agile teams that prioritize code quality and user satisfaction."
+    ]
+  },
+  "projects": {
+    "title": "Latest",
+    "accent": "Projects",
+    "ariaLabel": "Featured projects",
+    "paginationLabel": "Choose project",
+    "prevLabel": "Previous project",
+    "nextLabel": "Next project",
+    "bulletLabel": "Go to project"
+  },
+  "experience": {
+    "title": "My",
+    "accent": "Experience",
+    "timelineLabel": "Experience timeline"
+  },
+  "skills": {
+    "title": "My",
+    "accent": "Skills",
+    "description": "My tech stack is focused on the JavaScript ecosystem, prioritizing tools that enable speed, scalability, and type safety.",
+    "list": [
+      "Next.js",
+      "CSS3",
+      "Redux",
+      "Figma",
+      "React",
+      "Storybook",
+      "Jest",
+      "React Native",
+      "Webflow",
+      "TypeScript",
+      "Cypress",
+      "WordPress",
+      "Python",
+      "JavaScript",
+      "Chromatic",
+      "Django",
+      "HTML5"
+    ],
+    "cardLabelPrefix": "Skill card",
+    "cardLabelSuffix": "Drag to interact."
+  },
+  "contact": {
+    "title": "Contact Me",
+    "body": [
+      "I'm currently open to new opportunities and collaborations. Whether you have a question regarding a project or want to discuss a potential role, my inbox is open.",
+      "I typically respond within 24 hours."
+    ],
+    "socials": [
+      {
+        "platform": "GitHub",
+        "url": "https://github.com/yoelvyspc93"
+      },
+      {
+        "platform": "LinkedIn",
+        "url": "https://www.linkedin.com/in/yoelvys-perez-cabrera"
+      }
+    ],
+    "form": {
+      "ariaLabel": "Contact form",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Your email",
+      "messageLabel": "Message",
+      "messagePlaceholders": [
+        "Write your message here...",
+        "Tell me about your project",
+        "How can I help you?",
+        "Share your idea or request"
+      ],
+      "submitLabel": "Send Message",
+      "to": "yoelvyspc93@gmail.com",
+      "subject": "Contact from portfolio",
+      "errors": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Please enter a valid email",
+        "messageRequired": "Message is required"
+      }
+    }
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "items": [
+      {
+        "question": "What technologies do you specialize in?",
+        "answer": "I specialize in the modern JavaScript ecosystem, including React, Next.js, TypeScript, and tooling such as Storybook, Cypress, and GSAP."
+      },
+      {
+        "question": "What type of projects do you enjoy most?",
+        "answer": "I enjoy bridging design and engineering to build high-performance, scalable web applications with strong user experiences."
+      },
+      {
+        "question": "How quickly do you respond to inquiries?",
+        "answer": "I typically respond within 24 hours."
+      }
+    ]
+  },
+  "footer": {
+    "ariaLabel": "Footer navigation",
+    "copyrightName": "Yoelvys",
+    "rightsLabel": "All rights reserved.",
+    "links": [
+      {
+        "label": "About",
+        "href": "#about"
+      },
+      {
+        "label": "Projects",
+        "href": "#projects"
+      },
+      {
+        "label": "Experience",
+        "href": "#experience"
+      },
+      {
+        "label": "Skills",
+        "href": "#skills"
+      },
+      {
+        "label": "FAQ",
+        "href": "#faq"
+      },
+      {
+        "label": "Contact",
+        "href": "#contact"
+      }
+    ]
+  }
+}

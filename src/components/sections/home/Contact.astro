@@ -1,22 +1,16 @@
 ---
-import Footer from '@/shared/Footer.astro'
 import Button from '@/ui/Button.astro'
 import InputField from '@/ui/InputField.astro'
 import TextAreaField from '@/ui/TextAreaField.astro'
+import type { CollectionEntry } from 'astro:content'
 
-export const socialLinks = [
-	{
-		platform: 'GitHub',
-		url: 'https://github.com/yoelvyspc93',
-	},
-	{
-		platform: 'LinkedIn',
-		url: 'https://www.linkedin.com/in/yoelvys-perez-cabrera',
-	},
-]
+type Props = {
+	content: CollectionEntry<'site'>['data']['contact']
+}
 
-const TO = 'yoelvyspc93@gmail.com'
-const SUBJECT = 'Contact from portfolio'
+const { content } = Astro.props
+const { form } = content
+const { to: TO, subject: SUBJECT, errors } = form
 ---
 
 <section
@@ -27,81 +21,83 @@ const SUBJECT = 'Contact from portfolio'
 	<div
 		class="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-12 px-4 lg:flex-row lg:gap-20"
 	>
-		<div class="w-full flex-1 max-w-[492px] md:max-w-full">
-			<h2 id="contact-title" class="mb-4 font-display text-heading-2 font-bold">
-				Contact Me
-			</h2>
+		<article class="w-full flex-1 max-w-[492px] md:max-w-full">
+			<header>
+				<h2
+					id="contact-title"
+					class="mb-4 font-display text-heading-2 font-bold"
+				>
+					{content.title}
+				</h2>
+			</header>
 
-			<div
-				class="mb-10 flex max-w-[600px] flex-col gap-4 font-sans text-large leading-normal text-pretty text-white"
-			>
-				<p>
-					I'm currently open to new opportunities and collaborations. Whether
-					you have a question regarding a project or want to discuss a potential
-					role, my inbox is open.
-				</p>
-				<p>I typically respond within 24 hours.</p>
+			<div class="mb-10 flex max-w-[600px] flex-col gap-4 font-sans text-large leading-normal text-pretty text-white">
+				{content.body.map((paragraph) => (
+					<p>{paragraph}</p>
+				))}
 			</div>
 
-			<ul class="flex list-none flex-row gap-3 p-0">
-				{
-					socialLinks.map((sm) => (
-						<li>
-							<a
-								aria-label={`link to ${sm.platform}`}
-								href={sm.url}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="h-11 w-auto rounded-lg bg-dark-gray p-2.5 flex items-center justify-center"
-							>
-								{sm.platform}
-							</a>
-						</li>
-					))
-				}
-			</ul>
-		</div>
+			<nav aria-label="Social links">
+				<ul class="flex list-none flex-row gap-3 p-0">
+					{
+						content.socials.map((sm) => (
+							<li>
+								<a
+									aria-label={sm.platform}
+									href={sm.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="h-11 w-auto rounded-lg bg-dark-gray p-2.5 flex items-center justify-center"
+								>
+									{sm.platform}
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</nav>
+		</article>
 
 		<form
 			id="contact-form"
 			class="flex w-full flex-1 max-w-[492px] flex-col gap-[30px] rounded-[24px] bg-dark-gray px-[30px] py-10 md:max-w-full"
-			aria-label="Contact form"
+			aria-label={form.ariaLabel}
 			novalidate
 		>
-			<div>
-				<InputField
-					label="Email"
-					type="email"
-					id="email"
-					placeholders={['Your email']}
-					required={true}
-					ariaDescribedby="email-error"
-				/>
-			</div>
+			<fieldset class="flex flex-col gap-[30px] border-0 p-0 m-0">
+				<legend class="sr-only">{form.ariaLabel}</legend>
+				<div>
+					<InputField
+						label={form.emailLabel}
+						type="email"
+						id="email"
+						placeholders={[form.emailPlaceholder]}
+						required={true}
+						ariaDescribedby="email-error"
+					/>
+				</div>
 
-			<div>
-				<TextAreaField
-					label="Message"
-					id="message"
-					placeholders={[
-						'Write your message here...',
-						'Tell me about your project',
-						'How can I help you?',
-						'Share your idea or request',
-					]}
-					required={true}
-					ariaDescribedby="message-error"
-				/>
-			</div>
+				<div>
+					<TextAreaField
+						label={form.messageLabel}
+						id="message"
+						placeholders={form.messagePlaceholders}
+						required={true}
+						ariaDescribedby="message-error"
+					/>
+				</div>
 
-			<div class="mt-4 flex w-full justify-end">
-				<Button type="submit" aria-label="Send message">Send Message</Button>
-			</div>
+				<div class="mt-4 flex w-full justify-end">
+					<Button type="submit" aria-label={form.submitLabel}>
+						{form.submitLabel}
+					</Button>
+				</div>
+			</fieldset>
 		</form>
 	</div>
 </section>
 
-<script define:vars={{ TO, SUBJECT }}>
+<script define:vars={{ TO, SUBJECT, errors }}>
 	const form = document.getElementById('contact-form')
 	const emailInput = document.getElementById('email')
 	const messageInput = document.getElementById('message')
@@ -137,11 +133,11 @@ const SUBJECT = 'Contact from portfolio'
 
 		// Validate email
 		if (!email) {
-			showError(emailError, 'Email is required')
+			showError(emailError, errors.emailRequired)
 			emailInput?.setAttribute('aria-invalid', 'true')
 			isValid = false
 		} else if (!validateEmail(email)) {
-			showError(emailError, 'Please enter a valid email')
+			showError(emailError, errors.emailInvalid)
 			emailInput?.setAttribute('aria-invalid', 'true')
 			isValid = false
 		} else {
@@ -151,7 +147,7 @@ const SUBJECT = 'Contact from portfolio'
 
 		// Validate message
 		if (!message) {
-			showError(messageError, 'Message is required')
+			showError(messageError, errors.messageRequired)
 			messageInput?.setAttribute('aria-invalid', 'true')
 			isValid = false
 		} else {
