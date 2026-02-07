@@ -1,14 +1,30 @@
 ---
 import ProjectItem from '@/shared/ProjectItem.astro'
 import CircleButton from '@/ui/CircleButton.astro'
-import { getCollection } from 'astro:content'
+import { getCollection, type CollectionEntry } from 'astro:content'
 import 'swiper/css'
+
+type Props = {
+	content: CollectionEntry<'site'>['data']['projects']
+}
+
+const { content } = Astro.props
 
 const all = await getCollection('projects')
 
 const featured = all
 	.filter(({ data }) => Boolean(data.favorite))
 	.sort((a, b) => Number(a.data.id) - Number(b.data.id))
+
+const {
+	title,
+	accent,
+	ariaLabel,
+	paginationLabel,
+	prevLabel,
+	nextLabel,
+	bulletLabel,
+} = content
 ---
 
 <section
@@ -21,7 +37,7 @@ const featured = all
 	<div class="relative mx-auto max-w-7xl px-4">
 		<header class="text-center">
 			<h2 id="projects-title">
-				{featured.length} Latest <span>Projects</span>
+				{featured.length} {title} <span>{accent}</span>
 			</h2>
 		</header>
 
@@ -30,18 +46,18 @@ const featured = all
 				class="swiper select-none"
 				data-projects-swiper
 				aria-roledescription="carousel"
-				aria-label="Featured projects"
+				aria-label={ariaLabel}
 			>
-				<div class="swiper-wrapper h-auto max-h-[500px]">
+				<ul class="swiper-wrapper h-auto max-h-[500px]" role="list">
 					{
 						featured.map((entry, idx) => {
 							const { title, overview, images, technologies } = entry.data
 
 							return (
-								<div
+								<li
 									class="swiper-slide"
 									aria-roledescription="slide"
-									aria-label={`Project ${idx + 1} of ${featured.length}`}
+									aria-label={`${idx + 1}/${featured.length}`}
 								>
 									<ProjectItem
 										title={title}
@@ -49,20 +65,23 @@ const featured = all
 										images={images}
 										technologies={technologies}
 									/>
-								</div>
+								</li>
 							)
 						})
 					}
-				</div>
+				</ul>
 			</div>
 
 			<!-- Controls -->
-			<div class="mt-20 flex items-center justify-center gap-6 z-10">
+			<nav
+				class="mt-20 flex items-center justify-center gap-6 z-10"
+				aria-label={paginationLabel}
+			>
 				<button
 					type="button"
 					class="group inline-flex items-center justify-center rounded-full rotate-180"
 					data-projects-prev
-					aria-label="Previous project"
+					aria-label={prevLabel}
 				>
 					<CircleButton />
 				</button>
@@ -70,7 +89,7 @@ const featured = all
 				<div
 					class="projects-pagination flex items-center gap-3"
 					data-projects-pagination
-					aria-label="Choose project"
+					aria-label={paginationLabel}
 				>
 				</div>
 
@@ -78,11 +97,11 @@ const featured = all
 					type="button"
 					class="group inline-flex items-center justify-center rounded-full"
 					data-projects-next
-					aria-label="Next project"
+					aria-label={nextLabel}
 				>
 					<CircleButton />
 				</button>
-			</div>
+			</nav>
 		</div>
 	</div>
 </section>
@@ -102,7 +121,7 @@ const featured = all
 	}
 </style> -->
 
-<script>
+<script define:vars={{ bulletLabel }}>
 	import Swiper from 'swiper'
 	import { Navigation, Pagination, Parallax, A11y } from 'swiper/modules'
 
@@ -142,7 +161,7 @@ const featured = all
 				bulletClass: 'dot dot-md dot-neutral',
 				bulletActiveClass: '!bg-primary',
 				renderBullet: (index, className) =>
-					`<button type="button" class="${className}" aria-label="Go to project ${index + 1}"></button>`,
+					`<button type="button" class="${className}" aria-label="${bulletLabel} ${index + 1}"></button>`,
 			},
 		})
 	}

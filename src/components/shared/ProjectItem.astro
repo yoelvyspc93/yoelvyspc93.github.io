@@ -20,11 +20,7 @@ const { title, overview, technologies, images } = Astro.props
 		</p>
 		{
 			technologies?.length ? (
-				<ul
-					class="flex flex-wrap gap-2"
-					aria-label="Technologies"
-					data-swiper-parallax="-200"
-				>
+				<ul class="flex flex-wrap gap-2" data-swiper-parallax="-200">
 					{technologies.map((technology, index) => (
 						<li data-swiper-parallax={-20 * (index + 1)}>
 							<Tag>{technology}</Tag>
@@ -50,8 +46,6 @@ const { title, overview, technologies, images } = Astro.props
 				/>
 			))
 		}
-		<figcaption class="sr-only">
-			{title} project preview
-		</figcaption>
+		<figcaption class="sr-only">{title}</figcaption>
 	</figure>
 </article>

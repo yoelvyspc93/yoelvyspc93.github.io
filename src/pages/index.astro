@@ -6,15 +6,24 @@ import Projects from '@/sections/home/Projects.astro'
 import Experience from '@/sections/home/Experience.astro'
 import Skills from '@/sections/home/Skills.astro'
 import Contact from '@/sections/home/Contact.astro'
+import Faq from '@/sections/home/Faq.astro'
+import { getEntry } from 'astro:content'
+
+const home = await getEntry('site', 'home')
+
+if (!home) {
+	throw new Error('Home content entry not found.')
+}
 ---
 
 <Layout>
 	<main id="main-content">
-		<Hero />
-		<About />
-		<Projects />
-		<Experience />
-		<Skills />
-		<Contact />
+		<Hero content={home.data.hero} />
+		<About content={home.data.about} />
+		<Projects content={home.data.projects} />
+		<Experience content={home.data.experience} />
+		<Skills content={home.data.skills} />
+		<Faq content={home.data.faq} />
+		<Contact content={home.data.contact} />
 	</main>
 </Layout>

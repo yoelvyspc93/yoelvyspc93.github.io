@@ -1,25 +1,12 @@
 ---
 import Tag from '@/shared/Tag.astro'
+import type { CollectionEntry } from 'astro:content'
 
-const skills = [
-	'Next.js',
-	'CSS3',
-	'Redux',
-	'Figma',
-	'React',
-	'Storybook',
-	'Jest',
-	'React Native',
-	'Webflow',
-	'TypeScript',
-	'Cypress',
-	'WordPress',
-	'Python',
-	'JavaScript',
-	'Chromatic',
-	'Django',
-	'HTML5',
-]
+type Props = {
+	content: CollectionEntry<'site'>['data']['skills']
+}
+
+const { content } = Astro.props
 ---
 
 <section
@@ -28,27 +15,28 @@ const skills = [
 	class="section-container z-1 bg-surface-soft touch-pan-y"
 >
 	<div aria-hidden="true" class="bg-texture absolute inset-0"></div>
-	<div
+	<header
 		class="pointer-events-none absolute left-1/2 top-1/2 z-1 flex max-w-[800px] min-w-[350px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-6 px-4 text-center"
 	>
-		<h2 id="skills-heading">My <span>Skills</span></h2>
+		<h2 id="skills-heading">
+			{content.title} <span>{content.accent}</span>
+		</h2>
 		<p class="m-0 mx-auto max-w-[800px] text-center">
-			My tech stack is focused on the JavaScript ecosystem, prioritizing tools
-			that enable speed, scalability, and type safety.
+			{content.description}
 		</p>
-	</div>
+	</header>
 
 	<div
 		data-skills-layer
 		class="pointer-events-none absolute inset-0 z-2 touch-pan-y lg:pointer-events-auto"
 	>
 		{
-			skills.map((skill) => (
+			content.list.map((skill) => (
 				<Tag
 					size="large"
 					class="pointer-events-auto absolute select-none will-change-transform cursor-grab active:cursor-grabbing"
 					data-skill-card
-					aria-label={`Skill card ${skill}. Drag to interact.`}
+					aria-label={`${content.cardLabelPrefix} ${skill}. ${content.cardLabelSuffix}`}
 				>
 					{skill}
 				</Tag>

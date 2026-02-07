@@ -27,10 +27,7 @@ const getDateTime = (value: string) => (value === 'Present' ? '9999' : value)
 const startDateTime = getDateTime(item.period.start)
 const endDateTime = getDateTime(item.period.end)
 
-const isPresent = item.period.end === 'Present'
-const dateLabel = isPresent
-	? `${item.period.start} to present`
-	: `${item.period.start} to ${item.period.end}`
+const dateLabel = `${item.period.start} - ${item.period.end}`
 ---
 
 <li class="relative">
@@ -79,16 +76,14 @@ const dateLabel = isPresent
 			{
 				item.image?.length ? (
 					<figure class="mt-[clamp(12px,2vw,20px)]">
-						<figcaption class="sr-only">{`${item.company} work previews`}</figcaption>
+						<figcaption class="sr-only">{item.company}</figcaption>
 
 						<ul class="grid grid-cols-2 gap-[clamp(12px,2vw,20px)] list-none p-0">
 							{item.image.map((img, imgIndex) => (
 								<li>
 									<Image
 										src={`/images/projects/${img}.webp`}
-										alt={
-											imgIndex === 0 ? `${item.company} project preview` : ''
-										}
+										alt={imgIndex === 0 ? item.company : ''}
 										aria-hidden={imgIndex !== 0}
 										width={800}
 										height={600}
