@@ -7,13 +7,9 @@ type Props = {
 		highlightsTitle: string
 		highlights: string[]
 	}
-	media: {
-		imageSrc: string
-		imageAlt: string
-	}
 }
 
-const { content, media } = Astro.props
+const { content } = Astro.props
 ---
 
 <section
@@ -22,19 +18,19 @@ const { content, media } = Astro.props
 	aria-labelledby="about-title"
 >
 	<div class="mx-auto max-w-7xl">
-		<header class="lg:order-2">
-			<h2 id="about-title" class="sr-only">{content.title}</h2>
-		</header>
-		<div class="grid items-center gap-10 grid-cols-1 xl:grid-cols-2">
-			<figure class="mx-auto size-[300px] md:size-[300px] xl:size-[500px]">
+			<header class="lg:order-2">
+				<h2 id="about-title" class="sr-only">{content.title}</h2>
+			</header>
+			<div class="grid items-center gap-10 grid-cols-1 xl:grid-cols-2">
+				<figure class="mx-auto size-[300px] md:size-[300px] xl:size-[500px]">
 					<Image
-						src={media.imageSrc}
-						alt={media.imageAlt}
-					loading="lazy"
-					decoding="async"
-					class="h-full w-full object-cover"
-					width="560"
-					height="560"
+						src="/images/about.webp"
+						alt="Portrait of Yoelvys Pérez Cabrera"
+						loading="lazy"
+						decoding="async"
+						class="h-full w-full object-cover"
+						width="560"
+						height="560"
 				/>
 			</figure>
 			<div class="mt-6 space-y-6 max-w-[560px]">

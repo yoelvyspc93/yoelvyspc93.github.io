@@ -3,12 +3,10 @@ import LiquidGlass from '@/shared/LiquidGlass.astro'
 type Props = {
 	navigation: {
 		items: { label: string; href: string }[]
-		menu: { openLabel: string; closeLabel: string; dialogLabel: string }
 	}
 }
 
 const { navigation } = Astro.props
-const { menu } = navigation
 const navItems = navigation.items
 
 const filterStyle =
@@ -18,7 +16,7 @@ const filterStyle =
 <div class="relative z-1500 lg:hidden" data-sliding-menu>
 	<button
 		class="fixed right-6 top-6 z-1510 flex h-[44px] w-[44px] flex-col items-center justify-center rounded-full border border-violet-blue/10 bg-black/20"
-		aria-label={menu.openLabel}
+		aria-label="Open menu"
 		aria-expanded="false"
 		aria-controls="navigation-menu"
 		data-menu-open
@@ -36,7 +34,7 @@ const filterStyle =
 		class="fixed inset-0 z-1500 hidden h-screen w-screen bg-black/0"
 		role="dialog"
 		aria-modal="true"
-		aria-label={menu.dialogLabel}
+		aria-label="Navigation menu"
 		data-menu-overlay
 	>
 		<div class="absolute inset-0 flex h-full w-full" aria-hidden="true">
@@ -50,7 +48,7 @@ const filterStyle =
 		>
 			<button
 				class="absolute right-10 top-6 z-1511 flex h-8 w-8 items-center justify-center"
-				aria-label={menu.closeLabel}
+				aria-label="Close menu"
 				data-menu-close
 			>
 				<span class="absolute h-[3px] w-8 rounded bg-white rotate-45"></span>

@@ -7,12 +7,10 @@ type Props = {
 		title: string
 		accent: string
 	}
-	labels: {
-		timelineLabel: string
-	}
 }
 
-const { content, labels } = Astro.props
+const { content } = Astro.props
+const timelineLabel = 'Experience timeline'
 
 const entries = await getCollection('experience')
 
@@ -49,7 +47,7 @@ const items = await Promise.all(
 
 		<ol
 			class="relative pl-[clamp(72px,9vw,120px)] flex flex-col gap-10"
-			aria-label={labels.timelineLabel}
+			aria-label={timelineLabel}
 		>
 			<li
 				aria-hidden="true"

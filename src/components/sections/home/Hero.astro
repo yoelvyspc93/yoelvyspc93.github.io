@@ -7,18 +7,10 @@ type Props = {
 		name: string
 		role: string
 		description: string
-		ctaPrimaryLabel: string
-		ctaSecondaryLabel: string
-	}
-	ctas: {
-		ctaPrimaryHref: string
-		ctaPrimaryAriaLabel: string
-		ctaSecondaryHref: string
-		ctaSecondaryAriaLabel: string
 	}
 }
 
-const { content, ctas } = Astro.props
+const { content } = Astro.props
 const { eyebrow, name, role, description } = content
 ---
 
@@ -69,21 +61,21 @@ const { eyebrow, name, role, description } = content
 			<Button
 				variant="primary"
 				size="large"
-				href={ctas.ctaPrimaryHref}
+				href="/cv-yoelvys-perez-cabrera.pdf"
 				external
-				aria-label={ctas.ctaPrimaryAriaLabel}
+				aria-label="Download my CV"
 			>
-				{content.ctaPrimaryLabel}
+				Download CV
 			</Button>
 
 			<Button
-				href={ctas.ctaSecondaryHref}
+				href="#contact"
 				variant="outlined"
 				size="large"
 				external={false}
-				aria-label={ctas.ctaSecondaryAriaLabel}
+				aria-label="Go to the contact section"
 			>
-				{content.ctaSecondaryLabel}
+				Let’s Talk
 			</Button>
 		</div>
 	</header>

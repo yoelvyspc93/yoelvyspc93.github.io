@@ -3,36 +3,39 @@ import Button from '@/ui/Button.astro'
 import InputField from '@/ui/InputField.astro'
 import TextAreaField from '@/ui/TextAreaField.astro'
 type Props = {
-	content: {
-		title: string
-		body: string[]
-		form: {
-			emailLabel: string
-			emailPlaceholder: string
-			messageLabel: string
-			messagePlaceholders: string[]
-			submitLabel: string
-			errors: {
-				emailRequired: string
-				emailInvalid: string
-				messageRequired: string
+		content: {
+			title: string
+			body: string[]
+			form: {
+				errors: {
+					emailRequired: string
+					emailInvalid: string
+					messageRequired: string
+				}
 			}
 		}
+		meta: {
+			socials: { platform: string; url: string }[]
+			form: { to: string; subject: string }
+		}
 	}
-	labels: {
-		formAriaLabel: string
-		socialsLabel: string
-	}
-	meta: {
-		socials: { platform: string; url: string }[]
-		form: { to: string; subject: string }
-	}
-}
 
-const { content, labels, meta } = Astro.props
+const { content, meta } = Astro.props
 const { form } = content
 const { to: TO, subject: SUBJECT } = meta.form
 const { errors } = form
+const formAriaLabel = 'Contact form'
+const socialsLabel = 'Social links'
+const emailLabel = 'Email'
+const emailPlaceholder = 'Your email'
+const messageLabel = 'Message'
+const messagePlaceholders = [
+	'Write your message here...',
+	'Tell me about your project',
+	'How can I help you?',
+	'Share your idea or request',
+]
+const submitLabel = 'Send Message'
 ---
 
 <section
@@ -59,7 +62,7 @@ const { errors } = form
 				))}
 			</div>
 
-			<nav aria-label={labels.socialsLabel}>
+			<nav aria-label={socialsLabel}>
 				<ul class="flex list-none flex-row gap-3 p-0">
 					{
 						meta.socials.map((sm) => (
@@ -83,17 +86,17 @@ const { errors } = form
 		<form
 			id="contact-form"
 			class="flex w-full flex-1 max-w-[492px] flex-col gap-[30px] rounded-[24px] bg-dark-gray px-[30px] py-10 md:max-w-full"
-			aria-label={labels.formAriaLabel}
+			aria-label={formAriaLabel}
 			novalidate
 		>
 			<fieldset class="flex flex-col gap-[30px] border-0 p-0 m-0">
-				<legend class="sr-only">{labels.formAriaLabel}</legend>
+				<legend class="sr-only">{formAriaLabel}</legend>
 				<div>
 					<InputField
-						label={form.emailLabel}
+						label={emailLabel}
 						type="email"
 						id="email"
-						placeholders={[form.emailPlaceholder]}
+						placeholders={[emailPlaceholder]}
 						required={true}
 						ariaDescribedby="email-error"
 					/>
@@ -101,17 +104,17 @@ const { errors } = form
 
 				<div>
 					<TextAreaField
-						label={form.messageLabel}
+						label={messageLabel}
 						id="message"
-						placeholders={form.messagePlaceholders}
+						placeholders={messagePlaceholders}
 						required={true}
 						ariaDescribedby="message-error"
 					/>
 				</div>
 
 				<div class="mt-4 flex w-full justify-end">
-					<Button type="submit" aria-label={form.submitLabel}>
-						{form.submitLabel}
+					<Button type="submit" aria-label={submitLabel}>
+						{submitLabel}
 					</Button>
 				</div>
 			</fieldset>

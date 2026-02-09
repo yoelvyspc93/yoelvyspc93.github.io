@@ -3,9 +3,7 @@
     "eyebrow": "Hi, I’m",
     "name": "Yoelvys",
     "role": "Senior Frontend Engineer",
-    "description": "I bridge the gap between design and engineering, building high-performance, scalable web applications with React, Next.js, and TypeScript. Focused on exceptional user experiences and technical excellence.",
-    "ctaPrimaryLabel": "Download CV",
-    "ctaSecondaryLabel": "Let’s Talk"
+    "description": "I bridge the gap between design and engineering, building high-performance, scalable web applications with React, Next.js, and TypeScript. Focused on exceptional user experiences and technical excellence."
   },
   "about": {
     "title": "Who I am",
@@ -59,16 +57,6 @@
       "I typically respond within 24 hours."
     ],
     "form": {
-      "emailLabel": "Email",
-      "emailPlaceholder": "Your email",
-      "messageLabel": "Message",
-      "messagePlaceholders": [
-        "Write your message here...",
-        "Tell me about your project",
-        "How can I help you?",
-        "Share your idea or request"
-      ],
-      "submitLabel": "Send Message",
       "errors": {
         "emailRequired": "Email is required",
         "emailInvalid": "Please enter a valid email",

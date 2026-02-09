@@ -1,7 +1,6 @@
 ---
 type Props = {
 	footer: {
-		ariaLabel: string
 		copyrightName: string
 		rightsLabel: string
 		links: { label: string; href: string }[]
@@ -19,7 +18,7 @@ const { footer } = Astro.props
 			©{new Date().getFullYear()} {footer.copyrightName}. {footer.rightsLabel}
 		</p>
 
-		<nav aria-label={footer.ariaLabel}>
+		<nav aria-label="Footer navigation">
 			<ul class="flex flex-wrap justify-center gap-5 md:gap-7">
 				{
 					footer.links.map((link) => (

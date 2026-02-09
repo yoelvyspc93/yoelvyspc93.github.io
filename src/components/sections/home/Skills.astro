@@ -7,13 +7,11 @@ type Props = {
 		description: string
 		list: string[]
 	}
-	labels: {
-		cardLabelPrefix: string
-		cardLabelSuffix: string
-	}
 }
 
-const { content, labels } = Astro.props
+const { content } = Astro.props
+const cardLabelPrefix = 'Skill card'
+const cardLabelSuffix = 'Drag to interact.'
 ---
 
 <section
@@ -43,7 +41,7 @@ const { content, labels } = Astro.props
 					size="large"
 					class="pointer-events-auto absolute select-none will-change-transform cursor-grab active:cursor-grabbing"
 					data-skill-card
-					aria-label={`${labels.cardLabelPrefix} ${skill}. ${labels.cardLabelSuffix}`}
+					aria-label={`${cardLabelPrefix} ${skill}. ${cardLabelSuffix}`}
 				>
 					{skill}
 				</Tag>

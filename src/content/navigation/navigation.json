@@ -1,7 +1,5 @@
 {
   "brand": "Y",
-  "brandAriaLabel": "Go to top",
-  "ariaLabel": "Primary",
   "items": [
     {
       "label": "Home",
@@ -34,12 +32,6 @@
   ],
   "cta": {
     "label": "Download CV",
-    "href": "/cv-yoelvys-perez-cabrera.pdf",
-    "ariaLabel": "Download my CV"
-  },
-  "menu": {
-    "openLabel": "Open menu",
-    "closeLabel": "Close menu",
-    "dialogLabel": "Navigation menu"
+    "href": "/cv-yoelvys-perez-cabrera.pdf"
   }
 }

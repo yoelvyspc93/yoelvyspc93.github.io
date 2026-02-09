@@ -7,14 +7,13 @@ import '@/styles/global.css'
 import Footer from '@/shared/Footer.astro'
 import { getEntry } from 'astro:content'
 
-const home = await getEntry('home', 'index')
-const seo = await getEntry('seo', 'index')
-const person = await getEntry('person', 'index')
-const navigation = await getEntry('navigation', 'index')
-const footer = await getEntry('footer', 'index')
-const a11y = await getEntry('a11y', 'index')
+const home = await getEntry('home', 'home')
+const seo = await getEntry('seo', 'seo')
+const person = await getEntry('person', 'person')
+const navigation = await getEntry('navigation', 'navigation')
+const footer = await getEntry('footer', 'footer')
 
-if (!home || !seo || !person || !navigation || !footer || !a11y) {
+if (!home || !seo || !person || !navigation || !footer) {
 	throw new Error('Home content entry not found.')
 }
 
@@ -113,7 +112,7 @@ const structuredData = [
 		<ClientRouter />
 	</head>
 	<body>
-		<a href="#main-content" class="skip-link">{a11y.data.skipLink}</a>
+		<a href="#main-content" class="skip-link">Skip to main content</a>
 		<Navigator navigation={navigation.data} />
 		<!-- <SlidingMenu /> -->
 		<slot />

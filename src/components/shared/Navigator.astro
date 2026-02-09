@@ -3,11 +3,8 @@ import Button from '@/ui/Button.astro'
 type Props = {
 	navigation: {
 		brand: string
-		brandAriaLabel: string
-		ariaLabel: string
 		items: { label: string; href: string }[]
-		cta: { label: string; href: string; ariaLabel: string }
-		menu: { openLabel: string; closeLabel: string; dialogLabel: string }
+		cta: { label: string; href: string }
 	}
 }
 
@@ -21,7 +18,7 @@ const homeTargetId = homeLink.replace('#', '')
 		<nav
 			class="relative overflow-hidden bg-section rounded-full"
 			data-nav
-			aria-label={navigation.ariaLabel}
+			aria-label="Primary"
 		>
 			<div
 				aria-hidden="true"
@@ -30,13 +27,13 @@ const homeTargetId = homeLink.replace('#', '')
 			</div>
 
 			<div class="relative flex items-center justify-between gap-3 px-2 py-2">
-				<a
-					href={homeLink}
-					class="grid size-10 place-items-center rounded-full font-display text-xl leading-none text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
-					aria-label={navigation.brandAriaLabel}
-					data-nav-link
-					data-target={homeTargetId}
-				>
+					<a
+						href={homeLink}
+						class="grid size-10 place-items-center rounded-full font-display text-xl leading-none text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+						aria-label="Go to top"
+						data-nav-link
+						data-target={homeTargetId}
+					>
 					<span>{navigation.brand}</span>
 				</a>
 
@@ -65,13 +62,13 @@ const homeTargetId = homeLink.replace('#', '')
 					}
 				</ul>
 
-				<Button
-					variant="primary"
-					size="small"
-					href={navigation.cta.href}
-					external
-					aria-label={navigation.cta.ariaLabel}
-				>
+					<Button
+						variant="primary"
+						size="small"
+						href={navigation.cta.href}
+						external
+						aria-label="Download my CV"
+					>
 					{navigation.cta.label}
 				</Button>
 			</div>

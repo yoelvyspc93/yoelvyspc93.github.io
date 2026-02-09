@@ -9,16 +9,9 @@ type Props = {
 		title: string
 		accent: string
 	}
-	labels: {
-		ariaLabel: string
-		paginationLabel: string
-		prevLabel: string
-		nextLabel: string
-		bulletLabel: string
-	}
 }
 
-const { content, labels } = Astro.props
+const { content } = Astro.props
 
 const all = await getCollection('projects')
 
@@ -27,7 +20,11 @@ const featured = all
 	.sort((a, b) => Number(a.data.id) - Number(b.data.id))
 
 const { title, accent } = content
-const { ariaLabel, paginationLabel, prevLabel, nextLabel, bulletLabel } = labels
+const ariaLabel = 'Featured projects'
+const paginationLabel = 'Choose project'
+const prevLabel = 'Previous project'
+const nextLabel = 'Next project'
+const bulletLabel = 'Go to project'
 ---
 
 <section

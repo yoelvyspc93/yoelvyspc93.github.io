@@ -36,8 +36,6 @@ const home = defineCollection({
       name: z.string(),
       role: z.string(),
       description: z.string(),
-      ctaPrimaryLabel: z.string(),
-      ctaSecondaryLabel: z.string(),
     }),
     about: z.object({
       title: z.string(),
@@ -63,11 +61,6 @@ const home = defineCollection({
       title: z.string(),
       body: z.array(z.string()),
       form: z.object({
-        emailLabel: z.string(),
-        emailPlaceholder: z.string(),
-        messageLabel: z.string(),
-        messagePlaceholders: z.array(z.string()),
-        submitLabel: z.string(),
         errors: z.object({
           emailRequired: z.string(),
           emailInvalid: z.string(),
@@ -105,8 +98,6 @@ const navigation = defineCollection({
   type: 'data',
   schema: z.object({
     brand: z.string(),
-    brandAriaLabel: z.string(),
-    ariaLabel: z.string(),
     items: z.array(
       z.object({
         label: z.string(),
@@ -116,12 +107,6 @@ const navigation = defineCollection({
     cta: z.object({
       label: z.string(),
       href: z.string(),
-      ariaLabel: z.string(),
-    }),
-    menu: z.object({
-      openLabel: z.string(),
-      closeLabel: z.string(),
-      dialogLabel: z.string(),
     }),
   }),
 });
@@ -129,7 +114,6 @@ const navigation = defineCollection({
 const footer = defineCollection({
   type: 'data',
   schema: z.object({
-    ariaLabel: z.string(),
     copyrightName: z.string(),
     rightsLabel: z.string(),
     links: z.array(
@@ -150,47 +134,6 @@ const person = defineCollection({
     location: z.string(),
     image: z.string(),
     sameAs: z.array(z.string()),
-  }),
-});
-
-const a11y = defineCollection({
-  type: 'data',
-  schema: z.object({
-    skipLink: z.string(),
-  }),
-});
-
-const sections = defineCollection({
-  type: 'data',
-  schema: z.object({
-    hero: z.object({
-      ctaPrimaryHref: z.string(),
-      ctaPrimaryAriaLabel: z.string(),
-      ctaSecondaryHref: z.string(),
-      ctaSecondaryAriaLabel: z.string(),
-    }),
-    about: z.object({
-      imageSrc: z.string(),
-      imageAlt: z.string(),
-    }),
-    projects: z.object({
-      ariaLabel: z.string(),
-      paginationLabel: z.string(),
-      prevLabel: z.string(),
-      nextLabel: z.string(),
-      bulletLabel: z.string(),
-    }),
-    experience: z.object({
-      timelineLabel: z.string(),
-    }),
-    skills: z.object({
-      cardLabelPrefix: z.string(),
-      cardLabelSuffix: z.string(),
-    }),
-    contact: z.object({
-      formAriaLabel: z.string(),
-      socialsLabel: z.string(),
-    }),
   }),
 });
 
@@ -219,7 +162,5 @@ export const collections = {
   navigation,
   footer,
   person,
-  a11y,
-  sections,
   contact,
 };
