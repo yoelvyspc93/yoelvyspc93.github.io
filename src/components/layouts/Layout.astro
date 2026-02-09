@@ -12,11 +12,29 @@ import person from '@/content/person.json'
 import navigation from '@/content/navigation.json'
 import footer from '@/content/footer.json'
 
+type SeoOverrides = Partial<{
+	title: string
+	description: string
+	canonicalPath: string
+	ogImage: string
+	locale: string
+	type: string
+	twitterCard: string
+	language: string
+}>
+
+type Props = {
+	seo?: SeoOverrides
+}
+
+const { seo: seoOverrides } = Astro.props
+
 const { faq } = home
+const seoData = { ...seo, ...seoOverrides }
 ---
 
 <!doctype html>
-<html lang={seo.language}>
+<html lang={seoData.language}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,7 +48,7 @@ const { faq } = home
 		<meta name="theme-color" content="#ffffff" />
 		<meta name="color-scheme" content="light" />
 		<meta name="generator" content={Astro.generator} />
-		<Seo seo={seo} person={person} faq={faq} />
+		<Seo seo={seoData} person={person} faq={faq} />
 		<ClientRouter />
 	</head>
 	<body>
