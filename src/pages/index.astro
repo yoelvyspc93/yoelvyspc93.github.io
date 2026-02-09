@@ -7,24 +7,19 @@ import Experience from '@/sections/home/Experience.astro'
 import Skills from '@/sections/home/Skills.astro'
 import Contact from '@/sections/home/Contact.astro'
 import Faq from '@/sections/home/Faq.astro'
-import { getEntry } from 'astro:content'
 
-const home = await getEntry('home', 'home')
-const contact = await getEntry('contact', 'contact')
-
-if (!home || !contact) {
-	throw new Error('Home content entry not found.')
-}
+import home from '../content/home.json'
+import contact from '../content/contact.json'
 ---
 
 <Layout>
-	<main id="main-content">
-		<Hero content={home.data.hero} />
-		<About content={home.data.about} />
-		<Projects content={home.data.projects} />
-		<Experience content={home.data.experience} />
-		<Skills content={home.data.skills} />
-		<Faq content={home.data.faq} />
-		<Contact content={home.data.contact} meta={contact.data} />
-	</main>
+		<main id="main-content">
+			<Hero content={home.hero} />
+			<About content={home.about} />
+			<Projects content={home.projects} />
+			<Experience content={home.experience} />
+			<Skills content={home.skills} />
+			<Faq content={home.faq} />
+			<Contact content={home.contact} meta={contact} />
+		</main>
 </Layout>

@@ -5,55 +5,49 @@ import Navigator from '@/shared/Navigator.astro'
 
 import '@/styles/global.css'
 import Footer from '@/shared/Footer.astro'
-import { getEntry } from 'astro:content'
+import home from '../../content/home.json'
+import seo from '../../content/seo.json'
+import person from '../../content/person.json'
+import navigation from '../../content/navigation.json'
+import footer from '../../content/footer.json'
 
-const home = await getEntry('home', 'home')
-const seo = await getEntry('seo', 'seo')
-const person = await getEntry('person', 'person')
-const navigation = await getEntry('navigation', 'navigation')
-const footer = await getEntry('footer', 'footer')
-
-if (!home || !seo || !person || !navigation || !footer) {
-	throw new Error('Home content entry not found.')
-}
-
-const { faq } = home.data
+const { faq } = home
 
 const canonicalURL = new URL(
-	seo.data.canonicalPath || Astro.url.pathname,
+	seo.canonicalPath || Astro.url.pathname,
 	Astro.site,
 )
-const ogImage = new URL(seo.data.ogImage, Astro.site)
+const ogImage = new URL(seo.ogImage, Astro.site)
 
 const structuredData = [
 	{
 		'@context': 'https://schema.org',
 		'@type': 'Person',
-		name: person.data.name,
-		jobTitle: person.data.role,
-		email: person.data.email,
-		image: new URL(person.data.image, Astro.site).href,
+		name: person.name,
+		jobTitle: person.role,
+		email: person.email,
+		image: new URL(person.image, Astro.site).href,
 		url: canonicalURL.href,
-		sameAs: person.data.sameAs,
+		sameAs: person.sameAs,
 	},
 	{
 		'@context': 'https://schema.org',
 		'@type': 'WebSite',
-		name: seo.data.title,
+		name: seo.title,
 		url: canonicalURL.href,
-		description: seo.data.description,
-		inLanguage: seo.data.language,
+		description: seo.description,
+		inLanguage: seo.language,
 	},
 	{
 		'@context': 'https://schema.org',
 		'@type': 'WebPage',
-		name: seo.data.title,
-		description: seo.data.description,
+		name: seo.title,
+		description: seo.description,
 		url: canonicalURL.href,
-		inLanguage: seo.data.language,
+		inLanguage: seo.language,
 		about: {
 			'@type': 'Person',
-			name: person.data.name,
+			name: person.name,
 		},
 	},
 	...(faq.items.length
@@ -76,7 +70,7 @@ const structuredData = [
 ---
 
 <!doctype html>
-<html lang={seo.data.language}>
+<html lang={seo.language}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -86,26 +80,26 @@ const structuredData = [
 			rel="stylesheet"
 			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
 		/>
-		<meta name="description" content={seo.data.description} />
+		<meta name="description" content={seo.description} />
 		<meta name="robots" content="index,follow" />
-		<meta name="author" content={person.data.name} />
+		<meta name="author" content={person.name} />
 		<link rel="canonical" href={canonicalURL.href} />
-		<meta property="og:title" content={seo.data.title} />
-		<meta property="og:description" content={seo.data.description} />
-		<meta property="og:type" content={seo.data.type} />
+		<meta property="og:title" content={seo.title} />
+		<meta property="og:description" content={seo.description} />
+		<meta property="og:type" content={seo.type} />
 		<meta property="og:url" content={canonicalURL.href} />
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta property="og:image" content={ogImage.href} />
-		<meta property="og:locale" content={seo.data.locale} />
-		<meta property="og:site_name" content={seo.data.title} />
-		<meta name="twitter:card" content={seo.data.twitterCard} />
-		<meta name="twitter:title" content={seo.data.title} />
-		<meta name="twitter:description" content={seo.data.description} />
+		<meta property="og:locale" content={seo.locale} />
+		<meta property="og:site_name" content={seo.title} />
+		<meta name="twitter:card" content={seo.twitterCard} />
+		<meta name="twitter:title" content={seo.title} />
+		<meta name="twitter:description" content={seo.description} />
 		<meta name="twitter:image" content={ogImage.href} />
 		<meta name="theme-color" content="#ffffff" />
 		<meta name="color-scheme" content="light" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{seo.data.title}</title>
+		<title>{seo.title}</title>
 		<script type="application/ld+json">
 			{JSON.stringify(structuredData)}
 		</script>
@@ -113,9 +107,9 @@ const structuredData = [
 	</head>
 	<body>
 		<a href="#main-content" class="skip-link">Skip to main content</a>
-		<Navigator navigation={navigation.data} />
+		<Navigator navigation={navigation} />
 		<!-- <SlidingMenu /> -->
 		<slot />
-		<Footer footer={footer.data} />
+		<Footer footer={footer} />
 	</body>
 </html>
