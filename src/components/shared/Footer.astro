@@ -1,8 +1,11 @@
 ---
-import type { CollectionEntry } from 'astro:content'
-
 type Props = {
-	footer: CollectionEntry<'site'>['data']['footer']
+	footer: {
+		ariaLabel: string
+		copyrightName: string
+		rightsLabel: string
+		links: { label: string; href: string }[]
+	}
 }
 
 const { footer } = Astro.props

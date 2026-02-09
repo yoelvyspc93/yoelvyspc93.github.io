@@ -1,14 +1,25 @@
 ---
 import DualOrbs from '@/shared/DualOrbs.astro'
 import Button from '@/ui/Button.astro'
-import type { CollectionEntry } from 'astro:content'
-
 type Props = {
-	content: CollectionEntry<'site'>['data']['hero']
+	content: {
+		eyebrow: string
+		name: string
+		role: string
+		description: string
+		ctaPrimaryLabel: string
+		ctaSecondaryLabel: string
+	}
+	ctas: {
+		ctaPrimaryHref: string
+		ctaPrimaryAriaLabel: string
+		ctaSecondaryHref: string
+		ctaSecondaryAriaLabel: string
+	}
 }
 
-const { content } = Astro.props
-const { eyebrow, name, role, description, ctaPrimary, ctaSecondary } = content
+const { content, ctas } = Astro.props
+const { eyebrow, name, role, description } = content
 ---
 
 <section
@@ -58,21 +69,21 @@ const { eyebrow, name, role, description, ctaPrimary, ctaSecondary } = content
 			<Button
 				variant="primary"
 				size="large"
-				href={ctaPrimary.href}
+				href={ctas.ctaPrimaryHref}
 				external
-				aria-label={ctaPrimary.ariaLabel}
+				aria-label={ctas.ctaPrimaryAriaLabel}
 			>
-				{ctaPrimary.label}
+				{content.ctaPrimaryLabel}
 			</Button>
 
 			<Button
-				href={ctaSecondary.href}
+				href={ctas.ctaSecondaryHref}
 				variant="outlined"
 				size="large"
 				external={false}
-				aria-label={ctaSecondary.ariaLabel}
+				aria-label={ctas.ctaSecondaryAriaLabel}
 			>
-				{ctaSecondary.label}
+				{content.ctaSecondaryLabel}
 			</Button>
 		</div>
 	</header>

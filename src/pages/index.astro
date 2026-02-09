@@ -9,21 +9,27 @@ import Contact from '@/sections/home/Contact.astro'
 import Faq from '@/sections/home/Faq.astro'
 import { getEntry } from 'astro:content'
 
-const home = await getEntry('site', 'home')
+const home = await getEntry('home', 'index')
+const sections = await getEntry('sections', 'index')
+const contact = await getEntry('contact', 'index')
 
-if (!home) {
+if (!home || !sections || !contact) {
 	throw new Error('Home content entry not found.')
 }
 ---
 
 <Layout>
 	<main id="main-content">
-		<Hero content={home.data.hero} />
-		<About content={home.data.about} />
-		<Projects content={home.data.projects} />
-		<Experience content={home.data.experience} />
-		<Skills content={home.data.skills} />
+		<Hero content={home.data.hero} ctas={sections.data.hero} />
+		<About content={home.data.about} media={sections.data.about} />
+		<Projects content={home.data.projects} labels={sections.data.projects} />
+		<Experience content={home.data.experience} labels={sections.data.experience} />
+		<Skills content={home.data.skills} labels={sections.data.skills} />
 		<Faq content={home.data.faq} />
-		<Contact content={home.data.contact} />
+		<Contact
+			content={home.data.contact}
+			labels={sections.data.contact}
+			meta={contact.data}
+		/>
 	</main>
 </Layout>

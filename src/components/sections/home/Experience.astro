@@ -1,12 +1,18 @@
 ---
 import ExperienceItem from '@/shared/ExperienceItem.astro'
-import { getCollection, render, type CollectionEntry } from 'astro:content'
+import { getCollection, render } from 'astro:content'
 
 type Props = {
-	content: CollectionEntry<'site'>['data']['experience']
+	content: {
+		title: string
+		accent: string
+	}
+	labels: {
+		timelineLabel: string
+	}
 }
 
-const { content } = Astro.props
+const { content, labels } = Astro.props
 
 const entries = await getCollection('experience')
 
@@ -43,7 +49,7 @@ const items = await Promise.all(
 
 		<ol
 			class="relative pl-[clamp(72px,9vw,120px)] flex flex-col gap-10"
-			aria-label={content.timelineLabel}
+			aria-label={labels.timelineLabel}
 		>
 			<li
 				aria-hidden="true"

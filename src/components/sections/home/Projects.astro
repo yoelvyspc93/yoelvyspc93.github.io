@@ -1,14 +1,24 @@
 ---
 import ProjectItem from '@/shared/ProjectItem.astro'
 import CircleButton from '@/ui/CircleButton.astro'
-import { getCollection, type CollectionEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
 import 'swiper/css'
 
 type Props = {
-	content: CollectionEntry<'site'>['data']['projects']
+	content: {
+		title: string
+		accent: string
+	}
+	labels: {
+		ariaLabel: string
+		paginationLabel: string
+		prevLabel: string
+		nextLabel: string
+		bulletLabel: string
+	}
 }
 
-const { content } = Astro.props
+const { content, labels } = Astro.props
 
 const all = await getCollection('projects')
 
@@ -16,15 +26,8 @@ const featured = all
 	.filter(({ data }) => Boolean(data.favorite))
 	.sort((a, b) => Number(a.data.id) - Number(b.data.id))
 
-const {
-	title,
-	accent,
-	ariaLabel,
-	paginationLabel,
-	prevLabel,
-	nextLabel,
-	bulletLabel,
-} = content
+const { title, accent } = content
+const { ariaLabel, paginationLabel, prevLabel, nextLabel, bulletLabel } = labels
 ---
 
 <section

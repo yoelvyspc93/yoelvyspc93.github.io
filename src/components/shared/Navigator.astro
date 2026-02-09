@@ -1,9 +1,14 @@
 ---
 import Button from '@/ui/Button.astro'
-import type { CollectionEntry } from 'astro:content'
-
 type Props = {
-	navigation: CollectionEntry<'site'>['data']['navigation']
+	navigation: {
+		brand: string
+		brandAriaLabel: string
+		ariaLabel: string
+		items: { label: string; href: string }[]
+		cta: { label: string; href: string; ariaLabel: string }
+		menu: { openLabel: string; closeLabel: string; dialogLabel: string }
+	}
 }
 
 const { navigation } = Astro.props

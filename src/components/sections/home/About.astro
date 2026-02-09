@@ -1,12 +1,19 @@
 ---
 import { Image } from 'astro:assets'
-import type { CollectionEntry } from 'astro:content'
-
 type Props = {
-	content: CollectionEntry<'site'>['data']['about']
+	content: {
+		title: string
+		body: string[]
+		highlightsTitle: string
+		highlights: string[]
+	}
+	media: {
+		imageSrc: string
+		imageAlt: string
+	}
 }
 
-const { content } = Astro.props
+const { content, media } = Astro.props
 ---
 
 <section
@@ -20,9 +27,9 @@ const { content } = Astro.props
 		</header>
 		<div class="grid items-center gap-10 grid-cols-1 xl:grid-cols-2">
 			<figure class="mx-auto size-[300px] md:size-[300px] xl:size-[500px]">
-				<Image
-					src={content.image.src}
-					alt={content.image.alt}
+					<Image
+						src={media.imageSrc}
+						alt={media.imageAlt}
 					loading="lazy"
 					decoding="async"
 					class="h-full w-full object-cover"

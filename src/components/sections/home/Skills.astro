@@ -1,12 +1,19 @@
 ---
 import Tag from '@/shared/Tag.astro'
-import type { CollectionEntry } from 'astro:content'
-
 type Props = {
-	content: CollectionEntry<'site'>['data']['skills']
+	content: {
+		title: string
+		accent: string
+		description: string
+		list: string[]
+	}
+	labels: {
+		cardLabelPrefix: string
+		cardLabelSuffix: string
+	}
 }
 
-const { content } = Astro.props
+const { content, labels } = Astro.props
 ---
 
 <section
@@ -36,7 +43,7 @@ const { content } = Astro.props
 					size="large"
 					class="pointer-events-auto absolute select-none will-change-transform cursor-grab active:cursor-grabbing"
 					data-skill-card
-					aria-label={`${content.cardLabelPrefix} ${skill}. ${content.cardLabelSuffix}`}
+					aria-label={`${labels.cardLabelPrefix} ${skill}. ${labels.cardLabelSuffix}`}
 				>
 					{skill}
 				</Tag>

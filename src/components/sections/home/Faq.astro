@@ -1,8 +1,9 @@
 ---
-import type { CollectionEntry } from 'astro:content'
-
 type Props = {
-	content: CollectionEntry<'site'>['data']['faq']
+	content: {
+		title: string
+		items: { question: string; answer: string }[]
+	}
 }
 
 const { content } = Astro.props

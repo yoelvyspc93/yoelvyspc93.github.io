@@ -1,0 +1,16 @@
+{
+  "socials": [
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/yoelvyspc93"
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://www.linkedin.com/in/yoelvys-perez-cabrera"
+    }
+  ],
+  "form": {
+    "to": "yoelvyspc93@gmail.com",
+    "subject": "Contact from portfolio"
+  }
+}

@@ -28,117 +28,46 @@ const experience = defineCollection({
   }),
 });
 
-const site = defineCollection({
+const home = defineCollection({
   type: 'data',
   schema: z.object({
-    seo: z.object({
-      title: z.string(),
-      description: z.string(),
-      canonicalPath: z.string(),
-      ogImage: z.string(),
-      locale: z.string(),
-      type: z.string(),
-      twitterCard: z.string(),
-      language: z.string(),
-    }),
-    person: z.object({
-      name: z.string(),
-      role: z.string(),
-      email: z.string(),
-      location: z.string(),
-      image: z.string(),
-      sameAs: z.array(z.string()),
-    }),
-    a11y: z.object({
-      skipLink: z.string(),
-    }),
-    navigation: z.object({
-      brand: z.string(),
-      brandAriaLabel: z.string(),
-      ariaLabel: z.string(),
-      items: z.array(
-        z.object({
-          label: z.string(),
-          href: z.string(),
-        }),
-      ),
-      cta: z.object({
-        label: z.string(),
-        href: z.string(),
-        ariaLabel: z.string(),
-      }),
-      menu: z.object({
-        openLabel: z.string(),
-        closeLabel: z.string(),
-        dialogLabel: z.string(),
-      }),
-    }),
     hero: z.object({
       eyebrow: z.string(),
       name: z.string(),
       role: z.string(),
       description: z.string(),
-      ctaPrimary: z.object({
-        label: z.string(),
-        href: z.string(),
-        ariaLabel: z.string(),
-      }),
-      ctaSecondary: z.object({
-        label: z.string(),
-        href: z.string(),
-        ariaLabel: z.string(),
-      }),
+      ctaPrimaryLabel: z.string(),
+      ctaSecondaryLabel: z.string(),
     }),
     about: z.object({
       title: z.string(),
       body: z.array(z.string()),
-      image: z.object({
-        src: z.string(),
-        alt: z.string(),
-      }),
       highlightsTitle: z.string(),
       highlights: z.array(z.string()),
     }),
     projects: z.object({
       title: z.string(),
       accent: z.string(),
-      ariaLabel: z.string(),
-      paginationLabel: z.string(),
-      prevLabel: z.string(),
-      nextLabel: z.string(),
-      bulletLabel: z.string(),
     }),
     experience: z.object({
       title: z.string(),
       accent: z.string(),
-      timelineLabel: z.string(),
     }),
     skills: z.object({
       title: z.string(),
       accent: z.string(),
       description: z.string(),
       list: z.array(z.string()),
-      cardLabelPrefix: z.string(),
-      cardLabelSuffix: z.string(),
     }),
     contact: z.object({
       title: z.string(),
       body: z.array(z.string()),
-      socials: z.array(
-        z.object({
-          platform: z.string(),
-          url: z.string(),
-        }),
-      ),
       form: z.object({
-        ariaLabel: z.string(),
         emailLabel: z.string(),
         emailPlaceholder: z.string(),
         messageLabel: z.string(),
         messagePlaceholders: z.array(z.string()),
         submitLabel: z.string(),
-        to: z.string(),
-        subject: z.string(),
         errors: z.object({
           emailRequired: z.string(),
           emailInvalid: z.string(),
@@ -155,16 +84,128 @@ const site = defineCollection({
         }),
       ),
     }),
-    footer: z.object({
+  }),
+});
+
+const seo = defineCollection({
+  type: 'data',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    canonicalPath: z.string(),
+    ogImage: z.string(),
+    locale: z.string(),
+    type: z.string(),
+    twitterCard: z.string(),
+    language: z.string(),
+  }),
+});
+
+const navigation = defineCollection({
+  type: 'data',
+  schema: z.object({
+    brand: z.string(),
+    brandAriaLabel: z.string(),
+    ariaLabel: z.string(),
+    items: z.array(
+      z.object({
+        label: z.string(),
+        href: z.string(),
+      }),
+    ),
+    cta: z.object({
+      label: z.string(),
+      href: z.string(),
       ariaLabel: z.string(),
-      copyrightName: z.string(),
-      rightsLabel: z.string(),
-      links: z.array(
-        z.object({
-          label: z.string(),
-          href: z.string(),
-        }),
-      ),
+    }),
+    menu: z.object({
+      openLabel: z.string(),
+      closeLabel: z.string(),
+      dialogLabel: z.string(),
+    }),
+  }),
+});
+
+const footer = defineCollection({
+  type: 'data',
+  schema: z.object({
+    ariaLabel: z.string(),
+    copyrightName: z.string(),
+    rightsLabel: z.string(),
+    links: z.array(
+      z.object({
+        label: z.string(),
+        href: z.string(),
+      }),
+    ),
+  }),
+});
+
+const person = defineCollection({
+  type: 'data',
+  schema: z.object({
+    name: z.string(),
+    role: z.string(),
+    email: z.string(),
+    location: z.string(),
+    image: z.string(),
+    sameAs: z.array(z.string()),
+  }),
+});
+
+const a11y = defineCollection({
+  type: 'data',
+  schema: z.object({
+    skipLink: z.string(),
+  }),
+});
+
+const sections = defineCollection({
+  type: 'data',
+  schema: z.object({
+    hero: z.object({
+      ctaPrimaryHref: z.string(),
+      ctaPrimaryAriaLabel: z.string(),
+      ctaSecondaryHref: z.string(),
+      ctaSecondaryAriaLabel: z.string(),
+    }),
+    about: z.object({
+      imageSrc: z.string(),
+      imageAlt: z.string(),
+    }),
+    projects: z.object({
+      ariaLabel: z.string(),
+      paginationLabel: z.string(),
+      prevLabel: z.string(),
+      nextLabel: z.string(),
+      bulletLabel: z.string(),
+    }),
+    experience: z.object({
+      timelineLabel: z.string(),
+    }),
+    skills: z.object({
+      cardLabelPrefix: z.string(),
+      cardLabelSuffix: z.string(),
+    }),
+    contact: z.object({
+      formAriaLabel: z.string(),
+      socialsLabel: z.string(),
+    }),
+  }),
+});
+
+const contact = defineCollection({
+  type: 'data',
+  schema: z.object({
+    socials: z.array(
+      z.object({
+        platform: z.string(),
+        url: z.string(),
+      }),
+    ),
+    form: z.object({
+      to: z.string(),
+      subject: z.string(),
     }),
   }),
 });
@@ -173,5 +214,12 @@ const site = defineCollection({
 export const collections = {
   projects,
   experience,
-  site,
+  home,
+  seo,
+  navigation,
+  footer,
+  person,
+  a11y,
+  sections,
+  contact,
 };

@@ -1,9 +1,10 @@
 ---
 import LiquidGlass from '@/shared/LiquidGlass.astro'
-import type { CollectionEntry } from 'astro:content'
-
 type Props = {
-	navigation: CollectionEntry<'site'>['data']['navigation']
+	navigation: {
+		items: { label: string; href: string }[]
+		menu: { openLabel: string; closeLabel: string; dialogLabel: string }
+	}
 }
 
 const { navigation } = Astro.props
