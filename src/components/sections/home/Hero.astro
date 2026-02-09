@@ -1,25 +1,17 @@
 ---
 import DualOrbs from '@/shared/DualOrbs.astro'
 import Button from '@/ui/Button.astro'
-
-type HeaderCopy = {
-	hello: string
-	name: string
-	role: string
-	description: string
-	download: string
-	contact: string
+type Props = {
+	content: {
+		eyebrow: string
+		name: string
+		role: string
+		description: string
+	}
 }
 
-const HEADER: HeaderCopy = {
-	hello: 'Hi, I’m',
-	name: 'Yoelvys',
-	role: 'Senior Frontend Engineer',
-	description:
-		'I bridge the gap between design and engineering, building high-performance, scalable web applications with React, Next.js, and TypeScript. Focused on exceptional user experiences and technical excellence.',
-	download: 'Download CV',
-	contact: 'Let’s Talk',
-}
+const { content } = Astro.props
+const { eyebrow, name, role, description } = content
 ---
 
 <section
@@ -59,8 +51,11 @@ const HEADER: HeaderCopy = {
 	<header
 		class="relative z-40 w-full max-w-[664px] text-center flex flex-col items-center justify-center gap-8"
 	>
-		<h1 id="hero-title">{HEADER.hello} <span>{HEADER.name}</span></h1>
-		<p id="hero-desc">{HEADER.description}</p>
+		<h1 id="hero-title">
+			{eyebrow} <span>{name}</span>
+		</h1>
+		<p class="text-large text-black/80">{role}</p>
+		<p id="hero-desc">{description}</p>
 
 		<div class="flex flex-wrap items-center justify-center gap-4">
 			<Button
@@ -70,7 +65,7 @@ const HEADER: HeaderCopy = {
 				external
 				aria-label="Download my CV"
 			>
-				{HEADER.download}
+				Download CV
 			</Button>
 
 			<Button
@@ -80,7 +75,7 @@ const HEADER: HeaderCopy = {
 				external={false}
 				aria-label="Go to the contact section"
 			>
-				{HEADER.contact}
+				Let’s Talk
 			</Button>
 		</div>
 	</header>

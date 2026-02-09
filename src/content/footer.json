@@ -1,0 +1,30 @@
+{
+  "copyrightName": "Yoelvys",
+  "rightsLabel": "All rights reserved.",
+  "links": [
+    {
+      "label": "About",
+      "href": "#about"
+    },
+    {
+      "label": "Projects",
+      "href": "#projects"
+    },
+    {
+      "label": "Experience",
+      "href": "#experience"
+    },
+    {
+      "label": "Skills",
+      "href": "#skills"
+    },
+    {
+      "label": "FAQ",
+      "href": "#faq"
+    },
+    {
+      "label": "Contact",
+      "href": "#contact"
+    }
+  ]
+}

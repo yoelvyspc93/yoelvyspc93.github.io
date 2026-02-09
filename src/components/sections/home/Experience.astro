@@ -2,6 +2,16 @@
 import ExperienceItem from '@/shared/ExperienceItem.astro'
 import { getCollection, render } from 'astro:content'
 
+type Props = {
+	content: {
+		title: string
+		accent: string
+	}
+}
+
+const { content } = Astro.props
+const timelineLabel = 'Experience timeline'
+
 const entries = await getCollection('experience')
 
 const items = await Promise.all(
@@ -31,13 +41,13 @@ const items = await Promise.all(
 	>
 		<header class="text-center">
 			<h2 id="experience-heading">
-				My <span>Experience</span>
+				{content.title} <span>{content.accent}</span>
 			</h2>
 		</header>
 
 		<ol
 			class="relative pl-[clamp(72px,9vw,120px)] flex flex-col gap-10"
-			aria-label="Experience timeline"
+			aria-label={timelineLabel}
 		>
 			<li
 				aria-hidden="true"

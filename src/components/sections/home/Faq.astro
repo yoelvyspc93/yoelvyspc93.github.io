@@ -1,0 +1,31 @@
+---
+type Props = {
+	content: {
+		title: string
+		items: { question: string; answer: string }[]
+	}
+}
+
+const { content } = Astro.props
+---
+
+<section
+	id="faq"
+	class="section-container px-4 py-16 sm:py-20"
+	aria-labelledby="faq-title"
+>
+	<div class="mx-auto max-w-5xl">
+		<header class="text-center">
+			<h2 id="faq-title">{content.title}</h2>
+		</header>
+
+		<dl class="mt-10 space-y-6 text-left">
+			{content.items.map((item) => (
+				<div class="rounded-2xl border border-black/10 bg-white/70 p-6 shadow-sm">
+					<dt class="text-base font-semibold text-black">{item.question}</dt>
+					<dd class="mt-2 text-small text-black/80">{item.answer}</dd>
+				</div>
+			))}
+		</dl>
+	</div>
+</section>
