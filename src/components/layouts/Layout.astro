@@ -5,6 +5,7 @@ import Navigator from '@/shared/Navigator.astro'
 
 import '@/styles/global.css'
 import Footer from '@/shared/Footer.astro'
+import Seo from '@/shared/Seo.astro'
 import home from '@/content/home.json'
 import seo from '@/content/seo.json'
 import person from '@/content/person.json'
@@ -12,61 +13,6 @@ import navigation from '@/content/navigation.json'
 import footer from '@/content/footer.json'
 
 const { faq } = home
-
-const canonicalURL = new URL(
-	seo.canonicalPath || Astro.url.pathname,
-	Astro.site,
-)
-const ogImage = new URL(seo.ogImage, Astro.site)
-
-const structuredData = [
-	{
-		'@context': 'https://schema.org',
-		'@type': 'Person',
-		name: person.name,
-		jobTitle: person.role,
-		email: person.email,
-		image: new URL(person.image, Astro.site).href,
-		url: canonicalURL.href,
-		sameAs: person.sameAs,
-	},
-	{
-		'@context': 'https://schema.org',
-		'@type': 'WebSite',
-		name: seo.title,
-		url: canonicalURL.href,
-		description: seo.description,
-		inLanguage: seo.language,
-	},
-	{
-		'@context': 'https://schema.org',
-		'@type': 'WebPage',
-		name: seo.title,
-		description: seo.description,
-		url: canonicalURL.href,
-		inLanguage: seo.language,
-		about: {
-			'@type': 'Person',
-			name: person.name,
-		},
-	},
-	...(faq.items.length
-		? [
-				{
-					'@context': 'https://schema.org',
-					'@type': 'FAQPage',
-					mainEntity: faq.items.map((item) => ({
-						'@type': 'Question',
-						name: item.question,
-						acceptedAnswer: {
-							'@type': 'Answer',
-							text: item.answer,
-						},
-					})),
-				},
-			]
-		: []),
-]
 ---
 
 <!doctype html>
@@ -80,29 +26,11 @@ const structuredData = [
 			rel="stylesheet"
 			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
 		/>
-		<meta name="description" content={seo.description} />
-		<meta name="robots" content="index,follow" />
-		<meta name="author" content={person.name} />
-		<link rel="canonical" href={canonicalURL.href} />
-		<meta property="og:title" content={seo.title} />
-		<meta property="og:description" content={seo.description} />
-		<meta property="og:type" content={seo.type} />
-		<meta property="og:url" content={canonicalURL.href} />
 		<link rel="icon" type="image/png" href="/favicon.png" />
-		<meta property="og:image" content={ogImage.href} />
-		<meta property="og:locale" content={seo.locale} />
-		<meta property="og:site_name" content={seo.title} />
-		<meta name="twitter:card" content={seo.twitterCard} />
-		<meta name="twitter:title" content={seo.title} />
-		<meta name="twitter:description" content={seo.description} />
-		<meta name="twitter:image" content={ogImage.href} />
 		<meta name="theme-color" content="#ffffff" />
 		<meta name="color-scheme" content="light" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{seo.title}</title>
-		<script type="application/ld+json">
-			{JSON.stringify(structuredData)}
-		</script>
+		<Seo seo={seo} person={person} faq={faq} />
 		<ClientRouter />
 	</head>
 	<body>
