@@ -1,61 +1,58 @@
 ---
-import { cn } from '@/utils/cn'
-
 interface Props {
 	label: string
 	id: string
+	name?: string
 	value?: string
 	placeholders?: string[]
 	ariaDescribedby?: string
 	required?: boolean
+	showRequiredIndicator?: boolean
 }
 
 const {
 	label,
 	id,
+	name = id,
 	value = '',
 	placeholders = [],
 	ariaDescribedby,
 	required = false,
+	showRequiredIndicator = true,
 } = Astro.props
 
 const placeholderText = placeholders[0] ?? ''
-const hidePlaceholder = value.length > 0
+const labelBaseClass = 'text-medium font-medium text-black/85'
+const textareaBaseClass =
+	'min-h-[120px] w-full resize-none rounded-[12px] border-2 border-primary/85 bg-white px-4 py-3 text-medium text-black outline-none transition-shadow placeholder:text-black/40 focus:border-primary focus:ring-2 focus:ring-primary/25 sm:min-h-[140px]'
+const errorBaseClass = 'mt-1 text-small text-red-600'
 ---
 
 <div class="flex w-full flex-col gap-2">
-	<label for={id} class="text-large text-white">
+	<label for={id} class={labelBaseClass}>
 		{label}
-		{required && <span aria-hidden="true">*</span>}
+		{required && showRequiredIndicator && <span aria-hidden="true">*</span>}
 	</label>
-	<div class="relative w-full">
+	<div class="w-full">
 		<textarea
 			id={id}
-			name={id}
+			name={name}
 			required={required}
+			placeholder={placeholderText}
 			aria-describedby={ariaDescribedby}
 			aria-required={required}
-			class="min-h-[100px] w-full resize-none rounded-[20px] border-2 border-transparent bg-white/5 px-4 py-2.5 text-medium text-white outline-none focus-visible:shadow-[0_0_4px_1px_rgba(255,255,255,0.2)] md:min-h-[130px]"
-		>
-			{value}
-		</textarea>
+			class={textareaBaseClass}
+		>{value}</textarea>
 		{
-			placeholderText && (
+			ariaDescribedby && (
 				<span
-					class={cn(
-						'pointer-events-none absolute left-4 top-3 text-medium text-white/60',
-						hidePlaceholder && 'hidden',
-					)}
-				>
-					{placeholderText}
-				</span>
+					id={ariaDescribedby}
+					class={`sr-only ${errorBaseClass}`}
+					role="alert"
+					aria-live="polite"
+					aria-atomic="true"
+				/>
 			)
 		}
-		<span
-			id={ariaDescribedby}
-			class="sr-only"
-			role="alert"
-			aria-live="polite"
-			aria-atomic="true"></span>
 	</div>
 </div>

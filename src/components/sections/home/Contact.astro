@@ -3,22 +3,22 @@ import Button from '@/ui/Button.astro'
 import InputField from '@/ui/InputField.astro'
 import TextAreaField from '@/ui/TextAreaField.astro'
 type Props = {
-		content: {
-			title: string
-			body: string[]
-			form: {
-				errors: {
-					emailRequired: string
-					emailInvalid: string
-					messageRequired: string
-				}
+	content: {
+		title: string
+		body: string[]
+		form: {
+			errors: {
+				emailRequired: string
+				emailInvalid: string
+				messageRequired: string
 			}
 		}
-		meta: {
-			socials: { platform: string; url: string }[]
-			form: { to: string; subject: string }
-		}
 	}
+	meta: {
+		socials: { platform: string; url: string }[]
+		form: { to: string; subject: string }
+	}
+}
 
 const { content, meta } = Astro.props
 const { form } = content
@@ -36,48 +36,95 @@ const messagePlaceholders = [
 	'Share your idea or request',
 ]
 const submitLabel = 'Send Message'
+
+const titleWords = content.title.trim().split(/\s+/)
+const accentWord =
+	titleWords.length > 1 ? titleWords[titleWords.length - 1] : ''
+const baseTitle = accentWord ? titleWords.slice(0, -1).join(' ') : content.title
+
+const socialIcons: Record<string, { viewBox: string; path: string }> = {
+	github: {
+		viewBox: '0 0 24 24',
+		path: 'M12 .297a12 12 0 0 0-3.794 23.385c.6.113.82-.258.82-.577v-2.234c-3.338.726-4.043-1.417-4.043-1.417-.546-1.387-1.333-1.756-1.333-1.756-1.089-.744.082-.729.082-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.809 1.304 3.495.997.108-.775.418-1.305.761-1.605-2.666-.303-5.467-1.334-5.467-5.932 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23a11.56 11.56 0 0 1 3.006-.404c1.02.005 2.047.138 3.006.404 2.293-1.552 3.3-1.23 3.3-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.61-2.804 5.625-5.476 5.921.43.37.823 1.102.823 2.222v3.293c0 .322.218.694.825.576A12 12 0 0 0 12 .297z',
+	},
+	linkedin: {
+		viewBox: '0 0 24 24',
+		path: 'M4.983 3.5C4.983 4.88 3.862 6 2.482 6A2.49 2.49 0 0 1 0 3.5 2.49 2.49 0 0 1 2.482 1a2.5 2.5 0 0 1 2.501 2.5zM4.96 8H0v15h4.96V8zm7.92 0H8v15h4.88v-7.875c0-2.06 1.72-3.125 3.08-3.125 1.33 0 3.04.79 3.04 3.125V23H24v-8.94C24 9.3 21.3 8 18.96 8c-2.34 0-3.77 1.32-4.08 1.86V8z',
+	},
+}
+
+const resolveSocialIcon = (platform: string) => {
+	const key = platform.toLowerCase().replace(/\s+/g, '')
+	return socialIcons[key] ?? null
+}
+
+const socialFallbackLabel = (platform: string) => {
+	const short = platform.trim().slice(0, 2)
+	return short ? short.toUpperCase() : '?'
+}
 ---
 
 <section
 	id="contact"
 	aria-labelledby="contact-title"
-	class="section-container px-4 pb-4"
+	class="section-container px-4 py-10 sm:py-16"
 >
 	<div
-		class="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-12 px-4 lg:flex-row lg:gap-20"
+		class="mx-auto grid w-full max-w-[1200px] grid-cols-1 items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)] lg:gap-16"
 	>
-		<article class="w-full flex-1 max-w-[492px] md:max-w-full">
+		<article class="w-full max-w-[560px]">
 			<header>
 				<h2
 					id="contact-title"
-					class="mb-4 font-display text-heading-2 font-bold"
+					class="mb-5 font-display text-heading-2 font-bold text-black"
 				>
-					{content.title}
+					{baseTitle}
+					{accentWord && <span> {accentWord}</span>}
 				</h2>
 			</header>
 
-			<div class="mb-10 flex max-w-[600px] flex-col gap-4 font-sans text-large leading-normal text-pretty text-white">
-				{content.body.map((paragraph) => (
-					<p>{paragraph}</p>
-				))}
+			<div
+				class="mb-10 flex max-w-[520px] flex-col gap-4 text-medium leading-relaxed text-black/80"
+			>
+				{content.body.map((paragraph) => <p>{paragraph}</p>)}
 			</div>
 
 			<nav aria-label={socialsLabel}>
 				<ul class="flex list-none flex-row gap-3 p-0">
 					{
-						meta.socials.map((sm) => (
-							<li>
-								<a
-									aria-label={sm.platform}
-									href={sm.url}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="h-11 w-auto rounded-lg bg-dark-gray p-2.5 flex items-center justify-center"
-								>
-									{sm.platform}
-								</a>
-							</li>
-						))
+						meta.socials.map((sm) => {
+							const icon = resolveSocialIcon(sm.platform)
+
+							return (
+								<li>
+									<a
+										aria-label={sm.platform}
+										href={sm.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="inline-flex size-9 items-center justify-center rounded-md bg-primary text-white shadow-small transition-transform duration-200 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+									>
+										<span class="sr-only">{sm.platform}</span>
+										{icon ? (
+											<svg
+												aria-hidden="true"
+												viewBox={icon.viewBox}
+												class="size-4 fill-current"
+											>
+												<path d={icon.path} />
+											</svg>
+										) : (
+											<span
+												aria-hidden="true"
+												class="text-[11px] font-semibold uppercase leading-none"
+											>
+												{socialFallbackLabel(sm.platform)}
+											</span>
+										)}
+									</a>
+								</li>
+							)
+						})
 					}
 				</ul>
 			</nav>
@@ -85,34 +132,30 @@ const submitLabel = 'Send Message'
 
 		<form
 			id="contact-form"
-			class="flex w-full flex-1 max-w-[492px] flex-col gap-[30px] rounded-[24px] bg-dark-gray px-[30px] py-10 md:max-w-full"
+			class="w-full rounded-[20px] border border-black/10 bg-white px-4 py-5 shadow-[0_8px_18px_rgba(0,0,0,0.12)] sm:px-6 sm:py-6 lg:max-w-[520px]"
 			aria-label={formAriaLabel}
 			novalidate
 		>
-			<fieldset class="flex flex-col gap-[30px] border-0 p-0 m-0">
+			<fieldset class="m-0 flex flex-col gap-6 border-0 p-0">
 				<legend class="sr-only">{formAriaLabel}</legend>
-				<div>
-					<InputField
-						label={emailLabel}
-						type="email"
-						id="email"
-						placeholders={[emailPlaceholder]}
-						required={true}
-						ariaDescribedby="email-error"
-					/>
-				</div>
-
-				<div>
-					<TextAreaField
-						label={messageLabel}
-						id="message"
-						placeholders={messagePlaceholders}
-						required={true}
-						ariaDescribedby="message-error"
-					/>
-				</div>
-
-				<div class="mt-4 flex w-full justify-end">
+				<InputField
+					label={`${emailLabel}:`}
+					type="email"
+					id="email"
+					placeholders={[emailPlaceholder]}
+					required={true}
+					showRequiredIndicator={false}
+					ariaDescribedby="email-error"
+				/>
+				<TextAreaField
+					label={`${messageLabel}:`}
+					id="message"
+					placeholders={messagePlaceholders}
+					required={true}
+					showRequiredIndicator={false}
+					ariaDescribedby="message-error"
+				/>
+				<div class="mt-1 flex w-full justify-end">
 					<Button type="submit" aria-label={submitLabel}>
 						{submitLabel}
 					</Button>
