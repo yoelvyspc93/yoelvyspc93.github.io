@@ -9,32 +9,28 @@ import Seo from '@/shared/Seo.astro'
 import home from '@/content/home.json'
 import seo from '@/content/seo.json'
 import person from '@/content/person.json'
-import navigation from '@/content/navigation.json'
-import footer from '@/content/footer.json'
-
-type SeoOverrides = Partial<{
-	title: string
-	description: string
-	canonicalPath: string
-	ogImage: string
-	locale: string
-	type: string
-	twitterCard: string
-	language: string
-}>
+import layout from '@/content/layout.json'
 
 type Props = {
-	seo?: SeoOverrides
+	title?: string
+	description?: string
+	canonical?: string
 }
 
-const { seo: seoOverrides } = Astro.props
+const {
+	title = seo.title,
+	description = seo.description,
+	canonical = seo.canonical,
+} = Astro.props
 
 const { faq } = home
-const seoData = { ...seo, ...seoOverrides }
+const seoData = { ...seo, title, description, canonical }
+
+const { brand, links, cta, copyrightName, rightsLabel } = layout
 ---
 
 <!doctype html>
-<html lang={seoData.language}>
+<html lang={seoData.locale}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -53,9 +49,9 @@ const seoData = { ...seo, ...seoOverrides }
 	</head>
 	<body>
 		<a href="#main-content" class="skip-link">Skip to main content</a>
-		<Navigator navigation={navigation} />
+		<Navigator data={{ brand, links, cta }} />
 		<!-- <SlidingMenu /> -->
 		<slot />
-		<Footer footer={footer} />
+		<Footer data={{ copyrightName, rightsLabel, links }} />
 	</body>
 </html>

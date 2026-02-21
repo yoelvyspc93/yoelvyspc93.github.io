@@ -2,7 +2,7 @@
 type SeoData = {
 	title: string
 	description: string
-	canonicalPath: string
+	canonical: string
 	ogImage: string
 	locale: string
 	type: string
@@ -29,7 +29,7 @@ type Props = {
 
 const { seo, person, faq } = Astro.props
 
-const canonicalURL = new URL(seo.canonicalPath || Astro.url.pathname, Astro.site)
+const canonicalURL = new URL(seo.canonical || Astro.url.pathname, Astro.site)
 const ogImage = new URL(seo.ogImage, Astro.site)
 
 const structuredData = [
@@ -99,5 +99,5 @@ const structuredData = [
 <meta name="twitter:image" content={ogImage.href} />
 <title>{seo.title}</title>
 <script type="application/ld+json">
-	{JSON.stringify(structuredData)}
+	{JSON.stringify(structuredData).replace(/</g, '\\u003c')}
 </script>

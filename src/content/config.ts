@@ -85,7 +85,7 @@ const seo = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    canonicalPath: z.string(),
+    canonical: z.string(),
     ogImage: z.string(),
     locale: z.string(),
     type: z.string(),
@@ -94,11 +94,11 @@ const seo = defineCollection({
   }),
 });
 
-const navigation = defineCollection({
+const layout = defineCollection({
   type: 'data',
   schema: z.object({
     brand: z.string(),
-    items: z.array(
+    links: z.array(
       z.object({
         label: z.string(),
         href: z.string(),
@@ -108,20 +108,8 @@ const navigation = defineCollection({
       label: z.string(),
       href: z.string(),
     }),
-  }),
-});
-
-const footer = defineCollection({
-  type: 'data',
-  schema: z.object({
     copyrightName: z.string(),
     rightsLabel: z.string(),
-    links: z.array(
-      z.object({
-        label: z.string(),
-        href: z.string(),
-      }),
-    ),
   }),
 });
 
@@ -158,8 +146,7 @@ export const collections = {
   experience,
   home,
   seo,
-  navigation,
-  footer,
+  layout,
   person,
   contact,
 };

@@ -30,6 +30,7 @@ const bulletLabel = 'Go to project'
 <section
 	id="projects"
 	class="section-container py-16 sm:py-20 bg-surface-soft"
+	data-projects-section
 	aria-labelledby="projects-title"
 >
 	<div aria-hidden="true" class="absolute inset-0 bg-texture"></div>
@@ -37,7 +38,9 @@ const bulletLabel = 'Go to project'
 	<div class="relative mx-auto max-w-7xl px-4">
 		<header class="text-center">
 			<h2 id="projects-title">
-				{featured.length} {title} <span>{accent}</span>
+				{featured.length}
+				{title}
+				<span>{accent}</span>
 			</h2>
 		</header>
 
@@ -45,6 +48,7 @@ const bulletLabel = 'Go to project'
 			<div
 				class="swiper select-none"
 				data-projects-swiper
+				data-bullet-label={bulletLabel}
 				aria-roledescription="carousel"
 				aria-label={ariaLabel}
 			>
@@ -106,39 +110,57 @@ const bulletLabel = 'Go to project'
 	</div>
 </section>
 
-<!-- <style>
-	.projects-pagination :global(.swiper-pagination-bullet) {
-		opacity: 1;
-		transition:
-			transform 200ms ease,
-			opacity 200ms ease;
-	}
-	.projects-pagination :global(.swiper-pagination-bullet:focus-visible) {
-		transform: scale(1.5) !important;
-		outline: 2px solid oklch(0.6 0.17 276);
-		outline-offset: 4px;
-		border-radius: 9999px;
-	}
-</style> -->
-
-<script define:vars={{ bulletLabel }}>
+<script>
 	import Swiper from 'swiper'
 	import { Navigation, Pagination, Parallax, A11y } from 'swiper/modules'
-
-	const root = document.querySelector('[data-projects-swiper]')
-	const buttonPrev = document.querySelector('[data-projects-prev]')
-	const buttonNext = document.querySelector('[data-projects-next]')
-	const pagination = document.querySelector('[data-projects-pagination]')
 
 	const prefersReducedMotion =
 		window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false
 
 	let swiper: Swiper | undefined
+	let currentRoot: HTMLElement | null = null
+
+	const getElements = () => {
+		const section = document.querySelector('[data-projects-section]')
+		if (!(section instanceof HTMLElement)) return null
+
+		const root = section.querySelector('[data-projects-swiper]')
+		const buttonPrev = section.querySelector('[data-projects-prev]')
+		const buttonNext = section.querySelector('[data-projects-next]')
+		const pagination = section.querySelector('[data-projects-pagination]')
+
+		if (
+			!(root instanceof HTMLElement) ||
+			!(buttonPrev instanceof HTMLElement) ||
+			!(buttonNext instanceof HTMLElement) ||
+			!(pagination instanceof HTMLElement)
+		) {
+			return null
+		}
+
+		return {
+			root,
+			buttonPrev,
+			buttonNext,
+			pagination,
+			bulletLabel: root.dataset.bulletLabel ?? 'Go to project',
+		}
+	}
 
 	const mount = () => {
-		if (swiper || !root || !buttonPrev || !buttonNext || !pagination) return
+		const elements = getElements()
+		if (!elements) {
+			unmount()
+			return
+		}
 
-		swiper = new Swiper(root as HTMLElement, {
+		const { root, buttonPrev, buttonNext, pagination, bulletLabel } = elements
+
+		if (swiper && currentRoot === root) return
+		unmount()
+		currentRoot = root
+
+		swiper = new Swiper(root, {
 			modules: [Navigation, Pagination, Parallax, A11y],
 			slidesPerView: 1,
 			spaceBetween: 0,
@@ -150,12 +172,12 @@ const bulletLabel = 'Go to project'
 				enabled: true,
 			},
 			navigation: {
-				prevEl: buttonPrev as HTMLElement,
-				nextEl: buttonNext as HTMLElement,
+				prevEl: buttonPrev,
+				nextEl: buttonNext,
 				disabledClass: 'opacity-40 pointer-events-none',
 			},
 			pagination: {
-				el: pagination as HTMLElement,
+				el: pagination,
 				clickable: true,
 				bulletElement: 'button',
 				bulletClass: 'dot dot-md dot-neutral',
@@ -170,11 +192,17 @@ const bulletLabel = 'Go to project'
 		if (!swiper) return
 		swiper.destroy(true, true)
 		swiper = undefined
+		currentRoot = null
 	}
 
-	mount()
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', mount, { once: true })
+	} else {
+		mount()
+	}
 
 	// Astro view transitions / navigation safety
+	document.addEventListener('astro:page-load', mount)
 	document.addEventListener('astro:before-swap', unmount)
-	document.addEventListener('pagehide', unmount)
+	window.addEventListener('pagehide', unmount)
 </script>

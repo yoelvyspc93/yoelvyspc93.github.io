@@ -1,13 +1,13 @@
 ---
 type Props = {
-	footer: {
+	data: {
 		copyrightName: string
 		rightsLabel: string
 		links: { label: string; href: string }[]
 	}
 }
 
-const { footer } = Astro.props
+const { copyrightName, rightsLabel, links } = Astro.props.data
 ---
 
 <footer class="relative isolate w-full overflow-hidden px-4 py-8">
@@ -15,13 +15,14 @@ const { footer } = Astro.props
 		class="relative z-1 mx-auto flex h-0 flex-col items-center justify-between gap-4 text-center md:h-[15vh] md:flex-row md:gap-5 lg:h-[7vh] max-w-[1200px]"
 	>
 		<p class="order-1 text-large leading-[150%] md:order-0">
-			©{new Date().getFullYear()} {footer.copyrightName}. {footer.rightsLabel}
+			©{new Date().getFullYear()}
+			{copyrightName}. {rightsLabel}
 		</p>
 
 		<nav aria-label="Footer navigation">
 			<ul class="flex flex-wrap justify-center gap-5 md:gap-7">
 				{
-					footer.links.map((link) => (
+					links.map((link) => (
 						<li>
 							<a
 								href={link.href}

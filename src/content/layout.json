@@ -1,6 +1,5 @@
 {
-  "copyrightName": "Yoelvys",
-  "rightsLabel": "All rights reserved.",
+  "brand": "Y",
   "links": [
     {
       "label": "About",
@@ -26,5 +25,11 @@
       "label": "Contact",
       "href": "#contact"
     }
-  ]
+  ],
+  "cta": {
+    "label": "Download CV",
+    "href": "/cv-yoelvys-perez-cabrera.pdf"
+  },
+  "copyrightName": "Yoelvys",
+  "rightsLabel": "All rights reserved."
 }

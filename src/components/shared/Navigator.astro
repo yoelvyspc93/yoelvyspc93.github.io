@@ -1,16 +1,15 @@
 ---
 import Button from '@/ui/Button.astro'
+
 type Props = {
-	navigation: {
+	data: {
 		brand: string
-		items: { label: string; href: string }[]
+		links: { label: string; href: string }[]
 		cta: { label: string; href: string }
 	}
 }
 
-const { navigation } = Astro.props
-const homeLink = navigation.items[0]?.href ?? '#hero'
-const homeTargetId = homeLink.replace('#', '')
+const { brand, links, cta } = Astro.props.data
 ---
 
 <header class="fixed inset-x-0 top-6 z-50">
@@ -27,29 +26,29 @@ const homeTargetId = homeLink.replace('#', '')
 			</div>
 
 			<div class="relative flex items-center justify-between gap-3 px-2 py-2">
-					<a
-						href={homeLink}
-						class="grid size-10 place-items-center rounded-full font-display text-xl leading-none text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
-						aria-label="Go to top"
-						data-nav-link
-						data-target={homeTargetId}
-					>
-					<span>{navigation.brand}</span>
+				<a
+					href="#hero"
+					class="grid size-10 place-items-center rounded-full font-display text-xl leading-none text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+					aria-label="Go to top"
+					data-nav-link
+					data-target="hero"
+				>
+					<h5>{brand}</h5>
 				</a>
 
 				<ul class="hidden items-center gap-8 md:flex" data-nav-list>
 					{
-						navigation.items.map((item) => {
-							const id = item.href.replace('#', '')
+						links.map((link) => {
+							const id = link.href.replace('#', '')
 							return (
 								<li>
 									<a
-										href={item.href}
+										href={link.href}
 										class="group relative inline-flex flex-col items-center gap-2 text-sm font-medium text-black/70 transition-colors hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-2 py-1"
 										data-nav-link
 										data-target={id}
 									>
-										<span>{item.label}</span>
+										<span>{link.label}</span>
 										<span
 											class="absolute -bottom-2 dot dot-sm opacity-0 translate-y-1 transition-all duration-200 group-hover:opacity-60 group-hover:translate-y-0"
 											aria-hidden="true"
@@ -62,14 +61,14 @@ const homeTargetId = homeLink.replace('#', '')
 					}
 				</ul>
 
-					<Button
-						variant="primary"
-						size="small"
-						href={navigation.cta.href}
-						external
-						aria-label="Download my CV"
-					>
-					{navigation.cta.label}
+				<Button
+					variant="primary"
+					size="small"
+					href={cta.href}
+					external
+					aria-label="Download my CV"
+				>
+					{cta.label}
 				</Button>
 			</div>
 		</nav>
@@ -191,6 +190,6 @@ const homeTargetId = homeLink.replace('#', '')
 			window.removeEventListener('resize', onScroll)
 			if (raf) cancelAnimationFrame(raf)
 		},
-		{ once: true }
+		{ once: true },
 	)
 </script>
