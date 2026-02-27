@@ -5,7 +5,7 @@ interface Props {
 	id: string
 	name?: string
 	value?: string
-	placeholders?: string[]
+	placeholder?: string
 	ariaDescribedby?: string
 	required?: boolean
 	showRequiredIndicator?: boolean
@@ -18,19 +18,19 @@ const {
 	id,
 	name = id,
 	value = '',
-	placeholders = [],
+	placeholder = '',
 	ariaDescribedby,
 	required = false,
 	showRequiredIndicator = true,
 	autocomplete,
 } = Astro.props
 
-const placeholderText = placeholders[0] ?? ''
 const resolvedAutocomplete =
 	autocomplete ?? (type === 'email' ? 'email' : 'off')
+
 const labelBaseClass = 'text-medium font-medium text-black/85'
 const inputBaseClass =
-	'h-12 w-full rounded-[12px] border-2 border-primary/85 bg-white px-4 text-medium text-black outline-none transition-shadow placeholder:text-black/40 focus:border-primary focus:ring-2 focus:ring-primary/25 sm:h-14'
+	'h-12 w-full rounded-[11px] border-none bg-white px-4 text-medium text-black outline-none placeholder:text-black/40 sm:h-14'
 const errorBaseClass = 'mt-1 text-small text-red-600'
 ---
 
@@ -39,7 +39,11 @@ const errorBaseClass = 'mt-1 text-small text-red-600'
 		{label}
 		{required && showRequiredIndicator && <span aria-hidden="true">*</span>}
 	</label>
-	<div class="w-full">
+	<div
+		class="input-glow-wrapper w-full relative rounded-[12px] p-[2px]"
+		data-input-wrapper
+	>
+		<div class="input-glow-overlay" data-glow-overlay></div>
 		<input
 			type={type}
 			id={id}
@@ -47,7 +51,7 @@ const errorBaseClass = 'mt-1 text-small text-red-600'
 			value={value}
 			required={required}
 			autocomplete={resolvedAutocomplete}
-			placeholder={placeholderText}
+			placeholder={placeholder}
 			aria-describedby={ariaDescribedby}
 			aria-required={required}
 			class={inputBaseClass}
@@ -65,3 +69,83 @@ const errorBaseClass = 'mt-1 text-small text-red-600'
 		}
 	</div>
 </div>
+
+<style>
+	.input-glow-wrapper {
+		background: var(--color-surface-soft, #e2e2f0);
+	}
+
+	.input-glow-overlay {
+		position: absolute;
+		inset: 0;
+		border-radius: 12px;
+		opacity: 0;
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	.input-glow-wrapper input {
+		position: relative;
+		z-index: 1;
+	}
+</style>
+
+<script>
+	import { gsap } from 'gsap'
+
+	document
+		.querySelectorAll<HTMLElement>('[data-input-wrapper]')
+		.forEach((wrapper) => {
+			const RADIUS = 250
+			const pos = { x: 0, y: 0 }
+			let isFocused = false
+
+			const input = wrapper.querySelector('input')
+			const overlay = wrapper.querySelector<HTMLElement>('[data-glow-overlay]')!
+
+			const updateGradient = () => {
+				overlay.style.background = `radial-gradient(${RADIUS}px circle at ${pos.x}px ${pos.y}px, var(--color-primary, #6366f1) 0%, #a5b4fc 50%, transparent 80%)`
+			}
+
+			wrapper.addEventListener('mouseenter', () => {
+				if (isFocused) return
+				gsap.to(overlay, { opacity: 1, duration: 0.3, ease: 'power2.out' })
+			})
+
+			wrapper.addEventListener('mouseleave', () => {
+				if (isFocused) return
+				gsap.to(overlay, { opacity: 0, duration: 0.35, ease: 'power2.out' })
+			})
+
+			wrapper.addEventListener('mousemove', (e: MouseEvent) => {
+				if (isFocused) return
+				const rect = wrapper.getBoundingClientRect()
+				gsap.to(pos, {
+					duration: 0.08,
+					x: e.clientX - rect.left,
+					y: e.clientY - rect.top,
+					ease: 'none',
+					onUpdate: updateGradient,
+				})
+			})
+
+			input?.addEventListener('focus', () => {
+				isFocused = true
+				gsap.to(overlay, { opacity: 0, duration: 0.2, ease: 'power2.out' })
+				gsap.to(wrapper, {
+					background: 'var(--color-primary, #6366f1)',
+					duration: 0.25,
+					ease: 'power2.out',
+				})
+			})
+
+			input?.addEventListener('blur', () => {
+				isFocused = false
+				gsap.to(wrapper, {
+					background: 'var(--color-surface-soft, #e2e2f0)',
+					duration: 0.35,
+					ease: 'power2.out',
+				})
+			})
+		})
+</script>
