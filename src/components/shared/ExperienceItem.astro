@@ -34,7 +34,7 @@ const dateLabel = `${item.period.start} - ${item.period.end}`
 	<div
 		aria-hidden="true"
 		class="absolute top-2
-      left-[calc(clamp(32px,5vw,50px)-clamp(72px,9vw,120px)+2px)]
+      left-[calc(clamp(22px,7vw,50px)-clamp(52px,12vw,120px)+2px)]
       -translate-x-1/2
       w-6 h-6 rounded-full
       bg-primary
@@ -66,7 +66,7 @@ const dateLabel = `${item.period.start} - ${item.period.end}`
 			</p>
 		</header>
 
-		<div class="max-w-[720px]">
+		<div class="w-full max-w-[720px]">
 			<div
 				class="text-large text-pretty leading-normal [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_li]:mt-2"
 			>
@@ -78,7 +78,7 @@ const dateLabel = `${item.period.start} - ${item.period.end}`
 					<figure class="mt-[clamp(12px,2vw,20px)]">
 						<figcaption class="sr-only">{item.company}</figcaption>
 
-						<ul class="grid grid-cols-2 gap-[clamp(12px,2vw,20px)] list-none p-0">
+						<ul class="grid grid-cols-1 gap-[clamp(12px,2vw,20px)] list-none p-0 sm:grid-cols-2">
 							{item.image.map((img, imgIndex) => (
 								<li>
 									<Image

@@ -1,11 +1,10 @@
 ---
 import { Image } from 'astro:assets'
+
 type Props = {
 	content: {
 		title: string
 		body: string[]
-		highlightsTitle: string
-		highlights: string[]
 	}
 }
 
@@ -14,41 +13,33 @@ const { content } = Astro.props
 
 <section
 	id="about"
-	class="section-container px-4 py-10"
+	class="section-container px-4 py-10 sm:py-12 md:py-16"
 	aria-labelledby="about-title"
 >
 	<div class="mx-auto max-w-7xl">
-			<header class="lg:order-2">
-				<h2 id="about-title" class="sr-only">{content.title}</h2>
-			</header>
-			<div class="grid items-center gap-10 grid-cols-1 xl:grid-cols-2">
-				<figure class="mx-auto size-[300px] md:size-[300px] xl:size-[500px]">
-					<Image
-						src="/images/about.webp"
-						alt="Portrait of Yoelvys Pérez Cabrera"
-						loading="lazy"
-						decoding="async"
-						class="h-full w-full object-cover"
-						width="560"
-						height="560"
+		<header class="lg:order-2">
+			<h2 id="about-title" class="sr-only">{content.title}</h2>
+		</header>
+		<div
+			class="grid grid-cols-1 items-center gap-8 md:gap-10 lg:gap-12 xl:grid-cols-2"
+		>
+			<figure
+				class="mx-auto aspect-square w-full max-w-[clamp(240px,72vw,420px)] overflow-hidden rounded-[28%]"
+			>
+				<Image
+					src="/images/about.webp"
+					alt="Portrait of Yoelvys Perez Cabrera"
+					loading="lazy"
+					decoding="async"
+					class="h-full w-full object-cover"
+					width="560"
+					height="560"
 				/>
 			</figure>
-			<div class="mt-6 space-y-6 max-w-[560px]">
+			<div class="mx-auto mt-2 max-w-[560px] space-y-5 md:mt-4 md:space-y-6">
 				<article class="space-y-5">
-					{content.body.map((paragraph) => (
-						<p>{paragraph}</p>
-					))}
+					{content.body.map((paragraph) => <p>{paragraph}</p>)}
 				</article>
-				<aside>
-					<h3 class="text-base font-semibold uppercase tracking-[0.2em] text-black/70">
-						{content.highlightsTitle}
-					</h3>
-					<ul class="mt-4 space-y-3 text-small text-pretty text-black/80">
-						{content.highlights.map((highlight) => (
-							<li>{highlight}</li>
-						))}
-					</ul>
-				</aside>
 			</div>
 		</div>
 	</div>

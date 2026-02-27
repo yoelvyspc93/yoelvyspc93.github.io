@@ -40,8 +40,6 @@ const home = defineCollection({
     about: z.object({
       title: z.string(),
       body: z.array(z.string()),
-      highlightsTitle: z.string(),
-      highlights: z.array(z.string()),
     }),
     projects: z.object({
       title: z.string(),

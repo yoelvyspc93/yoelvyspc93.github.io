@@ -29,13 +29,15 @@ const bulletLabel = 'Go to project'
 
 <section
 	id="projects"
-	class="section-container py-16 sm:py-20 bg-surface-soft"
+	class="section-container bg-surface-soft px-4 py-14 sm:py-16 md:py-20"
 	data-projects-section
 	aria-labelledby="projects-title"
 >
 	<div aria-hidden="true" class="absolute inset-0 bg-texture"></div>
 
-	<div class="relative mx-auto max-w-7xl px-4">
+	<div
+		class="relative mx-auto max-w-[100vw] md:max-w-[560px] lg:max-w-7xl px-4"
+	>
 		<header class="text-center">
 			<h2 id="projects-title">
 				{featured.length}
@@ -44,7 +46,7 @@ const bulletLabel = 'Go to project'
 			</h2>
 		</header>
 
-		<div class="mt-20 sm:mt-12">
+		<div class="mt-10 sm:mt-12 md:mt-14">
 			<div
 				class="swiper select-none"
 				data-projects-swiper
@@ -52,7 +54,7 @@ const bulletLabel = 'Go to project'
 				aria-roledescription="carousel"
 				aria-label={ariaLabel}
 			>
-				<ul class="swiper-wrapper h-auto max-h-[500px]" role="list">
+				<ul class="swiper-wrapper h-auto" role="list">
 					{
 						featured.map((entry, idx) => {
 							const { title, overview, images, technologies } = entry.data
@@ -78,7 +80,7 @@ const bulletLabel = 'Go to project'
 
 			<!-- Controls -->
 			<nav
-				class="mt-20 flex items-center justify-center gap-6 z-10"
+				class="z-10 mt-10 flex items-center justify-center gap-4 sm:mt-12 sm:gap-6 md:mt-14"
 				aria-label={paginationLabel}
 			>
 				<button

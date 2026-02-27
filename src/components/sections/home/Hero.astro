@@ -1,31 +1,29 @@
 ---
 import DualOrbs from '@/shared/DualOrbs.astro'
 import Button from '@/ui/Button.astro'
+
 type Props = {
 	content: {
 		eyebrow: string
 		name: string
-		role: string
 		description: string
 	}
 }
 
 const { content } = Astro.props
-const { eyebrow, name, role, description } = content
+const { eyebrow, name, description } = content
 ---
 
 <section
 	id="hero"
-	class="section-container px-4 py-10"
+	class="section-container px-4 py-8 sm:py-10 md:py-12"
 	aria-labelledby="hero-title"
 	aria-describedby="hero-desc"
 >
-	<!-- Base background -->
 	<div aria-hidden="true" class="absolute inset-0 z-0 bg-white"></div>
 
-	<!-- Orbs (decorative) -->
 	<div aria-hidden="true" class="pointer-events-none absolute inset-0 z-10">
-		<div class="absolute -top-24 -right-2 opacity-90">
+		<div class="absolute -right-2 -top-24 opacity-90">
 			<DualOrbs variant="left" />
 		</div>
 		<div class="absolute -bottom-28 -left-1 opacity-80">
@@ -33,37 +31,37 @@ const { eyebrow, name, role, description } = content
 		</div>
 	</div>
 
-	<!-- Overlay glass + blur -->
 	<div
 		aria-hidden="true"
 		class="pointer-events-none absolute inset-0 z-20 bg-section"
 	>
 	</div>
 
-	<!-- Texture on top -->
 	<div
 		aria-hidden="true"
 		class="pointer-events-none absolute inset-0 z-30 bg-texture"
 	>
 	</div>
 
-	<!-- Content -->
 	<header
-		class="relative z-40 w-full max-w-[664px] text-center flex flex-col items-center justify-center gap-8"
+		class="relative z-40 flex w-full max-w-[664px] flex-col items-center justify-center gap-5 text-center sm:gap-6 md:gap-8"
 	>
 		<h1 id="hero-title">
-			{eyebrow} <span>{name}</span>
+			{eyebrow}
+			<span>{name}</span>
 		</h1>
-		<p class="text-large text-black/80">{role}</p>
-		<p id="hero-desc">{description}</p>
+		<p id="hero-desc" class="max-w-[58ch] text-balance">{description}</p>
 
-		<div class="flex flex-wrap items-center justify-center gap-4">
+		<div
+			class="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-4"
+		>
 			<Button
 				variant="primary"
 				size="large"
 				href="/cv-yoelvys-perez-cabrera.pdf"
 				external
 				aria-label="Download my CV"
+				class="w-full sm:w-auto"
 			>
 				Download CV
 			</Button>
@@ -74,8 +72,9 @@ const { eyebrow, name, role, description } = content
 				size="large"
 				external={false}
 				aria-label="Go to the contact section"
+				class="w-full sm:w-auto"
 			>
-				Let’s Talk
+				Let's Talk
 			</Button>
 		</div>
 	</header>
