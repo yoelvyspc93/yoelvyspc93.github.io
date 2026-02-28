@@ -83,12 +83,14 @@ const seo = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    canonical: z.string(),
+    canonical: z.string().optional(),
     ogImage: z.string(),
+    ogImageAlt: z.string(),
     locale: z.string(),
     type: z.string(),
     twitterCard: z.string(),
     language: z.string(),
+    updatedAt: z.string(),
   }),
 });
 

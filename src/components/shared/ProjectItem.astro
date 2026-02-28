@@ -38,8 +38,8 @@ const { title, overview, technologies, images } = Astro.props
 			images.map((image, index) => (
 				<Image
 					src={`/images/projects/${image}`}
-					alt=""
-					aria-hidden="true"
+					alt={index === 0 ? `${title} project preview` : ''}
+					aria-hidden={index !== 0}
 					class="absolute inset-0 h-full w-full object-cover"
 					loading="lazy"
 					decoding="async"

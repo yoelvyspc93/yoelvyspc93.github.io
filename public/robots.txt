@@ -3,5 +3,17 @@ Allow: /
 Disallow: /404
 Disallow: /500
 
-Host: https://yoelvyspc93.github.io
+# AI crawler policy: allowed
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
 Sitemap: https://yoelvyspc93.github.io/sitemap.xml

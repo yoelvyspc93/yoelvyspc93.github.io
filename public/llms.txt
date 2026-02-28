@@ -1,10 +1,10 @@
-# Yoelvys Pérez Cabrera — Frontend Developer
+# Yoelvys Perez Cabrera - Senior Frontend Engineer
 
 > I am a Computer Engineer with over 6 years of experience, specializing in frontend development. My passion lies in building complex, high-performance web applications using React and Next.js. I focus on creating intuitive, accessible, and efficient user interfaces, driven by a problem-solving mindset and a constant desire to innovate.
 
 ## Who I Am
-**Name:** Yoelvys Pérez Cabrera
-**Role:** Frontend Developer
+**Name:** Yoelvys Perez Cabrera
+**Role:** Senior Frontend Engineer
 **Location:** Cuba (Remote)
 **Education:** Computer Engineer from University Central de Las Villas (Cuba)
 **Current Focus:** Building scalable frontend architectures, optimizing web performance, and crafting motion-rich interfaces.
@@ -72,6 +72,7 @@ Here are some of the key projects I have worked on, showcasing my ability to del
 
 **Email:** yoelvyspc93@gmail.com
 
-**LinkedIn:** https://linkedin.com/in/yoelvys
+**LinkedIn:** https://www.linkedin.com/in/yoelvys-perez-cabrera
 
 **GitHub:** https://github.com/yoelvyspc93
+

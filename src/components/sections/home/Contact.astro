@@ -169,7 +169,7 @@ const socialFallbackLabel = (platform: string) => {
 	</div>
 </section>
 
-<script define:vars={{ TO, SUBJECT, errors }}>
+<script is:inline define:vars={{ TO, SUBJECT, errors }}>
 	const form = document.getElementById('contact-form')
 	const emailInput = document.getElementById('email')
 	const messageInput = document.getElementById('message')
