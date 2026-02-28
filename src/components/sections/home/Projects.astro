@@ -40,7 +40,8 @@ const bulletLabel = 'Go to project'
 	>
 		<header class="text-center">
 			<h2 id="projects-title">
-				{featured.length} {title}{' '}
+				{featured.length}
+				{title}{' '}
 				<span>{accent}</span>
 			</h2>
 		</header>
@@ -50,19 +51,17 @@ const bulletLabel = 'Go to project'
 				class="swiper select-none"
 				data-projects-swiper
 				data-bullet-label={bulletLabel}
-				aria-roledescription="carousel"
 				aria-label={ariaLabel}
 			>
-				<ul class="swiper-wrapper h-auto" role="list">
+				<div class="swiper-wrapper h-auto">
 					{
 						featured.map((entry, idx) => {
 							const { title, overview, images, technologies } = entry.data
 
 							return (
-								<li
+								<div
 									class="swiper-slide"
-									aria-roledescription="slide"
-									aria-label={`${idx + 1}/${featured.length}`}
+									aria-label={`${idx + 1} / ${featured.length}`}
 								>
 									<ProjectItem
 										title={title}
@@ -70,11 +69,11 @@ const bulletLabel = 'Go to project'
 										images={images}
 										technologies={technologies}
 									/>
-								</li>
+								</div>
 							)
 						})
 					}
-				</ul>
+				</div>
 			</div>
 
 			<!-- Controls -->

@@ -13,7 +13,9 @@ const { title, overview, technologies, images } = Astro.props
 ---
 
 <article class="grid items-center gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-10">
-	<div class="order-2 mx-auto flex w-full max-w-[520px] flex-col gap-5 sm:gap-6 md:gap-8 lg:order-1">
+	<div
+		class="order-2 mx-auto flex w-full max-w-[520px] flex-col gap-5 sm:gap-6 md:gap-8 lg:order-1"
+	>
 		<h3 data-swiper-parallax="-100">{title}</h3>
 		<p class="max-w-xl text-pretty" data-swiper-parallax="-150">
 			{overview}
@@ -45,6 +47,8 @@ const { title, overview, technologies, images } = Astro.props
 					decoding="async"
 					width={560}
 					height={448}
+					widths={[320, 420, 560]}
+					sizes="(min-width: 1024px) 560px, (min-width: 640px) min(520px, 90vw), calc(100vw - 2rem)"
 					data-swiper-parallax={-1 * (100 * index + 1)}
 				/>
 			))
