@@ -78,25 +78,18 @@ jobs:
                 ...base.ci.collect,
                 settings: {
                   ...(base.ci.collect?.settings ?? {}),
-                  onlyCategories: ["performance","accessibility","best-practices","seo"]
-                }
-              },
-              assert: {
-                assertions: {
-                  "categories:accessibility": ["error", { minScore: 1 }],
-                  "categories:best-practices": ["error", { minScore: 1 }],
-                  "categories:seo": ["error", { minScore: 1 }]
+                  onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo']
                 }
               }
             }
           }
 
           const desktopCfg = JSON.parse(JSON.stringify(common))
-          desktopCfg.ci.collect.settings.preset = "desktop"
-          desktopCfg.ci.upload = { target: "filesystem", outputDir: "./lighthouse-report/desktop" }
+          desktopCfg.ci.collect.settings.preset = 'desktop'
+          desktopCfg.ci.upload = { target: 'filesystem', outputDir: './lighthouse-report/desktop' }
 
           const mobileCfg = JSON.parse(JSON.stringify(common))
-          mobileCfg.ci.collect.settings.formFactor = "mobile"
+          mobileCfg.ci.collect.settings.formFactor = 'mobile'
           mobileCfg.ci.collect.settings.screenEmulation = {
             mobile: true,
             width: 412,
@@ -104,7 +97,7 @@ jobs:
             deviceScaleFactor: 2.625,
             disabled: false
           }
-          mobileCfg.ci.upload = { target: "filesystem", outputDir: "./lighthouse-report/mobile" }
+          mobileCfg.ci.upload = { target: 'filesystem', outputDir: './lighthouse-report/mobile' }
 
           fs.mkdirSync('lighthouse-report', { recursive: true })
           fs.writeFileSync('lighthouserc.mobile.json', JSON.stringify(mobileCfg, null, 2))
@@ -118,12 +111,14 @@ jobs:
             --collect.url="${PAGES_URL}"
 
       - name: Run Lighthouse (desktop)
+        if: always()
         run: |
           npx --yes @lhci/cli@0.13.x autorun \
             --config=./lighthouserc.desktop.json \
             --collect.url="${PAGES_URL}"
 
-      - name: Enforce average performance >= 97
+      - name: Evaluate Lighthouse thresholds
+        if: always()
         run: |
           node - <<'EOF'
           const fs = require('fs')
@@ -133,11 +128,9 @@ jobs:
             if (!fs.existsSync(dir)) return null
             const files = fs.readdirSync(dir).filter(f => f.endsWith('.json'))
 
-            // prefer lhr-*.json if present
             const lhr = files.find(f => /^lhr-.*\.json$/.test(f))
             if (lhr) return path.join(dir, lhr)
 
-            // otherwise: find any json that has categories.performance
             for (const f of files) {
               try {
                 const p = path.join(dir, f)
@@ -152,31 +145,46 @@ jobs:
             const r = JSON.parse(fs.readFileSync(file, 'utf8'))
             const c = r.categories
             return {
-              performance: c.performance.score,
-              accessibility: c.accessibility.score,
-              bestPractices: c['best-practices'].score,
-              seo: c.seo.score
+              performance: Math.round(c.performance.score * 100),
+              accessibility: Math.round(c.accessibility.score * 100),
+              bestPractices: Math.round(c['best-practices'].score * 100),
+              seo: Math.round(c.seo.score * 100)
             }
           }
 
+          const minAveragePerformance = 97
           const mobileFile = pickLhrJson('./lighthouse-report/mobile')
           const desktopFile = pickLhrJson('./lighthouse-report/desktop')
 
           if (!mobileFile || !desktopFile) {
-            console.log('Could not locate LHR json reports; failing.')
+            console.log(`Could not locate LHR json reports (mobile: ${!!mobileFile}, desktop: ${!!desktopFile}).`)
             process.exit(1)
           }
 
           const m = readScores(mobileFile)
           const d = readScores(desktopFile)
-          const avgPerf = (m.performance + d.performance) / 2
+          const avgPerf = Math.round((m.performance + d.performance) / 2)
 
-          const pct = (v) => Math.round(v * 100)
-          console.log(`Mobile  -> perf ${pct(m.performance)} | a11y ${pct(m.accessibility)} | bp ${pct(m.bestPractices)} | seo ${pct(m.seo)}`)
-          console.log(`Desktop -> perf ${pct(d.performance)} | a11y ${pct(d.accessibility)} | bp ${pct(d.bestPractices)} | seo ${pct(d.seo)}`)
-          console.log(`Average performance: ${pct(avgPerf)}`)
+          console.log(`Mobile  -> perf ${m.performance} | a11y ${m.accessibility} | bp ${m.bestPractices} | seo ${m.seo}`)
+          console.log(`Desktop -> perf ${d.performance} | a11y ${d.accessibility} | bp ${d.bestPractices} | seo ${d.seo}`)
+          console.log(`Average performance: ${avgPerf}`)
 
-          if (avgPerf < 0.97) process.exit(1)
+          const failures = []
+          if (m.accessibility !== 100) failures.push(`Mobile accessibility must be 100 (found ${m.accessibility}).`)
+          if (d.accessibility !== 100) failures.push(`Desktop accessibility must be 100 (found ${d.accessibility}).`)
+          if (m.bestPractices !== 100) failures.push(`Mobile best-practices must be 100 (found ${m.bestPractices}).`)
+          if (d.bestPractices !== 100) failures.push(`Desktop best-practices must be 100 (found ${d.bestPractices}).`)
+          if (m.seo !== 100) failures.push(`Mobile SEO must be 100 (found ${m.seo}).`)
+          if (d.seo !== 100) failures.push(`Desktop SEO must be 100 (found ${d.seo}).`)
+          if (avgPerf < minAveragePerformance) {
+            failures.push(`Average performance must be >= ${minAveragePerformance} (found ${avgPerf}).`)
+          }
+
+          if (failures.length > 0) {
+            console.log('Threshold check failed:')
+            failures.forEach(msg => console.log(`- ${msg}`))
+            process.exit(1)
+          }
           EOF
 
       - name: Lighthouse Summary
@@ -202,35 +210,51 @@ jobs:
             return null
           }
 
+          function readScores(file) {
+            const c = JSON.parse(fs.readFileSync(file, 'utf8')).categories
+            return {
+              performance: Math.round(c.performance.score * 100),
+              accessibility: Math.round(c.accessibility.score * 100),
+              bestPractices: Math.round(c['best-practices'].score * 100),
+              seo: Math.round(c.seo.score * 100)
+            }
+          }
+
+          const minAveragePerformance = 97
           const mFile = pickLhrJson('./lighthouse-report/mobile')
           const dFile = pickLhrJson('./lighthouse-report/desktop')
 
           if (!mFile || !dFile) {
-            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, '## Lighthouse Report\n\nNo reports were generated.\n')
+            const missing = []
+            if (!mFile) missing.push('mobile')
+            if (!dFile) missing.push('desktop')
+            fs.appendFileSync(
+              process.env.GITHUB_STEP_SUMMARY,
+              `## Lighthouse Report (Home)\n\nMissing report files: ${missing.join(', ')}.\nCheck previous step logs for details.\n`
+            )
             process.exit(0)
           }
 
-          const m = JSON.parse(fs.readFileSync(mFile, 'utf8')).categories
-          const d = JSON.parse(fs.readFileSync(dFile, 'utf8')).categories
-
-          const mobile = {
-            performance: Math.round(m.performance.score * 100),
-            accessibility: Math.round(m.accessibility.score * 100),
-            bestPractices: Math.round(d['best-practices'] ? m['best-practices'].score * 100 : m['best-practices'].score * 100),
-            seo: Math.round(m.seo.score * 100)
-          }
-
-          const desktop = {
-            performance: Math.round(d.performance.score * 100),
-            accessibility: Math.round(d.accessibility.score * 100),
-            bestPractices: Math.round(d['best-practices'].score * 100),
-            seo: Math.round(d.seo.score * 100)
-          }
-
+          const mobile = readScores(mFile)
+          const desktop = readScores(dFile)
           const avgPerf = Math.round((mobile.performance + desktop.performance) / 2)
 
+          const rules = [
+            { rule: 'Mobile accessibility', expected: '100', found: `${mobile.accessibility}`, ok: mobile.accessibility === 100 },
+            { rule: 'Desktop accessibility', expected: '100', found: `${desktop.accessibility}`, ok: desktop.accessibility === 100 },
+            { rule: 'Mobile best-practices', expected: '100', found: `${mobile.bestPractices}`, ok: mobile.bestPractices === 100 },
+            { rule: 'Desktop best-practices', expected: '100', found: `${desktop.bestPractices}`, ok: desktop.bestPractices === 100 },
+            { rule: 'Mobile SEO', expected: '100', found: `${mobile.seo}`, ok: mobile.seo === 100 },
+            { rule: 'Desktop SEO', expected: '100', found: `${desktop.seo}`, ok: desktop.seo === 100 },
+            { rule: 'Average performance', expected: `>= ${minAveragePerformance}`, found: `${avgPerf}`, ok: avgPerf >= minAveragePerformance }
+          ]
+
+          const rulesTable = rules
+            .map(r => `| ${r.rule} | ${r.expected} | ${r.found} | ${r.ok ? 'PASS' : 'FAIL'} |`)
+            .join('\n')
+
           const summary = `
-          ## 🚦 Lighthouse Report (Home)
+          ## Lighthouse Report (Home)
 
           | Category | Mobile | Desktop |
           |---------|--------|---------|
@@ -242,10 +266,9 @@ jobs:
           **Average Performance:** ${avgPerf}
 
           ### Rules
-          - Accessibility = 100
-          - Best Practices = 100
-          - SEO = 100
-          - Average Performance ≥ 97
+          | Rule | Expected | Found | Status |
+          |------|----------|-------|--------|
+          ${rulesTable}
           `
           fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary)
           EOF

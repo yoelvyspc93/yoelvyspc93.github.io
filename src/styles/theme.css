@@ -6,7 +6,7 @@
   /* Breakpoints */
   --breakpoint-sm: 30rem;
   --breakpoint-md: 48rem;
-  --breakpoint-lg: 64rem;
+  --breakpoint-lg: 75rem;
 
   /* Colors */
   --color-primary: oklch(0.575 0.17 276);

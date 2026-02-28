@@ -37,11 +37,12 @@ const items = await Promise.all(
 	class="section-container py-16 sm:py-20 md:py-28 lg:py-36"
 >
 	<div
-		class="mx-auto flex w-[min(1180px,92vw)] flex-col items-center justify-center gap-8 sm:gap-10"
+		class="mx-auto flex w-full max-w-[560px] lg:max-w-7xl flex-col items-center justify-center gap-8 sm:gap-10"
 	>
 		<header class="text-center">
 			<h2 id="experience-heading">
-				{content.title} <span>{content.accent}</span>
+				{content.title}
+				<span>{content.accent}</span>
 			</h2>
 		</header>
 
