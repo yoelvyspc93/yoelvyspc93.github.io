@@ -2,6 +2,16 @@
 import ExperienceItem from '@/shared/ExperienceItem.astro'
 import { getCollection, render } from 'astro:content'
 
+type Props = {
+	content: {
+		title: string
+		accent: string
+	}
+}
+
+const { content } = Astro.props
+const timelineLabel = 'Experience timeline'
+
 const entries = await getCollection('experience')
 
 const items = await Promise.all(
@@ -24,24 +34,24 @@ const items = await Promise.all(
 <section
 	id="experience"
 	aria-labelledby="experience-heading"
-	class="section-container py-24 sm:py-32 md:py-40"
+	class="section-container py-16 sm:py-20 md:py-28 lg:py-36"
 >
 	<div
-		class="w-[min(1180px,92vw)] mx-auto flex flex-col items-center justify-center gap-10"
+		class="mx-auto flex w-[min(1180px,92vw)] flex-col items-center justify-center gap-8 sm:gap-10"
 	>
 		<header class="text-center">
 			<h2 id="experience-heading">
-				My <span>Experience</span>
+				{content.title} <span>{content.accent}</span>
 			</h2>
 		</header>
 
 		<ol
-			class="relative pl-[clamp(72px,9vw,120px)] flex flex-col gap-10"
-			aria-label="Experience timeline"
+			class="relative flex flex-col gap-10 pl-[clamp(52px,12vw,120px)]"
+			aria-label={timelineLabel}
 		>
 			<li
 				aria-hidden="true"
-				class="absolute bg-primary left-[clamp(32px,5vw,50px)] top-3 bottom-0 w-[5px] overflow-hidden pointer-events-none"
+				class="pointer-events-none absolute bottom-0 left-[clamp(22px,7vw,50px)] top-3 w-[4px] overflow-hidden bg-primary md:w-[5px]"
 			>
 				<span
 					class="absolute inset-0 bg-linear-gradient"

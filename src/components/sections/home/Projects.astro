@@ -4,44 +4,65 @@ import CircleButton from '@/ui/CircleButton.astro'
 import { getCollection } from 'astro:content'
 import 'swiper/css'
 
+type Props = {
+	content: {
+		title: string
+		accent: string
+	}
+}
+
+const { content } = Astro.props
+
 const all = await getCollection('projects')
 
 const featured = all
 	.filter(({ data }) => Boolean(data.favorite))
 	.sort((a, b) => Number(a.data.id) - Number(b.data.id))
+
+const { title, accent } = content
+const ariaLabel = 'Featured projects'
+const paginationLabel = 'Choose project'
+const prevLabel = 'Previous project'
+const nextLabel = 'Next project'
+const bulletLabel = 'Go to project'
 ---
 
 <section
 	id="projects"
-	class="section-container py-16 sm:py-20 bg-surface-soft"
+	class="section-container bg-surface-soft px-4 py-14 sm:py-16 md:py-20"
+	data-projects-section
 	aria-labelledby="projects-title"
 >
 	<div aria-hidden="true" class="absolute inset-0 bg-texture"></div>
 
-	<div class="relative mx-auto max-w-7xl px-4">
+	<div
+		class="relative mx-auto max-w-[100vw] md:max-w-[560px] lg:max-w-7xl px-4"
+	>
 		<header class="text-center">
 			<h2 id="projects-title">
-				{featured.length} Latest <span>Projects</span>
+				{featured.length} {title}{' '}
+				<span>{accent}</span>
 			</h2>
 		</header>
 
-		<div class="mt-20 sm:mt-12">
+		<div class="mt-10 sm:mt-12 md:mt-14">
 			<div
 				class="swiper select-none"
 				data-projects-swiper
+				data-bullet-label={bulletLabel}
 				aria-roledescription="carousel"
-				aria-label="Featured projects"
+				aria-label={ariaLabel}
 			>
-				<div class="swiper-wrapper h-auto max-h-[500px]">
+				<ul class="swiper-wrapper h-auto" role="list">
 					{
 						featured.map((entry, idx) => {
 							const { title, overview, images, technologies } = entry.data
 
 							return (
-								<div
+								<li
 									class="swiper-slide"
 									aria-roledescription="slide"
-									aria-label={`Project ${idx + 1} of ${featured.length}`}
+									aria-label={`${idx + 1}/${featured.length}`}
 								>
 									<ProjectItem
 										title={title}
@@ -49,20 +70,23 @@ const featured = all
 										images={images}
 										technologies={technologies}
 									/>
-								</div>
+								</li>
 							)
 						})
 					}
-				</div>
+				</ul>
 			</div>
 
 			<!-- Controls -->
-			<div class="mt-20 flex items-center justify-center gap-6 z-10">
+			<nav
+				class="z-10 mt-10 flex items-center justify-center gap-4 sm:mt-12 sm:gap-6 md:mt-14"
+				aria-label={paginationLabel}
+			>
 				<button
 					type="button"
 					class="group inline-flex items-center justify-center rounded-full rotate-180"
 					data-projects-prev
-					aria-label="Previous project"
+					aria-label={prevLabel}
 				>
 					<CircleButton />
 				</button>
@@ -70,7 +94,7 @@ const featured = all
 				<div
 					class="projects-pagination flex items-center gap-3"
 					data-projects-pagination
-					aria-label="Choose project"
+					aria-label={paginationLabel}
 				>
 				</div>
 
@@ -78,48 +102,66 @@ const featured = all
 					type="button"
 					class="group inline-flex items-center justify-center rounded-full"
 					data-projects-next
-					aria-label="Next project"
+					aria-label={nextLabel}
 				>
 					<CircleButton />
 				</button>
-			</div>
+			</nav>
 		</div>
 	</div>
 </section>
-
-<!-- <style>
-	.projects-pagination :global(.swiper-pagination-bullet) {
-		opacity: 1;
-		transition:
-			transform 200ms ease,
-			opacity 200ms ease;
-	}
-	.projects-pagination :global(.swiper-pagination-bullet:focus-visible) {
-		transform: scale(1.5) !important;
-		outline: 2px solid oklch(0.6 0.17 276);
-		outline-offset: 4px;
-		border-radius: 9999px;
-	}
-</style> -->
 
 <script>
 	import Swiper from 'swiper'
 	import { Navigation, Pagination, Parallax, A11y } from 'swiper/modules'
 
-	const root = document.querySelector('[data-projects-swiper]')
-	const buttonPrev = document.querySelector('[data-projects-prev]')
-	const buttonNext = document.querySelector('[data-projects-next]')
-	const pagination = document.querySelector('[data-projects-pagination]')
-
 	const prefersReducedMotion =
 		window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false
 
 	let swiper: Swiper | undefined
+	let currentRoot: HTMLElement | null = null
+
+	const getElements = () => {
+		const section = document.querySelector('[data-projects-section]')
+		if (!(section instanceof HTMLElement)) return null
+
+		const root = section.querySelector('[data-projects-swiper]')
+		const buttonPrev = section.querySelector('[data-projects-prev]')
+		const buttonNext = section.querySelector('[data-projects-next]')
+		const pagination = section.querySelector('[data-projects-pagination]')
+
+		if (
+			!(root instanceof HTMLElement) ||
+			!(buttonPrev instanceof HTMLElement) ||
+			!(buttonNext instanceof HTMLElement) ||
+			!(pagination instanceof HTMLElement)
+		) {
+			return null
+		}
+
+		return {
+			root,
+			buttonPrev,
+			buttonNext,
+			pagination,
+			bulletLabel: root.dataset.bulletLabel ?? 'Go to project',
+		}
+	}
 
 	const mount = () => {
-		if (swiper || !root || !buttonPrev || !buttonNext || !pagination) return
+		const elements = getElements()
+		if (!elements) {
+			unmount()
+			return
+		}
 
-		swiper = new Swiper(root as HTMLElement, {
+		const { root, buttonPrev, buttonNext, pagination, bulletLabel } = elements
+
+		if (swiper && currentRoot === root) return
+		unmount()
+		currentRoot = root
+
+		swiper = new Swiper(root, {
 			modules: [Navigation, Pagination, Parallax, A11y],
 			slidesPerView: 1,
 			spaceBetween: 0,
@@ -131,18 +173,18 @@ const featured = all
 				enabled: true,
 			},
 			navigation: {
-				prevEl: buttonPrev as HTMLElement,
-				nextEl: buttonNext as HTMLElement,
+				prevEl: buttonPrev,
+				nextEl: buttonNext,
 				disabledClass: 'opacity-40 pointer-events-none',
 			},
 			pagination: {
-				el: pagination as HTMLElement,
+				el: pagination,
 				clickable: true,
 				bulletElement: 'button',
 				bulletClass: 'dot dot-md dot-neutral',
 				bulletActiveClass: '!bg-primary',
 				renderBullet: (index, className) =>
-					`<button type="button" class="${className}" aria-label="Go to project ${index + 1}"></button>`,
+					`<button type="button" class="${className}" aria-label="${bulletLabel} ${index + 1}"></button>`,
 			},
 		})
 	}
@@ -151,11 +193,17 @@ const featured = all
 		if (!swiper) return
 		swiper.destroy(true, true)
 		swiper = undefined
+		currentRoot = null
 	}
 
-	mount()
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', mount, { once: true })
+	} else {
+		mount()
+	}
 
 	// Astro view transitions / navigation safety
+	document.addEventListener('astro:page-load', mount)
 	document.addEventListener('astro:before-swap', unmount)
-	document.addEventListener('pagehide', unmount)
+	window.addEventListener('pagehide', unmount)
 </script>

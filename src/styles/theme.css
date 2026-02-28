@@ -3,6 +3,11 @@
   --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
   --font-display: "Audiowide", system-ui, sans-serif;
 
+  /* Breakpoints */
+  --breakpoint-sm: 30rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+
   /* Colors */
   --color-primary: oklch(0.575 0.17 276);
   --color-white: oklch(1 0 0);

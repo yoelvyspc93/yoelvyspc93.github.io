@@ -1,46 +1,34 @@
 ---
-const navItems = [
-	{
-		name: 'About',
-		path: '#about',
-	},
-	{
-		name: 'Projects',
-		path: '#projects',
-	},
-	{
-		name: 'Experience',
-		path: '#experience',
-	},
-	{
-		name: 'Skills',
-		path: '#skills',
-	},
-	{
-		name: 'Contact',
-		path: '#contact',
-	},
-]
+type Props = {
+	data: {
+		copyrightName: string
+		rightsLabel: string
+		links: { label: string; href: string }[]
+	}
+}
+
+const { copyrightName, rightsLabel, links } = Astro.props.data
 ---
 
-<footer class="relative isolate w-full overflow-hidden px-4 py-8">
+<footer class="relative isolate w-full overflow-hidden px-4 py-6 sm:py-8">
 	<div
-		class="relative z-1 mx-auto flex h-0 flex-col items-center justify-between gap-4 text-center md:h-[15vh] md:flex-row md:gap-5 lg:h-[7vh] max-w-[1200px]"
+		class="relative z-1 mx-auto flex h-auto max-w-[1200px] flex-col items-center justify-between gap-4 text-center lg:flex-row lg:gap-5"
 	>
-		<p class="order-1 text-large leading-[150%] md:order-0">
-			©{new Date().getFullYear()} Yoelvys. All rights reserved.
+		<p class="order-1 text-medium leading-[150%] sm:text-large lg:order-0">
+			&copy;{new Date().getFullYear()}
+			{copyrightName}. {rightsLabel}
 		</p>
 
 		<nav aria-label="Footer navigation">
-			<ul class="flex flex-wrap justify-center gap-5 md:gap-7">
+			<ul class="flex flex-wrap justify-center gap-x-7 gap-y-2">
 				{
-					navItems.map((link) => (
+					links.map((link) => (
 						<li>
 							<a
-								href={link.path}
-								class="text-large leading-[150%]  transition-all duration-300 hover:bg-linear-gradient hover:bg-clip-text hover:text-transparent"
+								href={link.href}
+								class="text-medium leading-[150%] transition-all duration-300 hover:bg-linear-gradient hover:bg-clip-text hover:text-transparent sm:text-large"
 							>
-								{link.name}
+								{link.label}
 							</a>
 						</li>
 					))

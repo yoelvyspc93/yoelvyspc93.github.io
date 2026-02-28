@@ -2,57 +2,257 @@
 interface Props {
 	label: string
 	id: string
+	name?: string
 	value?: string
 	placeholders?: string[]
 	ariaDescribedby?: string
 	required?: boolean
+	showRequiredIndicator?: boolean
 }
 
 const {
 	label,
 	id,
+	name = id,
 	value = '',
 	placeholders = [],
 	ariaDescribedby,
 	required = false,
+	showRequiredIndicator = true,
 } = Astro.props
 
-const placeholderText = placeholders[0] ?? ''
-const hidePlaceholder = value.length > 0
+const labelBaseClass = 'text-medium font-medium text-black/85'
+const textareaBaseClass =
+	'min-h-[120px] w-full resize-none rounded-[11px] border-none bg-white px-4 py-3 text-medium text-black outline-none placeholder:text-transparent sm:min-h-[140px]'
+const errorBaseClass = 'mt-1 text-small text-red-600'
 ---
 
 <div class="flex w-full flex-col gap-2">
-	<label for={id} class="text-large text-white">
+	<label for={id} class={labelBaseClass}>
 		{label}
-		{required && <span aria-label="required">*</span>}
+		{required && showRequiredIndicator && <span aria-hidden="true">*</span>}
 	</label>
-	<div class="relative w-full">
-		<textarea
-			id={id}
-			name={id}
-			required={required}
-			aria-describedby={ariaDescribedby}
-			aria-required={required}
-			class="min-h-[100px] w-full resize-none rounded-[20px] border-2 border-transparent bg-white/5 px-4 py-2.5 text-medium text-white outline-none focus-visible:shadow-[0_0_4px_1px_rgba(255,255,255,0.2)] md:min-h-[130px]"
-		>
-			{value}
-		</textarea>
+	<div
+		class="textarea-glow-wrapper w-full relative rounded-[12px] p-[2px]"
+		data-textarea-wrapper
+	>
+		<div class="textarea-glow-overlay" data-glow-overlay></div>
+
+		<div class="textarea-inner relative w-full">
+			<textarea
+				id={id}
+				name={name}
+				required={required}
+				aria-describedby={ariaDescribedby}
+				aria-required={required}
+				class={textareaBaseClass}
+				data-textarea>{value}</textarea
+			>
+
+			<div
+				class="textarea-placeholder-container"
+				data-placeholder-container
+				aria-hidden="true"
+			>
+				{
+					placeholders.map((p, i) => (
+						<span
+							class="textarea-placeholder-item"
+							data-placeholder-item
+							style={`opacity: ${i === 0 ? 1 : 0}; transform: translateY(${i === 0 ? 0 : 8}px)`}
+						>
+							{p}
+						</span>
+					))
+				}
+			</div>
+		</div>
+
 		{
-			placeholderText && (
+			ariaDescribedby && (
 				<span
-					class={`pointer-events-none absolute left-4 top-3 text-medium text-white/60 ${
-						hidePlaceholder ? 'hidden' : ''
-					}`}
-				>
-					{placeholderText}
-				</span>
+					id={ariaDescribedby}
+					class={`sr-only ${errorBaseClass}`}
+					role="alert"
+					aria-live="polite"
+					aria-atomic="true"
+				/>
 			)
 		}
-		<span
-			id={ariaDescribedby}
-			class="sr-only"
-			role="alert"
-			aria-live="polite"
-			aria-atomic="true"></span>
 	</div>
 </div>
+
+<style>
+	.textarea-glow-wrapper {
+		background: var(--color-surface-soft, #e2e2f0);
+	}
+
+	.textarea-glow-overlay {
+		position: absolute;
+		inset: 0;
+		border-radius: 12px;
+		opacity: 0;
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	.textarea-inner {
+		position: relative;
+		z-index: 1;
+	}
+
+	.textarea-inner textarea {
+		display: block;
+		position: relative;
+		z-index: 2;
+	}
+
+	.textarea-placeholder-container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		padding: 0.75rem 1rem; /* py-3 px-4 — igual que el textarea */
+		pointer-events: none;
+		z-index: 3; /* encima del textarea */
+	}
+
+	.textarea-placeholder-item {
+		display: block;
+		position: absolute;
+		top: 0.75rem;
+		left: 1rem;
+		font-size: inherit;
+		color: rgba(0, 0, 0, 0.4);
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: calc(100% - 2rem);
+	}
+</style>
+
+<script>
+	import { gsap } from 'gsap'
+
+	document
+		.querySelectorAll<HTMLElement>('[data-textarea-wrapper]')
+		.forEach((wrapper) => {
+			const RADIUS = 250
+			const pos = { x: 0, y: 0 }
+			let isFocused = false
+
+			const textarea =
+				wrapper.querySelector<HTMLTextAreaElement>('[data-textarea]')
+			const overlay = wrapper.querySelector<HTMLElement>('[data-glow-overlay]')!
+
+			const updateGradient = () => {
+				overlay.style.background = `radial-gradient(${RADIUS}px circle at ${pos.x}px ${pos.y}px, var(--color-primary, #6366f1) 0%, #a5b4fc 50%, transparent 80%)`
+			}
+
+			wrapper.addEventListener('mouseenter', () => {
+				if (isFocused) return
+				gsap.to(overlay, { opacity: 1, duration: 0.3, ease: 'power2.out' })
+			})
+
+			wrapper.addEventListener('mouseleave', () => {
+				if (isFocused) return
+				gsap.to(overlay, { opacity: 0, duration: 0.35, ease: 'power2.out' })
+			})
+
+			wrapper.addEventListener('mousemove', (e: MouseEvent) => {
+				if (isFocused) return
+				const rect = wrapper.getBoundingClientRect()
+				gsap.to(pos, {
+					duration: 0.08,
+					x: e.clientX - rect.left,
+					y: e.clientY - rect.top,
+					ease: 'none',
+					onUpdate: updateGradient,
+				})
+			})
+
+			textarea?.addEventListener('focus', () => {
+				isFocused = true
+				gsap.to(overlay, { opacity: 0, duration: 0.2, ease: 'power2.out' })
+				gsap.to(wrapper, {
+					background: 'var(--color-primary, #6366f1)',
+					duration: 0.25,
+					ease: 'power2.out',
+				})
+			})
+
+			textarea?.addEventListener('blur', () => {
+				isFocused = false
+				gsap.to(wrapper, {
+					background: 'var(--color-surface-soft, #e2e2f0)',
+					duration: 0.35,
+					ease: 'power2.out',
+				})
+			})
+
+			// — Placeholder rotation —
+			const items = wrapper.querySelectorAll<HTMLElement>(
+				'[data-placeholder-item]',
+			)
+			const container = wrapper.querySelector<HTMLElement>(
+				'[data-placeholder-container]',
+			)
+
+			if (!textarea || items.length === 0 || !container) return
+
+			let current = 0
+			let intervalId: ReturnType<typeof setInterval> | null = null
+
+			const showPlaceholder = (next: number) => {
+				const prev = current
+				current = next
+
+				gsap.to(items[prev], {
+					opacity: 0,
+					y: -12,
+					duration: 0.3,
+					ease: 'power2.in',
+				})
+
+				gsap.fromTo(
+					items[current],
+					{ opacity: 0, y: 10 },
+					{ opacity: 1, y: 0, duration: 0.3, ease: 'power2.out', delay: 0.15 },
+				)
+			}
+
+			const startRotation = () => {
+				if (items.length <= 1) return
+				intervalId = setInterval(() => {
+					if (!textarea.value) {
+						showPlaceholder((current + 1) % items.length)
+					}
+				}, 3000)
+			}
+
+			const stopRotation = () => {
+				if (intervalId) {
+					clearInterval(intervalId)
+					intervalId = null
+				}
+			}
+
+			textarea.addEventListener('input', () => {
+				if (textarea.value) {
+					gsap.to(container, { opacity: 0, duration: 0.3 })
+				} else {
+					gsap.to(container, { opacity: 1, duration: 0.3 })
+				}
+			})
+
+			document.addEventListener('visibilitychange', () => {
+				if (document.visibilityState === 'visible') {
+					startRotation()
+				} else {
+					stopRotation()
+				}
+			})
+
+			startRotation()
+		})
+</script>

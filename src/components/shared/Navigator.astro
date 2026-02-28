@@ -1,42 +1,24 @@
 ---
 import Button from '@/ui/Button.astro'
 
-interface NavigationItem {
-	name: string
-	path: string
+type Props = {
+	data: {
+		brand: string
+		links: { label: string; href: string }[]
+		cta: { label: string; href: string }
+	}
 }
 
-const navItems: NavigationItem[] = [
-	{
-		name: 'Home',
-		path: '#hero',
-	},
-	{
-		name: 'About',
-		path: '#about',
-	},
-	{
-		name: 'Projects',
-		path: '#projects',
-	},
-	{
-		name: 'Experience',
-		path: '#experience',
-	},
-	{
-		name: 'Skills',
-		path: '#skills',
-	},
-	{
-		name: 'Contact',
-		path: '#contact',
-	},
-]
+const { brand, links, cta } = Astro.props.data
 ---
 
 <header class="fixed inset-x-0 top-6 z-50">
 	<div class="mx-auto max-w-7xl">
-		<nav class="relative overflow-hidden bg-section rounded-full" data-nav>
+		<nav
+			class="relative overflow-hidden bg-section rounded-full"
+			data-nav
+			aria-label="Primary"
+		>
 			<div
 				aria-hidden="true"
 				class="absolute inset-0 pointer-events-none bg-texture"
@@ -51,22 +33,22 @@ const navItems: NavigationItem[] = [
 					data-nav-link
 					data-target="hero"
 				>
-					<h5>Y</h5>
+					<h5>{brand}</h5>
 				</a>
 
 				<ul class="hidden items-center gap-8 md:flex" data-nav-list>
 					{
-						navItems.map((item) => {
-							const id = item.path.replace('#', '')
+						links.map((link) => {
+							const id = link.href.replace('#', '')
 							return (
 								<li>
 									<a
-										href={item.path}
+										href={link.href}
 										class="group relative inline-flex flex-col items-center gap-2 text-sm font-medium text-black/70 transition-colors hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-2 py-1"
 										data-nav-link
 										data-target={id}
 									>
-										<span>{item.name}</span>
+										<span>{link.label}</span>
 										<span
 											class="absolute -bottom-2 dot dot-sm opacity-0 translate-y-1 transition-all duration-200 group-hover:opacity-60 group-hover:translate-y-0"
 											aria-hidden="true"
@@ -82,11 +64,11 @@ const navItems: NavigationItem[] = [
 				<Button
 					variant="primary"
 					size="small"
-					href="/cv-yoelvys-perez-cabrera.pdf"
+					href={cta.href}
 					external
 					aria-label="Download my CV"
 				>
-					Download CV
+					{cta.label}
 				</Button>
 			</div>
 		</nav>
@@ -208,6 +190,6 @@ const navItems: NavigationItem[] = [
 			window.removeEventListener('resize', onScroll)
 			if (raf) cancelAnimationFrame(raf)
 		},
-		{ once: true }
+		{ once: true },
 	)
 </script>

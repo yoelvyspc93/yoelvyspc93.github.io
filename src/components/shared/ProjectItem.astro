@@ -12,19 +12,15 @@ type Props = {
 const { title, overview, technologies, images } = Astro.props
 ---
 
-<article class="grid items-center gap-10 lg:grid-cols-2">
-	<div class="order-2 lg:order-1 max-w-[440px] flex flex-col gap-10">
+<article class="grid items-center gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-10">
+	<div class="order-2 mx-auto flex w-full max-w-[520px] flex-col gap-5 sm:gap-6 md:gap-8 lg:order-1">
 		<h3 data-swiper-parallax="-100">{title}</h3>
 		<p class="max-w-xl text-pretty" data-swiper-parallax="-150">
 			{overview}
 		</p>
 		{
 			technologies?.length ? (
-				<ul
-					class="flex flex-wrap gap-2"
-					aria-label="Technologies"
-					data-swiper-parallax="-200"
-				>
+				<ul class="flex flex-wrap gap-2" data-swiper-parallax="-200">
 					{technologies.map((technology, index) => (
 						<li data-swiper-parallax={-20 * (index + 1)}>
 							<Tag>{technology}</Tag>
@@ -34,24 +30,25 @@ const { title, overview, technologies, images } = Astro.props
 			) : null
 		}
 	</div>
-	<figure class="relative mx-auto w-[500px] h-[400px] order-1 lg:order-2">
+
+	<figure
+		class="relative order-1 mx-auto aspect-[5/4] w-full max-w-[560px] overflow-hidden rounded-2xl lg:order-2"
+	>
 		{
 			images.map((image, index) => (
 				<Image
 					src={`/images/projects/${image}`}
-					alt=""
-					aria-hidden="true"
-					class="absolute inset-0 w-[500px] h-[400px]"
+					alt={index === 0 ? `${title} project preview` : ''}
+					aria-hidden={index !== 0}
+					class="absolute inset-0 h-full w-full object-cover"
 					loading="lazy"
 					decoding="async"
-					width={500}
-					height={400}
+					width={560}
+					height={448}
 					data-swiper-parallax={-1 * (100 * index + 1)}
 				/>
 			))
 		}
-		<figcaption class="sr-only">
-			{title} project preview
-		</figcaption>
+		<figcaption class="sr-only">{title}</figcaption>
 	</figure>
 </article>

@@ -94,6 +94,6 @@
   }
 
   .section-container {
-    @apply relative overflow-hidden isolate min-h-screen md:min-h-[800px] xl:min-h-screen flex justify-center items-center;
+    @apply relative overflow-hidden isolate min-h-[620px] sm:min-h-[700px] md:min-h-[800px] lg:min-h-screen flex justify-center items-center;
   }
 }

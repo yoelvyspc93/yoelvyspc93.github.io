@@ -114,4 +114,4 @@ This portfolio follows modern SEO and performance practices:
 - **Author**: Yoelvys Perez Cabrera
 - **GitHub**: https://github.com/yoelvyspc93
 - **LinkedIn**: https://www.linkedin.com/in/yoelvys-perez-cabrera
-- **Email**: yoelvyspc93@gamil.com
+- **Email**: yoelvyspc93@gmail.com

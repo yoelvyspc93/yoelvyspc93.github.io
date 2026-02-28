@@ -1,54 +1,48 @@
 ---
 import Tag from '@/shared/Tag.astro'
+type Props = {
+	content: {
+		title: string
+		accent: string
+		description: string
+		list: string[]
+	}
+}
 
-const skills = [
-	'Next.js',
-	'CSS3',
-	'Redux',
-	'Figma',
-	'React',
-	'Storybook',
-	'Jest',
-	'React Native',
-	'Webflow',
-	'TypeScript',
-	'Cypress',
-	'WordPress',
-	'Python',
-	'JavaScript',
-	'Chromatic',
-	'Django',
-	'HTML5',
-]
+const { content } = Astro.props
+const cardLabelPrefix = 'Skill card'
+const cardLabelSuffix = 'Drag to interact.'
 ---
 
 <section
 	id="skills"
 	aria-labelledby="skills-heading"
-	class="section-container z-1 bg-surface-soft touch-pan-y"
+	class="section-container z-1 touch-pan-y bg-surface-soft"
 >
 	<div aria-hidden="true" class="bg-texture absolute inset-0"></div>
-	<div
-		class="pointer-events-none absolute left-1/2 top-1/2 z-1 flex max-w-[800px] min-w-[350px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-6 px-4 text-center"
+	<header
+		class="pointer-events-none absolute left-1/2 top-1/2 z-1 flex w-[min(92vw,800px)] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-4 px-4 text-center sm:gap-6"
 	>
-		<h2 id="skills-heading">My <span>Skills</span></h2>
-		<p class="m-0 mx-auto max-w-[800px] text-center">
-			My tech stack is focused on the JavaScript ecosystem, prioritizing tools
-			that enable speed, scalability, and type safety.
+		<h2 id="skills-heading">
+			{content.title}
+			<span>{content.accent}</span>
+		</h2>
+		<p class="m-0 mx-auto max-w-[560px] lg:max-w-[800px] text-center">
+			{content.description}
 		</p>
-	</div>
+	</header>
 
 	<div
 		data-skills-layer
-		class="pointer-events-none absolute inset-0 z-2 touch-pan-y lg:pointer-events-auto"
+		class="pointer-events-auto absolute inset-0 z-2 touch-pan-y"
 	>
 		{
-			skills.map((skill) => (
+			content.list.map((skill) => (
 				<Tag
 					size="large"
 					class="pointer-events-auto absolute select-none will-change-transform cursor-grab active:cursor-grabbing"
 					data-skill-card
-					aria-label={`Skill card ${skill}. Drag to interact.`}
+					aria-label={`${cardLabelPrefix} ${skill}. ${cardLabelSuffix}`}
 				>
 					{skill}
 				</Tag>
@@ -91,7 +85,7 @@ const skills = [
 
 		const engine = Engine.create()
 		const world = engine.world
-		world.gravity.y = 1
+		engine.gravity.y = 1
 
 		const runner = Runner.create()
 

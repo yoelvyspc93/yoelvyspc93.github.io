@@ -1,13 +1,19 @@
-# *
 User-agent: *
 Allow: /
-Disallow: /api/*
-Disallow: /_next/*
 Disallow: /404
 Disallow: /500
 
-# Host
-Host: https://yoelvyspc93.github.io
+# AI crawler policy: allowed
+User-agent: GPTBot
+Allow: /
 
-# Sitemaps
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
 Sitemap: https://yoelvyspc93.github.io/sitemap.xml

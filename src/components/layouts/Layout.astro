@@ -1,19 +1,37 @@
 ---
 import { ClientRouter } from 'astro:transitions'
 import Navigator from '@/shared/Navigator.astro'
-// import SlidingMenu from '@/shared/SlidingMenu.astro'
+import SlidingMenu from '@/shared/SlidingMenu.astro'
 
 import '@/styles/global.css'
 import Footer from '@/shared/Footer.astro'
+import Seo from '@/shared/Seo.astro'
+import home from '@/content/home.json'
+import seo from '@/content/seo.json'
+import person from '@/content/person.json'
+import layout from '@/content/layout.json'
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
-const pageTitle = 'Yoelvys Perez Cabrera | Portfolio'
-const pageDescription =
-	'Portfolio of Yoelvys Pérez Cabrera - Senior Frontend Engineer specializing in React, Next.js, and TypeScript. Over 6 years of experience building high-performance web applications.'
+type Props = {
+	title?: string
+	description?: string
+	canonical?: string
+}
+
+const {
+	title = seo.title,
+	description = seo.description,
+	canonical,
+} = Astro.props
+
+const { faq } = home
+const resolvedCanonical = canonical ?? Astro.url.pathname
+const seoData = { ...seo, title, description, canonical: resolvedCanonical }
+
+const { brand, links, cta, copyrightName, rightsLabel } = layout
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={seoData.language}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,28 +41,22 @@ const pageDescription =
 			rel="stylesheet"
 			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
 		/>
-		<meta name="description" content={pageDescription} />
-		<link rel="canonical" href={canonicalURL} />
-		<meta property="og:title" content={pageTitle} />
-		<meta property="og:description" content={pageDescription} />
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={canonicalURL} />
 		<link rel="icon" type="image/png" href="/favicon.png" />
-		<meta property="og:image" content="/preview.webp" />
-		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content={pageTitle} />
-		<meta name="twitter:description" content={pageDescription} />
 		<meta name="theme-color" content="#ffffff" />
 		<meta name="color-scheme" content="light" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{pageTitle}</title>
+		<Seo seo={seoData} person={person} faq={faq} />
 		<ClientRouter />
 	</head>
 	<body>
-		<a href="#main-content" class="skip-link">skip to main content</a>
-		<Navigator />
-		<!-- <SlidingMenu /> -->
+		<a href="#main-content" class="skip-link">Skip to main content</a>
+		<div class="hidden lg:block">
+			<Navigator data={{ brand, links, cta }} />
+		</div>
+		<div class="lg:hidden">
+			<SlidingMenu data={{ brand, links, cta }} />
+		</div>
 		<slot />
-		<Footer />
+		<Footer data={{ copyrightName, rightsLabel, links }} />
 	</body>
 </html>
