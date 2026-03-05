@@ -10,6 +10,9 @@ technologies:
   - GSAP
   - Spline
 favorite: true
+author: Yoelvys Perez Cabrera
+datePublished: 2024-02-01
+dateModified: 2026-03-03
 summary:
   - I designed and developed the Henig Diamond landing page using Webflow, integrating GSAP for smooth animations and Spline for 3D visual elements. The website includes an interactive office map and a custom AI chatbot that responds to questions about services and products. Every detail was crafted to reflect the elegance and exclusivity of the brand.
 ---

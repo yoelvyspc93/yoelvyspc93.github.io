@@ -109,6 +109,11 @@ This portfolio follows modern SEO and performance practices:
 - Semantic HTML improves accessibility and search engine parsing.
 - Asset optimization and scoped CSS reduce payload size.
 
+## License
+
+- Source code is licensed under MIT. See [LICENSE](./LICENSE).
+- Portfolio content and assets (personal texts, data, branding, images, and media) are excluded from MIT unless explicitly stated otherwise and remain All Rights Reserved.
+
 ## Author / Contact
 
 - **Author**: Yoelvys Perez Cabrera

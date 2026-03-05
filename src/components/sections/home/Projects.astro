@@ -56,7 +56,15 @@ const bulletLabel = 'Go to project'
 				<div class="swiper-wrapper h-auto">
 					{
 						featured.map((entry, idx) => {
-							const { title, overview, images, technologies } = entry.data
+							const {
+								title,
+								overview,
+								images,
+								technologies,
+								author,
+								datePublished,
+								dateModified,
+							} = entry.data
 
 							return (
 								<div
@@ -68,6 +76,9 @@ const bulletLabel = 'Go to project'
 										overview={overview}
 										images={images}
 										technologies={technologies}
+										author={author}
+										datePublished={datePublished}
+										dateModified={dateModified}
 									/>
 								</div>
 							)

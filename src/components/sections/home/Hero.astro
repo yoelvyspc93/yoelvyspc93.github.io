@@ -1,5 +1,4 @@
 ---
-import DualOrbs from '@/shared/DualOrbs.astro'
 import Button from '@/ui/Button.astro'
 
 type Props = {
@@ -20,29 +19,6 @@ const { eyebrow, name, description } = content
 	aria-labelledby="hero-title"
 	aria-describedby="hero-desc"
 >
-	<div aria-hidden="true" class="absolute inset-0 z-0 bg-white"></div>
-
-	<div aria-hidden="true" class="pointer-events-none absolute inset-0 z-10">
-		<div class="absolute -right-2 -top-24 opacity-90">
-			<DualOrbs variant="left" />
-		</div>
-		<div class="absolute -bottom-28 -left-1 opacity-80">
-			<DualOrbs variant="right" />
-		</div>
-	</div>
-
-	<div
-		aria-hidden="true"
-		class="pointer-events-none absolute inset-0 z-20 bg-section"
-	>
-	</div>
-
-	<div
-		aria-hidden="true"
-		class="pointer-events-none absolute inset-0 z-30 bg-texture"
-	>
-	</div>
-
 	<header
 		class="relative z-40 flex w-full max-w-[664px] flex-col items-center justify-center gap-5 text-center sm:gap-6 md:gap-8"
 	>

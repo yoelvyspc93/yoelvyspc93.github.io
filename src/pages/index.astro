@@ -1,7 +1,5 @@
 ---
 import Layout from '@/layouts/Layout.astro'
-import Hero from '@/sections/home/Hero.astro'
-import About from '@/sections/home/About.astro'
 import Projects from '@/sections/home/Projects.astro'
 import Experience from '@/sections/home/Experience.astro'
 import Skills from '@/sections/home/Skills.astro'
@@ -10,12 +8,17 @@ import Faq from '@/sections/home/Faq.astro'
 
 import home from '@/content/home.json'
 import contact from '@/content/contact.json'
+import IntroWrapper from '@/shared/IntroWrapper.astro'
+import Hero from '@/sections/home/Hero.astro'
+import About from '@/sections/home/About.astro'
 ---
 
 <Layout>
 	<main id="main-content">
-		<Hero content={home.hero} />
-		<About content={home.about} />
+		<IntroWrapper>
+			<Hero content={home.hero} />
+			<About content={home.about} />
+		</IntroWrapper>
 		<Projects content={home.projects} />
 		<Experience content={home.experience} />
 		<Skills content={home.skills} />

@@ -7,9 +7,26 @@ type Props = {
 	overview: string
 	images: string[]
 	technologies: string[]
+	author: string
+	datePublished: Date
+	dateModified: Date
 }
 
-const { title, overview, technologies, images } = Astro.props
+const {
+	title,
+	overview,
+	technologies,
+	images,
+	author,
+	datePublished,
+	dateModified,
+} = Astro.props
+const formatDate = (date: Date) =>
+	new Intl.DateTimeFormat('en', {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric',
+	}).format(date)
 ---
 
 <article class="grid items-center gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-10">
@@ -19,6 +36,19 @@ const { title, overview, technologies, images } = Astro.props
 		<h3 data-swiper-parallax="-100">{title}</h3>
 		<p class="max-w-xl text-pretty" data-swiper-parallax="-150">
 			{overview}
+		</p>
+		<p class="sr-only">
+			By {author}
+			{' | '}
+			Published{' '}
+			<time datetime={datePublished.toISOString()}>
+				{formatDate(datePublished)}
+			</time>
+			{' | '}
+			Updated{' '}
+			<time datetime={dateModified.toISOString()}
+				>{formatDate(dateModified)}</time
+			>
 		</p>
 		{
 			technologies?.length ? (
@@ -34,14 +64,13 @@ const { title, overview, technologies, images } = Astro.props
 	</div>
 
 	<figure
-		class="relative order-1 mx-auto aspect-[5/4] w-full max-w-[560px] overflow-hidden rounded-2xl lg:order-2"
+		class="relative order-1 mx-auto aspect-5/4 w-full max-w-[560px] overflow-hidden rounded-2xl lg:order-2"
 	>
 		{
 			images.map((image, index) => (
 				<Image
 					src={`/images/projects/${image}`}
-					alt={index === 0 ? `${title} project preview` : ''}
-					aria-hidden={index !== 0}
+					alt={`${title} project screenshot ${index + 1}`}
 					class="absolute inset-0 h-full w-full object-cover"
 					loading="lazy"
 					decoding="async"

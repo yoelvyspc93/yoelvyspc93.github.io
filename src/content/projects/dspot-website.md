@@ -15,6 +15,9 @@ technologies:
   - React Testing Library
   - Cypress
 favorite: true
+author: Yoelvys Perez Cabrera
+datePublished: 2025-01-25
+dateModified: 2026-03-03
 summary:
   - Corporate website for DSpot, a digital studio offering design and software solutions. The site was built with Next.js and React, using TypeScript and GSAP animations to create a smooth, responsive experience. The content highlights the company’s principles—speed to build and one-team mindset—alongside their blend of design, strategy and technology.
 ---
