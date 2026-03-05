@@ -15,17 +15,25 @@ type Props = {
 	title?: string
 	description?: string
 	canonical?: string
+	robots?: string
 }
 
 const {
 	title = seo.title,
 	description = seo.description,
 	canonical,
+	robots = 'index,follow',
 } = Astro.props
 
 const { faq } = home
 const resolvedCanonical = canonical ?? Astro.url.pathname
-const seoData = { ...seo, title, description, canonical: resolvedCanonical }
+const seoData = {
+	...seo,
+	title,
+	description,
+	canonical: resolvedCanonical,
+	robots,
+}
 
 const { brand, links, cta, copyrightName, rightsLabel } = layout
 ---

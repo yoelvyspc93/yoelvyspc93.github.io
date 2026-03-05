@@ -16,6 +16,9 @@ technologies:
   - React Testing Library
   - Cypress
 favorite: true
+author: Yoelvys Perez Cabrera
+datePublished: 2024-05-15
+dateModified: 2026-03-03
 summary:
   - I developed a full-featured platform for NFT sales and management, built with Next.js and focused on user experience. The interface integrates GSAP, SwiperJS, and Lottie for dynamic animations, supporting both dark and light modes for accessibility. The entire system was thoroughly tested with Storybook, Chromatic, React Testing Library, and Cypress, ensuring consistency, performance, and visual stability across devices.
 ---

@@ -5,6 +5,9 @@ period:
   end: '2018'
 company: 'University'
 rol: 'Computer Engineering'
+author: 'Yoelvys Perez Cabrera'
+datePublished: '2018-06-30'
+dateModified: '2018-06-30'
 image: []
 ---
 

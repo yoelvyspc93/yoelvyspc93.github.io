@@ -3,6 +3,7 @@ type SeoData = {
 	title: string
 	description: string
 	canonical: string
+	robots?: string
 	ogImage: string
 	ogImageAlt: string
 	locale: string
@@ -66,25 +67,23 @@ const structuredData = {
 				name: person.name,
 			},
 		},
-		[
-			{
-				'@type': 'FAQPage',
-				mainEntity: faq.items.map((item) => ({
-					'@type': 'Question',
-					name: item.question,
-					acceptedAnswer: {
-						'@type': 'Answer',
-						text: item.answer,
-					},
-				})),
-			},
-		],
+		{
+			'@type': 'FAQPage',
+			mainEntity: faq.items.map((item) => ({
+				'@type': 'Question',
+				name: item.question,
+				acceptedAnswer: {
+					'@type': 'Answer',
+					text: item.answer,
+				},
+			})),
+		},
 	],
 }
 ---
 
 <meta name="description" content={seo.description} />
-<meta name="robots" content="index,follow" />
+<meta name="robots" content={seo.robots ?? 'index,follow'} />
 <meta name="author" content={person.name} />
 <link rel="canonical" href={canonicalURL.href} />
 <meta property="og:title" content={seo.title} />

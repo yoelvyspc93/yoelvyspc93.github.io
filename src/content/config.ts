@@ -1,16 +1,24 @@
 import { defineCollection, z } from 'astro:content';
+import { file } from 'astro/loaders';
+
+const singleEntryParser = (entryId: string) => (text: string) => ({
+  [entryId]: JSON.parse(text) as Record<string, unknown>,
+});
 
 const projects = defineCollection({
   type: 'content',
   schema: z.object({
     id: z.number(),
-    title: z.string(),
-    overview: z.string(),
-    images: z.array(z.string()),
-    technologies: z.array(z.string()),
+    title: z.string().min(3),
+    overview: z.string().min(80),
+    images: z.array(z.string()).min(1),
+    technologies: z.array(z.string()).min(1),
     favorite: z.boolean(),
     website: z.string().url().optional(),
-    summary: z.array(z.string()),
+    author: z.string().min(2),
+    datePublished: z.coerce.date(),
+    dateModified: z.coerce.date(),
+    summary: z.array(z.string().min(120)).min(1),
   }),
 });
 
@@ -21,15 +29,20 @@ const experience = defineCollection({
       start: z.string(),
       end: z.string(),
     }),
-    company: z.string(),
-    rol: z.string(),
+    company: z.string().min(2),
+    rol: z.string().min(3),
+    author: z.string().min(2),
+    datePublished: z.coerce.date(),
+    dateModified: z.coerce.date(),
     image: z.array(z.string()),
     order: z.number(),
   }),
 });
 
 const home = defineCollection({
-  type: 'data',
+  loader: file('./src/content/home.json', {
+    parser: singleEntryParser('home'),
+  }),
   schema: z.object({
     hero: z.object({
       eyebrow: z.string(),
@@ -79,7 +92,9 @@ const home = defineCollection({
 });
 
 const seo = defineCollection({
-  type: 'data',
+  loader: file('./src/content/seo.json', {
+    parser: singleEntryParser('seo'),
+  }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -95,7 +110,9 @@ const seo = defineCollection({
 });
 
 const layout = defineCollection({
-  type: 'data',
+  loader: file('./src/content/layout.json', {
+    parser: singleEntryParser('layout'),
+  }),
   schema: z.object({
     brand: z.string(),
     links: z.array(
@@ -114,7 +131,9 @@ const layout = defineCollection({
 });
 
 const person = defineCollection({
-  type: 'data',
+  loader: file('./src/content/person.json', {
+    parser: singleEntryParser('person'),
+  }),
   schema: z.object({
     name: z.string(),
     role: z.string(),
@@ -126,7 +145,9 @@ const person = defineCollection({
 });
 
 const contact = defineCollection({
-  type: 'data',
+  loader: file('./src/content/contact.json', {
+    parser: singleEntryParser('contact'),
+  }),
   schema: z.object({
     socials: z.array(
       z.object({

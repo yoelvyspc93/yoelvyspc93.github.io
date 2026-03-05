@@ -5,6 +5,9 @@ period:
   end: '2022'
 company: 'Datazucar'
 rol: 'Fullstack Developer'
+author: 'Yoelvys Perez Cabrera'
+datePublished: '2020-01-01'
+dateModified: '2022-12-31'
 image: []
 ---
 
