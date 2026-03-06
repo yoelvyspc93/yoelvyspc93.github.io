@@ -65,17 +65,134 @@ jobs:
           echo "Pages did not become reachable in time. Skipping."
           exit 0
 
+      - name: Discover static pages
+        run: |
+          node - <<'EOF'
+          const fs = require('fs')
+          const path = require('path')
+
+          const baseUrlRaw = process.env.PAGES_URL || ''
+          if (!baseUrlRaw) {
+            console.log('No PAGES_URL found; skipping page discovery.')
+            process.exit(0)
+          }
+
+          const srcPagesDir = path.join(process.cwd(), 'src', 'pages')
+          const staticExtensions = new Set(['.astro', '.md', '.mdx'])
+
+          function ensureTrailingSlashPath(pathname) {
+            if (!pathname.startsWith('/')) pathname = `/${pathname}`
+            return pathname.endsWith('/') ? pathname : `${pathname}/`
+          }
+
+          function titleCase(text) {
+            return text
+              .split(' ')
+              .filter(Boolean)
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ')
+          }
+
+          function routeToLabel(route) {
+            if (route === '/') return 'Home Page'
+            const segments = route
+              .split('/')
+              .filter(Boolean)
+              .map((segment) => titleCase(segment.replace(/[-_]+/g, ' ')))
+            return `${segments.join(' / ')} Page`
+          }
+
+          function toPublicRoute(relativeFilePath) {
+            const normalized = relativeFilePath.replace(/\\/g, '/')
+            if (normalized.startsWith('api/') || normalized === 'api') return null
+            if (normalized.includes('[')) return null
+
+            const extension = path.extname(normalized).toLowerCase()
+            if (!staticExtensions.has(extension)) return null
+
+            const withoutExtension = normalized.slice(0, -extension.length)
+            if (!withoutExtension) return null
+            if (withoutExtension === 'index') return '/'
+            if (withoutExtension.endsWith('/index')) {
+              return ensureTrailingSlashPath(withoutExtension.slice(0, -'/index'.length))
+            }
+            return ensureTrailingSlashPath(withoutExtension)
+          }
+
+          function toPageUrl(baseUrl, route) {
+            const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
+            const relativePath = route === '/' ? '' : route.slice(1)
+            return new URL(relativePath, normalizedBase).toString()
+          }
+
+          function walk(directory) {
+            if (!fs.existsSync(directory)) return []
+            const entries = fs.readdirSync(directory, { withFileTypes: true })
+            const files = []
+            for (const entry of entries) {
+              const fullPath = path.join(directory, entry.name)
+              if (entry.isDirectory()) {
+                files.push(...walk(fullPath))
+              } else if (entry.isFile()) {
+                files.push(fullPath)
+              }
+            }
+            return files
+          }
+
+          const routeSet = new Set()
+          const files = walk(srcPagesDir)
+          for (const filePath of files) {
+            const relative = path.relative(srcPagesDir, filePath)
+            const route = toPublicRoute(relative)
+            if (route) routeSet.add(route)
+          }
+
+          if (routeSet.size === 0) routeSet.add('/')
+
+          const routes = [...routeSet].sort((a, b) => a.localeCompare(b))
+          const pages = routes.map((route) => ({
+            route,
+            label: routeToLabel(route),
+            url: toPageUrl(baseUrlRaw, route)
+          }))
+
+          fs.writeFileSync(
+            'lighthouse-pages.json',
+            JSON.stringify(
+              {
+                generatedAt: new Date().toISOString(),
+                pages
+              },
+              null,
+              2
+            )
+          )
+
+          console.log(`Discovered ${pages.length} page(s) for Lighthouse:`)
+          for (const page of pages) {
+            console.log(`- ${page.route} (${page.label}) -> ${page.url}`)
+          }
+          EOF
+
       - name: Create LHCI configs (mobile & desktop)
         run: |
           node - <<'EOF'
           const fs = require('fs')
 
           const base = JSON.parse(fs.readFileSync('lighthouserc.json', 'utf8'))
+          const pagesData = JSON.parse(fs.readFileSync('lighthouse-pages.json', 'utf8'))
+          const urls = (pagesData.pages ?? []).map((page) => page.url).filter(Boolean)
+
+          if (urls.length === 0) {
+            throw new Error('No pages discovered for Lighthouse run.')
+          }
 
           const common = {
             ci: {
               collect: {
                 ...base.ci.collect,
+                url: urls,
                 settings: {
                   ...(base.ci.collect?.settings ?? {}),
                   onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo']
@@ -107,15 +224,13 @@ jobs:
       - name: Run Lighthouse (mobile)
         run: |
           npx --yes @lhci/cli@0.13.x autorun \
-            --config=./lighthouserc.mobile.json \
-            --collect.url="${PAGES_URL}"
+            --config=./lighthouserc.mobile.json
 
       - name: Run Lighthouse (desktop)
         if: always()
         run: |
           npx --yes @lhci/cli@0.13.x autorun \
-            --config=./lighthouserc.desktop.json \
-            --collect.url="${PAGES_URL}"
+            --config=./lighthouserc.desktop.json
 
       - name: Evaluate Lighthouse thresholds
         if: always()
@@ -124,26 +239,30 @@ jobs:
           const fs = require('fs')
           const path = require('path')
 
-          function pickLhrJson(dir) {
-            if (!fs.existsSync(dir)) return null
-            const files = fs.readdirSync(dir).filter(f => f.endsWith('.json'))
+          const minAveragePerformance = 95
 
-            const lhr = files.find(f => /^lhr-.*\.json$/.test(f))
-            if (lhr) return path.join(dir, lhr)
-
-            for (const f of files) {
-              try {
-                const p = path.join(dir, f)
-                const r = JSON.parse(fs.readFileSync(p, 'utf8'))
-                if (r?.categories?.performance?.score != null) return p
-              } catch {}
-            }
-            return null
+          function normalizePathname(pathname) {
+            if (!pathname || pathname === '') return '/'
+            let normalized = pathname.replace(/\/+/g, '/')
+            if (!normalized.startsWith('/')) normalized = `/${normalized}`
+            if (!normalized.endsWith('/')) normalized = `${normalized}/`
+            return normalized
           }
 
-          function readScores(file) {
-            const r = JSON.parse(fs.readFileSync(file, 'utf8'))
-            const c = r.categories
+          function normalizeUrlKey(inputUrl) {
+            try {
+              const parsed = new URL(inputUrl)
+              parsed.hash = ''
+              parsed.search = ''
+              parsed.pathname = normalizePathname(parsed.pathname)
+              return parsed.toString()
+            } catch {
+              return null
+            }
+          }
+
+          function readScoresFromReport(report) {
+            const c = report.categories
             return {
               performance: Math.round(c.performance.score * 100),
               accessibility: Math.round(c.accessibility.score * 100),
@@ -152,37 +271,101 @@ jobs:
             }
           }
 
-          const minAveragePerformance = 97
-          const mobileFile = pickLhrJson('./lighthouse-report/mobile')
-          const desktopFile = pickLhrJson('./lighthouse-report/desktop')
+          function collectDeviceReports(dir, expectedByKey) {
+            const reports = new Map()
+            if (!fs.existsSync(dir)) return reports
 
-          if (!mobileFile || !desktopFile) {
-            console.log(`Could not locate LHR json reports (mobile: ${!!mobileFile}, desktop: ${!!desktopFile}).`)
+            const files = fs.readdirSync(dir).filter((fileName) => fileName.endsWith('.json'))
+            for (const fileName of files) {
+              const fullPath = path.join(dir, fileName)
+              let report
+              try {
+                report = JSON.parse(fs.readFileSync(fullPath, 'utf8'))
+              } catch {
+                continue
+              }
+
+              if (report?.categories?.performance?.score == null) continue
+
+              const candidateKeys = [
+                normalizeUrlKey(report.finalUrl),
+                normalizeUrlKey(report.requestedUrl),
+                normalizeUrlKey(report.mainDocumentUrl)
+              ].filter(Boolean)
+
+              const matchedKey = candidateKeys.find((key) => expectedByKey.has(key))
+              if (!matchedKey) continue
+              if (reports.has(matchedKey)) continue
+
+              reports.set(matchedKey, readScoresFromReport(report))
+            }
+            return reports
+          }
+
+          const pagesData = JSON.parse(fs.readFileSync('lighthouse-pages.json', 'utf8'))
+          const pages = Array.isArray(pagesData.pages) ? pagesData.pages : []
+          if (pages.length === 0) {
+            console.log('No pages were discovered for threshold evaluation.')
             process.exit(1)
           }
 
-          const m = readScores(mobileFile)
-          const d = readScores(desktopFile)
-          const avgPerf = Math.round((m.performance + d.performance) / 2)
+          const expectedByKey = new Map(
+            pages
+              .map((page) => {
+                const key = normalizeUrlKey(page.url)
+                return key ? [key, page] : null
+              })
+              .filter(Boolean)
+          )
 
-          console.log(`Mobile  -> perf ${m.performance} | a11y ${m.accessibility} | bp ${m.bestPractices} | seo ${m.seo}`)
-          console.log(`Desktop -> perf ${d.performance} | a11y ${d.accessibility} | bp ${d.bestPractices} | seo ${d.seo}`)
-          console.log(`Average performance: ${avgPerf}`)
+          const mobileReports = collectDeviceReports('./lighthouse-report/mobile', expectedByKey)
+          const desktopReports = collectDeviceReports('./lighthouse-report/desktop', expectedByKey)
 
           const failures = []
-          if (m.accessibility !== 100) failures.push(`Mobile accessibility must be 100 (found ${m.accessibility}).`)
-          if (d.accessibility !== 100) failures.push(`Desktop accessibility must be 100 (found ${d.accessibility}).`)
-          if (m.bestPractices !== 100) failures.push(`Mobile best-practices must be 100 (found ${m.bestPractices}).`)
-          if (d.bestPractices !== 100) failures.push(`Desktop best-practices must be 100 (found ${d.bestPractices}).`)
-          if (m.seo !== 100) failures.push(`Mobile SEO must be 100 (found ${m.seo}).`)
-          if (d.seo !== 100) failures.push(`Desktop SEO must be 100 (found ${d.seo}).`)
-          if (avgPerf < minAveragePerformance) {
-            failures.push(`Average performance must be >= ${minAveragePerformance} (found ${avgPerf}).`)
+          const sortedPages = [...pages].sort((a, b) => a.route.localeCompare(b.route))
+
+          for (const page of sortedPages) {
+            const key = normalizeUrlKey(page.url)
+            const mobile = key ? mobileReports.get(key) : null
+            const desktop = key ? desktopReports.get(key) : null
+
+            if (!mobile || !desktop) {
+              failures.push(`${page.label}: missing report(s) (mobile: ${!!mobile}, desktop: ${!!desktop}).`)
+              continue
+            }
+
+            const avgPerformance = Math.round((mobile.performance + desktop.performance) / 2)
+            if (avgPerformance < minAveragePerformance) {
+              failures.push(
+                `${page.label}: Performance average must be >= ${minAveragePerformance} (found ${avgPerformance}, mobile ${mobile.performance}, desktop ${desktop.performance}).`
+              )
+            }
+            if (mobile.accessibility !== 100 || desktop.accessibility !== 100) {
+              failures.push(
+                `${page.label}: Accessibility must be 100 (mobile ${mobile.accessibility}, desktop ${desktop.accessibility}).`
+              )
+            }
+            if (mobile.bestPractices !== 100 || desktop.bestPractices !== 100) {
+              failures.push(
+                `${page.label}: Best Practices must be 100 (mobile ${mobile.bestPractices}, desktop ${desktop.bestPractices}).`
+              )
+            }
+            if (mobile.seo !== 100 || desktop.seo !== 100) {
+              failures.push(`${page.label}: SEO must be 100 (mobile ${mobile.seo}, desktop ${desktop.seo}).`)
+            }
+
+            console.log(
+              `[${page.label}] Mobile -> perf ${mobile.performance} | a11y ${mobile.accessibility} | bp ${mobile.bestPractices} | seo ${mobile.seo}`
+            )
+            console.log(
+              `[${page.label}] Desktop -> perf ${desktop.performance} | a11y ${desktop.accessibility} | bp ${desktop.bestPractices} | seo ${desktop.seo}`
+            )
+            console.log(`[${page.label}] Performance average: ${avgPerformance}`)
           }
 
           if (failures.length > 0) {
             console.log('Threshold check failed:')
-            failures.forEach(msg => console.log(`- ${msg}`))
+            failures.forEach((message) => console.log(`- ${message}`))
             process.exit(1)
           }
           EOF
@@ -194,24 +377,30 @@ jobs:
           const fs = require('fs')
           const path = require('path')
 
-          function pickLhrJson(dir) {
-            if (!fs.existsSync(dir)) return null
-            const files = fs.readdirSync(dir).filter(f => f.endsWith('.json'))
-            const lhr = files.find(f => /^lhr-.*\.json$/.test(f))
-            if (lhr) return path.join(dir, lhr)
+          const minAveragePerformance = 95
 
-            for (const f of files) {
-              try {
-                const p = path.join(dir, f)
-                const r = JSON.parse(fs.readFileSync(p, 'utf8'))
-                if (r?.categories?.performance?.score != null) return p
-              } catch {}
-            }
-            return null
+          function normalizePathname(pathname) {
+            if (!pathname || pathname === '') return '/'
+            let normalized = pathname.replace(/\/+/g, '/')
+            if (!normalized.startsWith('/')) normalized = `/${normalized}`
+            if (!normalized.endsWith('/')) normalized = `${normalized}/`
+            return normalized
           }
 
-          function readScores(file) {
-            const c = JSON.parse(fs.readFileSync(file, 'utf8')).categories
+          function normalizeUrlKey(inputUrl) {
+            try {
+              const parsed = new URL(inputUrl)
+              parsed.hash = ''
+              parsed.search = ''
+              parsed.pathname = normalizePathname(parsed.pathname)
+              return parsed.toString()
+            } catch {
+              return null
+            }
+          }
+
+          function readScoresFromReport(report) {
+            const c = report.categories
             return {
               performance: Math.round(c.performance.score * 100),
               accessibility: Math.round(c.accessibility.score * 100),
@@ -220,57 +409,153 @@ jobs:
             }
           }
 
-          const minAveragePerformance = 97
-          const mFile = pickLhrJson('./lighthouse-report/mobile')
-          const dFile = pickLhrJson('./lighthouse-report/desktop')
+          function collectDeviceReports(dir, expectedByKey) {
+            const reports = new Map()
+            if (!fs.existsSync(dir)) return reports
 
-          if (!mFile || !dFile) {
-            const missing = []
-            if (!mFile) missing.push('mobile')
-            if (!dFile) missing.push('desktop')
+            const files = fs.readdirSync(dir).filter((fileName) => fileName.endsWith('.json'))
+            for (const fileName of files) {
+              const fullPath = path.join(dir, fileName)
+              let report
+              try {
+                report = JSON.parse(fs.readFileSync(fullPath, 'utf8'))
+              } catch {
+                continue
+              }
+
+              if (report?.categories?.performance?.score == null) continue
+
+              const candidateKeys = [
+                normalizeUrlKey(report.finalUrl),
+                normalizeUrlKey(report.requestedUrl),
+                normalizeUrlKey(report.mainDocumentUrl)
+              ].filter(Boolean)
+
+              const matchedKey = candidateKeys.find((key) => expectedByKey.has(key))
+              if (!matchedKey) continue
+              if (reports.has(matchedKey)) continue
+
+              reports.set(matchedKey, readScoresFromReport(report))
+            }
+            return reports
+          }
+
+          const pagesData = JSON.parse(fs.readFileSync('lighthouse-pages.json', 'utf8'))
+          const pages = Array.isArray(pagesData.pages) ? pagesData.pages : []
+          const sortedPages = [...pages].sort((a, b) => a.route.localeCompare(b.route))
+
+          if (sortedPages.length === 0) {
             fs.appendFileSync(
               process.env.GITHUB_STEP_SUMMARY,
-              `## Lighthouse Report (Home)\n\nMissing report files: ${missing.join(', ')}.\nCheck previous step logs for details.\n`
+              '# Lighthouse Report\n\nNo static pages were discovered for this run.\n'
             )
             process.exit(0)
           }
 
-          const mobile = readScores(mFile)
-          const desktop = readScores(dFile)
-          const avgPerf = Math.round((mobile.performance + desktop.performance) / 2)
+          const expectedByKey = new Map(
+            sortedPages
+              .map((page) => {
+                const key = normalizeUrlKey(page.url)
+                return key ? [key, page] : null
+              })
+              .filter(Boolean)
+          )
 
-          const rules = [
-            { rule: 'Mobile accessibility', expected: '100', found: `${mobile.accessibility}`, ok: mobile.accessibility === 100 },
-            { rule: 'Desktop accessibility', expected: '100', found: `${desktop.accessibility}`, ok: desktop.accessibility === 100 },
-            { rule: 'Mobile best-practices', expected: '100', found: `${mobile.bestPractices}`, ok: mobile.bestPractices === 100 },
-            { rule: 'Desktop best-practices', expected: '100', found: `${desktop.bestPractices}`, ok: desktop.bestPractices === 100 },
-            { rule: 'Mobile SEO', expected: '100', found: `${mobile.seo}`, ok: mobile.seo === 100 },
-            { rule: 'Desktop SEO', expected: '100', found: `${desktop.seo}`, ok: desktop.seo === 100 },
-            { rule: 'Average performance', expected: `>= ${minAveragePerformance}`, found: `${avgPerf}`, ok: avgPerf >= minAveragePerformance }
-          ]
+          const mobileReports = collectDeviceReports('./lighthouse-report/mobile', expectedByKey)
+          const desktopReports = collectDeviceReports('./lighthouse-report/desktop', expectedByKey)
 
-          const rulesTable = rules
-            .map(r => `| ${r.rule} | ${r.expected} | ${r.found} | ${r.ok ? 'PASS' : 'FAIL'} |`)
-            .join('\n')
+          function average(left, right) {
+            if (left == null || right == null) return null
+            return Math.round((left + right) / 2)
+          }
 
-          const summary = `
-          ## Lighthouse Report (Home)
+          function formatScore(value) {
+            return value == null ? 'N/A' : `${value}`
+          }
 
-          | Category | Mobile | Desktop |
-          |---------|--------|---------|
-          | Performance | ${mobile.performance} | ${desktop.performance} |
-          | Accessibility | ${mobile.accessibility} | ${desktop.accessibility} |
-          | Best Practices | ${mobile.bestPractices} | ${desktop.bestPractices} |
-          | SEO | ${mobile.seo} | ${desktop.seo} |
+          function formatStatus(value) {
+            if (value == null) return 'N/A'
+            return value ? 'PASS' : 'FAIL'
+          }
 
-          **Average Performance:** ${avgPerf}
+          const lines = ['# Lighthouse Report', '']
+          const failedPages = []
+          let passedPages = 0
 
-          ### Rules
-          | Rule | Expected | Found | Status |
-          |------|----------|-------|--------|
-          ${rulesTable}
-          `
-          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary)
+          for (const page of sortedPages) {
+            const key = normalizeUrlKey(page.url)
+            const mobile = key ? mobileReports.get(key) : null
+            const desktop = key ? desktopReports.get(key) : null
+
+            const perfAvg = average(mobile?.performance, desktop?.performance)
+            const a11yAvg = average(mobile?.accessibility, desktop?.accessibility)
+            const bpAvg = average(mobile?.bestPractices, desktop?.bestPractices)
+            const seoAvg = average(mobile?.seo, desktop?.seo)
+
+            const perfPass = perfAvg == null ? null : perfAvg >= minAveragePerformance
+            const a11yPass =
+              mobile?.accessibility == null || desktop?.accessibility == null
+                ? null
+                : mobile.accessibility === 100 && desktop.accessibility === 100
+            const bpPass =
+              mobile?.bestPractices == null || desktop?.bestPractices == null
+                ? null
+                : mobile.bestPractices === 100 && desktop.bestPractices === 100
+            const seoPass =
+              mobile?.seo == null || desktop?.seo == null
+                ? null
+                : mobile.seo === 100 && desktop.seo === 100
+
+            const pageFailures = []
+            if (perfPass !== true) pageFailures.push('Performance')
+            if (a11yPass !== true) pageFailures.push('Accessibility')
+            if (bpPass !== true) pageFailures.push('Best Practices')
+            if (seoPass !== true) pageFailures.push('SEO')
+
+            if (pageFailures.length === 0) {
+              passedPages += 1
+            } else {
+              failedPages.push({ page, failures: pageFailures })
+            }
+
+            lines.push(`## ${page.label}`, '')
+            lines.push('| Category | Mobile | Desktop | Average | Status |')
+            lines.push('| --- | ---: | ---: | ---: | --- |')
+            lines.push(
+              `| Performance | ${formatScore(mobile?.performance)} | ${formatScore(desktop?.performance)} | ${formatScore(perfAvg)} | ${formatStatus(perfPass)} |`
+            )
+            lines.push(
+              `| Accessibility | ${formatScore(mobile?.accessibility)} | ${formatScore(desktop?.accessibility)} | ${formatScore(a11yAvg)} | ${formatStatus(a11yPass)} |`
+            )
+            lines.push(
+              `| Best Practices | ${formatScore(mobile?.bestPractices)} | ${formatScore(desktop?.bestPractices)} | ${formatScore(bpAvg)} | ${formatStatus(bpPass)} |`
+            )
+            lines.push(
+              `| SEO | ${formatScore(mobile?.seo)} | ${formatScore(desktop?.seo)} | ${formatScore(seoAvg)} | ${formatStatus(seoPass)} |`
+            )
+            lines.push('')
+          }
+
+          lines.push('## Rules (Mobile and Desktop)', '')
+          lines.push(`- Performance: >= ${minAveragePerformance}`)
+          lines.push('- Accessibility: 100%')
+          lines.push('- Best Practices: 100%')
+          lines.push('- SEO: 100%')
+          lines.push('')
+
+          lines.push('## Overall', '')
+          lines.push(`- Pages passed: ${passedPages}/${sortedPages.length}`)
+          if (failedPages.length > 0) {
+            lines.push('- Failed pages:')
+            for (const failed of failedPages) {
+              lines.push(`  - ${failed.page.label}: ${failed.failures.join(', ')}`)
+            }
+          } else {
+            lines.push('- Failed pages: none')
+          }
+          lines.push('')
+
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${lines.join('\n')}\n`)
           EOF
 
       - name: Upload Lighthouse report artifact
@@ -278,5 +563,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-report
-          path: lighthouse-report
+          path: |
+            lighthouse-report
+            lighthouse-pages.json
           if-no-files-found: warn

@@ -70,8 +70,32 @@
         "answer": "I enjoy bridging design and engineering to build high-performance, scalable web applications with strong user experiences."
       },
       {
-        "question": "How quickly do you respond to inquiries?",
-        "answer": "I typically respond within 24 hours."
+        "question": "Are you available for freelance or contract work?",
+        "answer": "Yes. I am open to freelance, contract, and long-term collaborations depending on scope, timeline, and team fit."
+      },
+      {
+        "question": "Can you join an existing product team and codebase?",
+        "answer": "Absolutely. I am comfortable ramping up quickly in established repositories, following team conventions, and improving code quality incrementally."
+      },
+      {
+        "question": "Do you work with design systems and Figma handoff?",
+        "answer": "Yes. I regularly translate Figma designs into reusable components, align with design tokens, and keep implementation consistent across the product."
+      },
+      {
+        "question": "Do you optimize for performance and accessibility?",
+        "answer": "Yes. Performance budgets, semantic HTML, keyboard support, and accessibility best practices are core parts of my delivery process."
+      },
+      {
+        "question": "Can you help improve technical SEO?",
+        "answer": "Yes. I can support metadata strategy, structured data, Core Web Vitals improvements, and indexability best practices for content and apps."
+      },
+      {
+        "question": "What does your collaboration process look like?",
+        "answer": "I usually start with a quick discovery call, define priorities with clear milestones, and maintain transparent communication through regular progress updates."
+      },
+      {
+        "question": "Do you offer code reviews or mentoring sessions?",
+        "answer": "Yes. I provide focused code reviews, architecture feedback, and mentoring on frontend patterns, testing, and scalable project structure."
       }
     ]
   }

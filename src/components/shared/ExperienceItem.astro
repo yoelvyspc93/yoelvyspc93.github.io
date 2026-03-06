@@ -7,6 +7,9 @@ type ExperienceItemData = {
 	period: Period
 	company: string
 	rol: string
+	author: string
+	datePublished: Date
+	dateModified: Date
 	image?: string[]
 	Content: any
 }
@@ -28,6 +31,12 @@ const startDateTime = getDateTime(item.period.start)
 const endDateTime = getDateTime(item.period.end)
 
 const dateLabel = `${item.period.start} - ${item.period.end}`
+const formatDate = (date: Date) =>
+	new Intl.DateTimeFormat('en', {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric',
+	}).format(date)
 ---
 
 <li class="relative">
@@ -64,6 +73,19 @@ const dateLabel = `${item.period.start} - ${item.period.end}`
 			<p id={roleId} class="text-small">
 				{item.rol}
 			</p>
+			<p class="sr-only">
+				By {item.author}
+				{' | '}
+				Published{' '}
+				<time datetime={item.datePublished.toISOString()}>
+					{formatDate(item.datePublished)}
+				</time>
+				{' | '}
+				Updated{' '}
+				<time datetime={item.dateModified.toISOString()}>
+					{formatDate(item.dateModified)}
+				</time>
+			</p>
 		</header>
 
 		<div class="w-full max-w-[720px]">
@@ -83,8 +105,7 @@ const dateLabel = `${item.period.start} - ${item.period.end}`
 								<li>
 									<Image
 										src={`/images/projects/${img}.webp`}
-										alt={imgIndex === 0 ? item.company : ''}
-										aria-hidden={imgIndex !== 0}
+										alt={`${item.company} screenshot ${imgIndex + 1}`}
 										width={800}
 										height={600}
 										loading="lazy"
@@ -100,3 +121,4 @@ const dateLabel = `${item.period.start} - ${item.period.end}`
 		</div>
 	</article>
 </li>
+

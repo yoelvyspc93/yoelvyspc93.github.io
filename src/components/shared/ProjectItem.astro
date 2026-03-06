@@ -8,6 +8,9 @@ type Props = {
 	images: string[]
 	technologies: string[]
 	imagePosition?: 'right' | 'left'
+	author: string
+	datePublished: Date
+	dateModified: Date
 }
 
 const {
@@ -16,10 +19,20 @@ const {
 	technologies,
 	images,
 	imagePosition = 'right',
+	author,
+	datePublished,
+	dateModified,
 } = Astro.props as Props
 
 const textOrderClass = imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1'
 const imageOrderClass = imagePosition === 'left' ? 'lg:order-1' : 'lg:order-2'
+
+const formatDate = (date: Date) =>
+	new Intl.DateTimeFormat('en', {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric',
+	}).format(date)
 ---
 
 <article class="grid items-center gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-10">
@@ -32,6 +45,19 @@ const imageOrderClass = imagePosition === 'left' ? 'lg:order-1' : 'lg:order-2'
 		<h3 data-swiper-parallax="-100">{title}</h3>
 		<p class="max-w-xl text-pretty" data-swiper-parallax="-150">
 			{overview}
+		</p>
+		<p class="sr-only">
+			By {author}
+			{' | '}
+			Published{' '}
+			<time datetime={datePublished.toISOString()}>
+				{formatDate(datePublished)}
+			</time>
+			{' | '}
+			Updated{' '}
+			<time datetime={dateModified.toISOString()}
+				>{formatDate(dateModified)}</time
+			>
 		</p>
 		{
 			technologies?.length ? (
@@ -48,7 +74,7 @@ const imageOrderClass = imagePosition === 'left' ? 'lg:order-1' : 'lg:order-2'
 
 	<figure
 		class:list={[
-			'relative order-1 mx-auto aspect-[5/4] w-full max-w-[560px] overflow-hidden rounded-2xl',
+			'relative order-1 mx-auto aspect-5/4 w-full max-w-[560px] overflow-hidden rounded-2xl',
 			imageOrderClass,
 		]}
 	>
@@ -56,13 +82,14 @@ const imageOrderClass = imagePosition === 'left' ? 'lg:order-1' : 'lg:order-2'
 			images.map((image, index) => (
 				<Image
 					src={`/images/projects/${image}`}
-					alt={index === 0 ? `${title} project preview` : ''}
-					aria-hidden={index !== 0}
+					alt={`${title} project screenshot ${index + 1}`}
 					class="absolute inset-0 h-full w-full object-cover"
 					loading="lazy"
 					decoding="async"
 					width={560}
 					height={448}
+					widths={[320, 420, 560]}
+					sizes="(min-width: 1024px) 560px, (min-width: 640px) min(520px, 90vw), calc(100vw - 2rem)"
 					data-swiper-parallax={-1 * (100 * index + 1)}
 				/>
 			))

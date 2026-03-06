@@ -1,17 +1,14 @@
-import { readFile, writeFile } from 'node:fs/promises'
+import { writeFile } from 'node:fs/promises'
 
 const SITE_URL = 'https://yoelvyspc93.github.io'
 
-const seoData = JSON.parse(
-	await readFile(new URL('../src/content/seo.json', import.meta.url), 'utf8'),
-)
-
-const lastmod = new Date(seoData.updatedAt || Date.now()).toISOString()
+const lastmod = new Date().toISOString()
 const routes = ['/', '/projects/']
 
 const urls = routes
 	.map(
-		(pathname) => `  <url>\n    <loc>${SITE_URL}${pathname}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`,
+		(pathname) =>
+			`  <url>\n    <loc>${SITE_URL}${pathname}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`,
 	)
 	.join('\n')
 

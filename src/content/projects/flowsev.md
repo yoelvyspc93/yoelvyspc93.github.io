@@ -7,6 +7,9 @@ images:
 technologies:
   - Webflow
 favorite: false
+author: Yoelvys Perez Cabrera
+datePublished: 2024-11-20
+dateModified: 2026-03-03
 summary:
   - 'I built the FlowSev.ai landing page with Webflow, focusing on a clean, modern aesthetic and smooth scrolling animations. The structure emphasizes clarity and performance, using motion subtly to guide user attention and highlight key product benefits. The design is fully responsive, ensuring consistency across all screen sizes.'
 ---

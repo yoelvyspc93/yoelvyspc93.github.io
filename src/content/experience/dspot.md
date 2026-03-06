@@ -5,6 +5,9 @@ period:
   end: 'Present'
 company: 'Dspot Team'
 rol: 'Senior Frontend Developer'
+author: 'Yoelvys Perez Cabrera'
+datePublished: '2022-01-01'
+dateModified: '2026-03-03'
 image:
   - 'flowsev'
   - 'dspot-website'
