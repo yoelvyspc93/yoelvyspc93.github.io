@@ -7,6 +7,7 @@ type Props = {
 	overview: string
 	images: string[]
 	technologies: string[]
+	imagePosition?: 'right' | 'left'
 	author: string
 	datePublished: Date
 	dateModified: Date
@@ -17,10 +18,15 @@ const {
 	overview,
 	technologies,
 	images,
+	imagePosition = 'right',
 	author,
 	datePublished,
 	dateModified,
-} = Astro.props
+} = Astro.props as Props
+
+const textOrderClass = imagePosition === 'left' ? 'lg:order-2' : 'lg:order-1'
+const imageOrderClass = imagePosition === 'left' ? 'lg:order-1' : 'lg:order-2'
+
 const formatDate = (date: Date) =>
 	new Intl.DateTimeFormat('en', {
 		year: 'numeric',
@@ -31,7 +37,10 @@ const formatDate = (date: Date) =>
 
 <article class="grid items-center gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-10">
 	<div
-		class="order-2 mx-auto flex w-full max-w-[520px] flex-col gap-5 sm:gap-6 md:gap-8 lg:order-1"
+		class:list={[
+			'order-2 mx-auto flex w-full max-w-[520px] flex-col gap-5 sm:gap-6 md:gap-8',
+			textOrderClass,
+		]}
 	>
 		<h3 data-swiper-parallax="-100">{title}</h3>
 		<p class="max-w-xl text-pretty" data-swiper-parallax="-150">
@@ -64,7 +73,10 @@ const formatDate = (date: Date) =>
 	</div>
 
 	<figure
-		class="relative order-1 mx-auto aspect-5/4 w-full max-w-[560px] overflow-hidden rounded-2xl lg:order-2"
+		class:list={[
+			'relative order-1 mx-auto aspect-5/4 w-full max-w-[560px] overflow-hidden rounded-2xl',
+			imageOrderClass,
+		]}
 	>
 		{
 			images.map((image, index) => (

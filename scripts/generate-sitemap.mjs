@@ -1,14 +1,20 @@
 import { writeFile } from 'node:fs/promises'
 
-const SITE_URL = process.env.SITE_URL || 'https://yoelvyspc93.github.io'
+const SITE_URL = 'https://yoelvyspc93.github.io'
+
 const lastmod = new Date().toISOString()
+const routes = ['/', '/projects/']
+
+const urls = routes
+	.map(
+		(pathname) =>
+			`  <url>\n    <loc>${SITE_URL}${pathname}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`,
+	)
+	.join('\n')
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${SITE_URL}/</loc>
-    <lastmod>${lastmod}</lastmod>
-  </url>
+${urls}
 </urlset>
 `
 
