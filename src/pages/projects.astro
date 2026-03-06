@@ -1,67 +1,23 @@
 ---
 import Layout from '@/layouts/Layout.astro'
-import ProjectItem from '@/shared/ProjectItem.astro'
-import { getCollection } from 'astro:content'
+import IntroWrapper from '@/shared/IntroWrapper.astro'
+import Hero from '@/sections/projects/Hero.astro'
+import ProjectsList from '@/sections/projects/ProjectsList.astro'
 
 const pageTitle = 'Projects | Yoelvys Perez Cabrera'
 const pageDescription =
-	'A complete selection of projects I\'ve built, from product landings to full web platforms.'
+	"A complete selection of projects I've built, from product landings to full web platforms."
 
-const projects = (await getCollection('projects')).sort(
-	(a, b) => Number(a.data.id) - Number(b.data.id),
-)
+const heroContent = {
+	title: 'Projects',
+	description:
+		"A complete selection of projects I've built, from product landings to full web platforms.",
+}
 ---
 
 <Layout title={pageTitle} description={pageDescription} canonical="/projects/">
-	<main
-		id="main-content"
-		class="relative isolate overflow-hidden bg-surface-soft px-4 pb-16 pt-28 sm:pb-20 sm:pt-32 md:pt-36"
-	>
-		<div aria-hidden="true" class="absolute inset-0 bg-texture"></div>
-
-		<div class="relative mx-auto max-w-7xl">
-			<header class="mx-auto max-w-3xl text-center">
-				<h1>Projects</h1>
-				<p class="mt-4">
-					A complete selection of projects I've built, from product landings to
-					full web platforms.
-				</p>
-			</header>
-
-			<ul
-				class="mt-12 flex flex-col gap-12 sm:mt-14 sm:gap-14 md:mt-16 md:gap-16"
-				role="list"
-			>
-				{
-					projects.map((entry, index) => {
-						const {
-							title,
-							overview,
-							images,
-							technologies,
-							author,
-							datePublished,
-							dateModified,
-						} = entry.data
-						const imagePosition = index % 2 === 0 ? 'right' : 'left'
-
-						return (
-							<li class="border-b border-primary/10 pb-12 last:border-b-0 last:pb-0 sm:pb-14 md:pb-16">
-								<ProjectItem
-									title={title}
-									overview={overview}
-									images={images}
-									technologies={technologies}
-									imagePosition={imagePosition}
-									author={author}
-									datePublished={datePublished}
-									dateModified={dateModified}
-								/>
-							</li>
-						)
-					})
-				}
-			</ul>
-		</div>
+	<main id="main-content">
+		<Hero content={heroContent} />
+		<ProjectsList />
 	</main>
 </Layout>

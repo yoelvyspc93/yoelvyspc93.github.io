@@ -1,0 +1,49 @@
+---
+import ProjectItem from '@/shared/ProjectItem.astro'
+import { getCollection } from 'astro:content'
+
+const projects = (await getCollection('projects')).sort(
+	(a, b) => a.data.id - b.data.id,
+)
+---
+
+<section
+	class="relative isolate overflow-hidden px-4 pb-16 sm:pb-20"
+	aria-labelledby="projects-list-title"
+>
+	<div class="relative mx-auto max-w-7xl">
+		<h2 id="projects-list-title" class="sr-only">All projects</h2>
+
+		<ul class="flex flex-col gap-12 sm:gap-14 md:gap-16" role="list">
+			{
+				projects.map((entry, index) => {
+					const {
+						title,
+						overview,
+						images,
+						technologies,
+						author,
+						datePublished,
+						dateModified,
+					} = entry.data
+					const imagePosition = index % 2 === 0 ? 'right' : 'left'
+
+					return (
+						<li class="border-b border-primary/10 pb-12 last:border-b-0 last:pb-0 sm:pb-14 md:pb-16">
+							<ProjectItem
+								title={title}
+								overview={overview}
+								images={images}
+								technologies={technologies}
+								imagePosition={imagePosition}
+								author={author}
+								datePublished={datePublished}
+								dateModified={dateModified}
+							/>
+						</li>
+					)
+				})
+			}
+		</ul>
+	</div>
+</section>

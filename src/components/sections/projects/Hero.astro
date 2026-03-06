@@ -1,0 +1,28 @@
+---
+type Props = {
+	content: {
+		title: string
+		description: string
+	}
+}
+
+const { content } = Astro.props as Props
+const { title, description } = content
+---
+
+<section
+	id="hero"
+	class="relative isolate flex items-center justify-center overflow-hidden bg-linear-to-b from-surface-soft to-white px-4 py-40"
+	aria-labelledby="projects-hero-title"
+	aria-describedby="projects-hero-description"
+>
+	<div aria-hidden="true" class="absolute inset-0 bg-texture opacity-10"></div>
+	<header
+		class="relative z-40 mx-auto flex w-full max-w-7xl flex-col items-center justify-end gap-5 text-center sm:gap-6 md:gap-8"
+	>
+		<h1 id="projects-hero-title" class="test-p">{title}</h1>
+		<p id="projects-hero-description" class="max-w-xl">
+			{description}
+		</p>
+	</header>
+</section>
