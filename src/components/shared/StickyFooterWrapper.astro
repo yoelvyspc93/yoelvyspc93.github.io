@@ -1,0 +1,216 @@
+<div
+	class="relative [clip-path:polygon(0_0,100%_0,100%_100%,0_100%)]"
+	data-sticky-footer-reveal
+	data-sticky-enabled="false"
+	data-sticky-fit="false"
+	style="--sticky-panel-height: 0px; --sticky-contact-min-height: 0px; --sticky-progress: 0;"
+>
+	<div class="relative" data-sticky-footer-track>
+		<div class="relative" data-sticky-footer-panel>
+			<div class="relative overflow-hidden bg-surface-soft">
+				<div
+					aria-hidden="true"
+					role="presentation"
+					class="pointer-events-none absolute inset-0 bg-texture"
+				>
+				</div>
+				<div
+					class="relative z-10 will-change-transform **:data-sticky-contact-section:bg-transparent"
+					data-sticky-contact-content
+				>
+					<slot name="contact" />
+				</div>
+				<div
+					class="relative z-10 border-t border-black/8 will-change-transform"
+					data-sticky-footer-content
+				>
+					<slot name="footer" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	@media (min-width: 75rem) {
+		[data-sticky-footer-reveal][data-sticky-enabled='true'][data-sticky-fit='true'] {
+			height: var(--sticky-panel-height);
+		}
+
+		[data-sticky-footer-reveal][data-sticky-enabled='true'][data-sticky-fit='true']
+			[data-sticky-footer-track] {
+			position: relative;
+			top: -100svh;
+			height: calc(100svh + var(--sticky-panel-height));
+		}
+
+		[data-sticky-footer-reveal][data-sticky-enabled='true'][data-sticky-fit='true']
+			[data-sticky-footer-panel] {
+			position: sticky;
+			top: calc(100svh - var(--sticky-panel-height));
+			height: var(--sticky-panel-height);
+		}
+
+		[data-sticky-footer-reveal][data-sticky-enabled='true'][data-sticky-fit='true']
+			[data-sticky-contact-section] {
+			box-sizing: border-box;
+			min-height: var(--sticky-contact-min-height);
+		}
+
+		[data-sticky-footer-reveal][data-sticky-enabled='true'][data-sticky-fit='false']
+			[data-sticky-contact-section] {
+			min-height: auto;
+			overflow: visible;
+			align-items: flex-start;
+		}
+
+		[data-sticky-footer-reveal][data-sticky-enabled='true'][data-sticky-fit='true']
+			[data-sticky-contact-content] {
+			transform: translate3d(0, calc((1 - var(--sticky-progress)) * 48px), 0);
+		}
+
+		[data-sticky-footer-reveal][data-sticky-enabled='true'][data-sticky-fit='true']
+			[data-sticky-footer-content] {
+			transform: translate3d(0, calc((1 - var(--sticky-progress)) * 24px), 0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		[data-sticky-contact-content],
+		[data-sticky-footer-content] {
+			transform: none !important;
+		}
+	}
+</style>
+
+<script>
+	;(() => {
+		const root = document.querySelector('[data-sticky-footer-reveal]')
+		if (!(root instanceof HTMLElement)) return
+		if (root.dataset.stickyBound === 'true') return
+
+		const panel = root.querySelector('[data-sticky-footer-panel]')
+		const contactSection = root.querySelector('[data-sticky-contact-section]')
+		const contactLayout = root.querySelector('[data-contact-layout]')
+		const footerContent = root.querySelector('[data-sticky-footer-content]')
+		if (!(panel instanceof HTMLElement)) return
+		if (!(contactSection instanceof HTMLElement)) return
+		if (!(contactLayout instanceof HTMLElement)) return
+		if (!(footerContent instanceof HTMLElement)) return
+
+		root.dataset.stickyBound = 'true'
+
+		const desktopMq = window.matchMedia('(min-width: 75rem)')
+		const reducedMotionMq = window.matchMedia(
+			'(prefers-reduced-motion: reduce)',
+		)
+		const viewportSafetyOffset = 32
+		let frameId = 0
+		let activePanelHeight = 0
+
+		const setState = (key: 'stickyEnabled' | 'stickyFit', value: boolean) => {
+			root.dataset[key] = value ? 'true' : 'false'
+		}
+
+		const clamp = (value: number, min: number, max: number) => {
+			return Math.min(Math.max(value, min), max)
+		}
+
+		const readSectionPadding = () => {
+			const styles = window.getComputedStyle(contactSection)
+			const paddingTop = Number.parseFloat(styles.paddingTop) || 0
+			const paddingBottom = Number.parseFloat(styles.paddingBottom) || 0
+			return paddingTop + paddingBottom
+		}
+
+		const updateProgress = () => {
+			if (root.dataset.stickyEnabled !== 'true') {
+				root.style.setProperty('--sticky-progress', '0')
+				return
+			}
+
+			if (root.dataset.stickyFit !== 'true' || reducedMotionMq.matches) {
+				root.style.setProperty('--sticky-progress', '1')
+				return
+			}
+
+			const revealDistance = Math.max(activePanelHeight, 1)
+			const { top } = root.getBoundingClientRect()
+			const progress = clamp((window.innerHeight - top) / revealDistance, 0, 1)
+
+			root.style.setProperty('--sticky-progress', progress.toFixed(4))
+		}
+
+		const updateLayout = () => {
+			if (frameId) cancelAnimationFrame(frameId)
+
+			frameId = requestAnimationFrame(() => {
+				const isDesktop = desktopMq.matches
+				const viewportHeight = window.innerHeight
+				const footerHeight = Math.ceil(
+					footerContent.getBoundingClientRect().height,
+				)
+				const sectionPadding = Math.ceil(readSectionPadding())
+				const contactHeight = Math.ceil(
+					contactLayout.getBoundingClientRect().height,
+				)
+				const naturalContactHeight = contactHeight + sectionPadding
+				const availableContactHeight = Math.max(
+					viewportHeight - footerHeight,
+					0,
+				)
+				const fitsViewport =
+					naturalContactHeight + footerHeight + viewportSafetyOffset <=
+					viewportHeight
+				const canStick = isDesktop && fitsViewport
+				const panelHeight = canStick
+					? viewportHeight
+					: Math.ceil(panel.getBoundingClientRect().height)
+
+				activePanelHeight = panelHeight
+
+				setState('stickyEnabled', isDesktop)
+				setState('stickyFit', canStick)
+				root.style.setProperty('--sticky-panel-height', `${panelHeight}px`)
+				root.style.setProperty(
+					'--sticky-contact-min-height',
+					`${Math.max(availableContactHeight, naturalContactHeight)}px`,
+				)
+
+				updateProgress()
+			})
+		}
+
+		const resizeObserver = new ResizeObserver(updateLayout)
+		resizeObserver.observe(panel)
+		resizeObserver.observe(contactSection)
+		resizeObserver.observe(contactLayout)
+		resizeObserver.observe(footerContent)
+		updateLayout()
+
+		const onResize = () => updateLayout()
+		const onScroll = () => updateProgress()
+		const onMediaChange = () => updateLayout()
+
+		window.addEventListener('resize', onResize, { passive: true })
+		window.addEventListener('scroll', onScroll, { passive: true })
+		desktopMq.addEventListener('change', onMediaChange)
+		reducedMotionMq.addEventListener('change', onMediaChange)
+		window.addEventListener(
+			'pagehide',
+			() => {
+				if (frameId) cancelAnimationFrame(frameId)
+				resizeObserver.disconnect()
+				window.removeEventListener('resize', onResize)
+				window.removeEventListener('scroll', onScroll)
+				desktopMq.removeEventListener('change', onMediaChange)
+				reducedMotionMq.removeEventListener('change', onMediaChange)
+				delete root.dataset.stickyBound
+				setState('stickyEnabled', false)
+				setState('stickyFit', false)
+				root.style.setProperty('--sticky-progress', '0')
+			},
+			{ once: true },
+		)
+	})()
+</script>

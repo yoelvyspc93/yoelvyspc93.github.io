@@ -5,15 +5,20 @@ import Experience from '@/sections/home/Experience.astro'
 import Skills from '@/sections/home/Skills.astro'
 import Contact from '@/sections/home/Contact.astro'
 import Faq from '@/sections/home/Faq.astro'
+import Footer from '@/shared/Footer.astro'
+import StickyFooterWrapper from '@/shared/StickyFooterWrapper.astro'
 
 import home from '@/content/home.json'
 import contact from '@/content/contact.json'
+import layout from '@/content/layout.json'
 import IntroWrapper from '@/shared/IntroWrapper.astro'
 import Hero from '@/sections/home/Hero.astro'
 import About from '@/sections/home/About.astro'
+
+const { links, copyrightName, rightsLabel } = layout
 ---
 
-<Layout>
+<Layout hideFooter={true}>
 	<main id="main-content">
 		<IntroWrapper>
 			<Hero content={home.hero} />
@@ -23,6 +28,9 @@ import About from '@/sections/home/About.astro'
 		<Experience content={home.experience} />
 		<Skills content={home.skills} />
 		<Faq content={home.faq} />
-		<Contact content={home.contact} meta={contact} />
 	</main>
+	<StickyFooterWrapper>
+		<Contact slot="contact" content={home.contact} meta={contact} />
+		<Footer slot="footer" data={{ copyrightName, rightsLabel, links }} />
+	</StickyFooterWrapper>
 </Layout>
