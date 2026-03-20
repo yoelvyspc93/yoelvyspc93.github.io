@@ -22,13 +22,19 @@ type Props = {
 
 const { content, meta } = Astro.props
 const { form } = content
-const { to: TO, subject: SUBJECT } = meta.form
+const { subject: SUBJECT } = meta.form
 const { errors } = form
+const WEB3FORMS_ACCESS_KEY = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? ''
 const formAriaLabel = 'Contact form'
 const socialsLabel = 'Social links'
 const emailLabel = 'Email'
 const emailPlaceholder = 'Your email'
 const messageLabel = 'Message'
+const formStatusSuccess = 'Message sent successfully.'
+const formErrorMessage = 'Sending failed. Please try again in a moment.'
+const formStatusMissingKey =
+	'This form is not configured yet. Add the Web3Forms access key to enable submissions.'
+const formStatusSending = 'Sending your message...'
 const messagePlaceholders = [
 	'Write your message here...',
 	'Tell me about your project',
@@ -65,11 +71,12 @@ const socialFallbackLabel = (platform: string) => {
 ---
 
 <section
-	id="contact"
+	data-sticky-contact-section
 	aria-labelledby="contact-title"
-	class="section-container bg-surface-soft px-4 py-8 sm:py-12 md:py-16"
+	class="section-container lg:min-h-[calc(100svh-90px)] bg-surface-soft px-4 pt-12 pb-8 sm:pt-16 sm:pb-12 md:pt-20 md:pb-16"
 >
 	<div
+		data-contact-layout
 		class="mx-auto grid w-full max-w-[560px] lg:max-w-7xl grid-cols-1 items-start gap-8 sm:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)] lg:gap-16"
 	>
 		<article class="w-full max-w-[560px]">
@@ -134,14 +141,32 @@ const socialFallbackLabel = (platform: string) => {
 			id="contact-form"
 			class="w-full rounded-[20px] border border-black/10 bg-white px-4 py-4 shadow-[0_8px_18px_rgba(0,0,0,0.12)] sm:px-6 sm:py-6 lg:max-w-[520px]"
 			aria-label={formAriaLabel}
+			data-access-key={WEB3FORMS_ACCESS_KEY}
+			data-subject={SUBJECT}
+			data-submit-label={submitLabel}
+			data-sending-label={formStatusSending}
+			data-success-message={formStatusSuccess}
+			data-error-message={formErrorMessage}
+			data-missing-key-message={formStatusMissingKey}
+			data-email-required={errors.emailRequired}
+			data-email-invalid={errors.emailInvalid}
+			data-message-required={errors.messageRequired}
 			novalidate
 		>
+			<input
+				type="checkbox"
+				name="botcheck"
+				class="hidden"
+				tabindex="-1"
+				autocomplete="off"
+			/>
 			<fieldset class="m-0 flex flex-col gap-5 border-0 p-0 sm:gap-6">
 				<legend class="sr-only">{formAriaLabel}</legend>
 				<InputField
 					label={`${emailLabel}:`}
 					type="email"
 					id="email"
+					name="email"
 					placeholder={emailPlaceholder}
 					required={true}
 					showRequiredIndicator={false}
@@ -150,15 +175,29 @@ const socialFallbackLabel = (platform: string) => {
 				<TextAreaField
 					label={`${messageLabel}:`}
 					id="message"
+					name="message"
 					placeholders={messagePlaceholders}
 					required={true}
 					showRequiredIndicator={false}
 					ariaDescribedby="message-error"
 				/>
-				<div class="mt-1 flex w-full justify-stretch md:justify-end">
+				<div
+					class="mt-1 flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+				>
+					<span>
+						<p
+							id="contact-form-status"
+							class="hidden text-small leading-none sm:text-right"
+							role="status"
+							aria-live="polite"
+							aria-atomic="true"
+						>
+						</p>
+					</span>
 					<Button
 						type="submit"
 						aria-label={submitLabel}
+						id="contact-submit"
 						class="w-full md:w-auto"
 					>
 						{submitLabel}
@@ -169,94 +208,170 @@ const socialFallbackLabel = (platform: string) => {
 	</div>
 </section>
 
-<script is:inline define:vars={{ TO, SUBJECT, errors }}>
+<script>
+	import {
+		submitContactForm,
+		validateContactForm,
+		type ContactFormMessages,
+	} from '@/utils/contact-form'
+
 	const form = document.getElementById('contact-form')
 	const emailInput = document.getElementById('email')
 	const messageInput = document.getElementById('message')
 	const emailError = document.getElementById('email-error')
 	const messageError = document.getElementById('message-error')
+	const submitButton = document.getElementById('contact-submit')
+	const formStatus = document.getElementById('contact-form-status')
 
-	const validateEmail = (email) => {
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-		return emailRegex.test(email)
-	}
-
-	const showError = (element, message) => {
-		if (element) {
-			element.textContent = message
-			element.classList.remove('sr-only')
-		}
-	}
-
-	const hideError = (element) => {
-		if (element) {
-			element.textContent = ''
-			element.classList.add('sr-only')
-		}
-	}
-
-	form?.addEventListener('submit', (e) => {
-		e.preventDefault()
-
-		const email = (emailInput?.value || '').trim()
-		const message = (messageInput?.value || '').trim()
-
-		let isValid = true
-
-		// Validate email
-		if (!email) {
-			showError(emailError, errors.emailRequired)
-			emailInput?.setAttribute('aria-invalid', 'true')
-			isValid = false
-		} else if (!validateEmail(email)) {
-			showError(emailError, errors.emailInvalid)
-			emailInput?.setAttribute('aria-invalid', 'true')
-			isValid = false
-		} else {
-			hideError(emailError)
-			emailInput?.setAttribute('aria-invalid', 'false')
+	if (
+		form instanceof HTMLFormElement &&
+		emailInput instanceof HTMLInputElement &&
+		messageInput instanceof HTMLTextAreaElement &&
+		emailError instanceof HTMLElement &&
+		messageError instanceof HTMLElement &&
+		submitButton instanceof HTMLButtonElement &&
+		formStatus instanceof HTMLElement
+	) {
+		let formStatusTimer: ReturnType<typeof setTimeout> | null = null
+		const statusBaseClass = 'hidden text-small leading-none sm:text-right'
+		const toneClasses = {
+			neutral: 'text-black/80',
+			success: 'text-green-700',
+			error: 'text-red-700',
 		}
 
-		// Validate message
-		if (!message) {
-			showError(messageError, errors.messageRequired)
-			messageInput?.setAttribute('aria-invalid', 'true')
-			isValid = false
-		} else {
-			hideError(messageError)
-			messageInput?.setAttribute('aria-invalid', 'false')
+		const formMessages: ContactFormMessages = {
+			emailRequired: form.dataset.emailRequired ?? '',
+			emailInvalid: form.dataset.emailInvalid ?? '',
+			messageRequired: form.dataset.messageRequired ?? '',
 		}
 
-		if (!isValid) {
-			// Focus first invalid field
-			if (!email || !validateEmail(email)) {
-				emailInput?.focus()
-			} else if (!message) {
-				messageInput?.focus()
+		const statusMessages = {
+			success: form.dataset.successMessage ?? '',
+			error: form.dataset.errorMessage ?? '',
+			missingKey: form.dataset.missingKeyMessage ?? '',
+			sendingLabel: form.dataset.sendingLabel ?? 'Sending...',
+			submitLabel: form.dataset.submitLabel ?? 'Send Message',
+		}
+
+		const getFormValues = () => ({
+			email: emailInput.value,
+			message: messageInput.value,
+		})
+
+		const setFieldError = (
+			input: HTMLInputElement | HTMLTextAreaElement,
+			errorElement: HTMLElement,
+			message = '',
+		) => {
+			const hasError = Boolean(message)
+			input.setAttribute('aria-invalid', hasError ? 'true' : 'false')
+			errorElement.textContent = message
+			errorElement.classList.toggle('sr-only', !hasError)
+		}
+
+		const applyValidationState = () => {
+			const validation = validateContactForm(getFormValues(), formMessages)
+			setFieldError(emailInput, emailError, validation.fieldErrors.email)
+			setFieldError(messageInput, messageError, validation.fieldErrors.message)
+			return validation
+		}
+
+		const hideFormStatus = () => {
+			if (formStatusTimer) {
+				clearTimeout(formStatusTimer)
+				formStatusTimer = null
 			}
-			return
+
+			formStatus.textContent = ''
+			formStatus.className = statusBaseClass
 		}
 
-		const encodedTo = encodeURIComponent(TO)
-		const encodedSubject = encodeURIComponent(SUBJECT)
-		const body = `From: ${email}\n\n${message}`
-		const encodedBody = encodeURIComponent(body)
+		const showFormStatus = (
+			message: string,
+			tone: keyof typeof toneClasses = 'neutral',
+		) => {
+			formStatus.textContent = message
+			formStatus.className = `${statusBaseClass.replace('hidden ', '')} ${toneClasses[tone]}`
 
-		globalThis.location.href = `mailto:${encodedTo}?subject=${encodedSubject}&body=${encodedBody}`
-	})
-
-	// Clear errors on input
-	emailInput?.addEventListener('input', () => {
-		if (emailInput.value.trim()) {
-			hideError(emailError)
-			emailInput.setAttribute('aria-invalid', 'false')
+			if (tone === 'success') {
+				formStatusTimer = setTimeout(() => {
+					hideFormStatus()
+				}, 5000)
+			}
 		}
-	})
 
-	messageInput?.addEventListener('input', () => {
-		if (messageInput.value.trim()) {
-			hideError(messageError)
-			messageInput.setAttribute('aria-invalid', 'false')
+		const setSubmittingState = (isSubmitting: boolean) => {
+			submitButton.disabled = isSubmitting
+			submitButton.setAttribute(
+				'aria-disabled',
+				isSubmitting ? 'true' : 'false',
+			)
+			submitButton.textContent = isSubmitting
+				? statusMessages.sendingLabel
+				: statusMessages.submitLabel
 		}
-	})
+
+		const clearValidationState = () => {
+			setFieldError(emailInput, emailError, '')
+			setFieldError(messageInput, messageError, '')
+		}
+
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault()
+			hideFormStatus()
+
+			const validation = applyValidationState()
+			if (!validation.isValid) {
+				if (validation.firstInvalidField === 'email') {
+					emailInput.focus()
+				} else if (validation.firstInvalidField === 'message') {
+					messageInput.focus()
+				}
+				return
+			}
+
+			const accessKey = form.dataset.accessKey?.trim() ?? ''
+			if (!accessKey) {
+				console.error(
+					'Missing PUBLIC_WEB3FORMS_ACCESS_KEY. Add it to your environment to enable the contact form.',
+				)
+				showFormStatus(statusMessages.missingKey, 'error')
+				return
+			}
+
+			setSubmittingState(true)
+
+			try {
+				await submitContactForm({
+					form,
+					accessKey,
+					subject: form.dataset.subject ?? '',
+					values: validation.values,
+				})
+
+				form.reset()
+				clearValidationState()
+				hideFormStatus()
+				showFormStatus(statusMessages.success, 'success')
+			} catch (error) {
+				console.error(error)
+				showFormStatus(statusMessages.error, 'error')
+			} finally {
+				setSubmittingState(false)
+			}
+		})
+
+		emailInput.addEventListener('input', () => {
+			hideFormStatus()
+			const validation = validateContactForm(getFormValues(), formMessages)
+			setFieldError(emailInput, emailError, validation.fieldErrors.email)
+		})
+
+		messageInput.addEventListener('input', () => {
+			hideFormStatus()
+			const validation = validateContactForm(getFormValues(), formMessages)
+			setFieldError(messageInput, messageError, validation.fieldErrors.message)
+		})
+	}
 </script>
