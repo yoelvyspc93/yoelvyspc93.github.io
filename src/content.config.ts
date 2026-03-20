@@ -1,12 +1,13 @@
-import { defineCollection, z } from 'astro:content';
-import { file } from 'astro/loaders';
+import { defineCollection } from 'astro:content';
+import { file, glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 const singleEntryParser = (entryId: string) => (text: string) => ({
   [entryId]: JSON.parse(text) as Record<string, unknown>,
 });
 
 const projects = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
     id: z.number(),
     title: z.string().min(3),
@@ -14,7 +15,7 @@ const projects = defineCollection({
     images: z.array(z.string()).min(1),
     technologies: z.array(z.string()).min(1),
     favorite: z.boolean(),
-    website: z.string().url().optional(),
+    website: z.url().optional(),
     author: z.string().min(2),
     datePublished: z.coerce.date(),
     dateModified: z.coerce.date(),
@@ -23,7 +24,7 @@ const projects = defineCollection({
 });
 
 const experience = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/experience' }),
   schema: z.object({
     period: z.object({
       start: z.string(),

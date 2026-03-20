@@ -33,7 +33,9 @@ const { brand, links, cta } = Astro.props.data
 				<ul class="hidden items-center gap-8 md:flex" data-nav-list>
 					{
 						links.map((link) => {
-							const id = link.href.replace('#', '')
+							const id = link.href.startsWith('#')
+								? link.href.replace('#', '')
+								: undefined
 							return (
 								<li>
 									<a
@@ -74,7 +76,23 @@ const { brand, links, cta } = Astro.props.data
 	if (!nav) throw new Error('Navigation: [data-nav] not found')
 
 	const links = Array.from(nav.querySelectorAll('[data-nav-link]'))
-	const getTargetId = (a: HTMLElement) => a.getAttribute('data-target') || ''
+	const getTargetId = (a: HTMLElement) => {
+		const explicitTarget = a.getAttribute('data-target')
+		if (explicitTarget) return explicitTarget
+
+		const href = a.getAttribute('href') || ''
+		if (!href) return ''
+		if (href.startsWith('#')) return href.slice(1)
+
+		try {
+			const url = new URL(href, window.location.origin)
+			if (url.pathname === window.location.pathname && url.hash) {
+				return url.hash.slice(1)
+			}
+		} catch {}
+
+		return ''
+	}
 
 	const dots = new Map()
 	for (const a of links) {

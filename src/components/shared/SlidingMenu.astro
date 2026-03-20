@@ -142,9 +142,6 @@ const { links, cta } = Astro.props.data
 		const linkItems = Array.from(
 			menu.querySelectorAll<HTMLElement>('.menu-link-item'),
 		)
-		const footerLinks = Array.from(
-			menu.querySelectorAll<HTMLElement>('.footer-link'),
-		)
 		const navLinks = Array.from(
 			menu.querySelectorAll<HTMLAnchorElement>('[data-menu-link]'),
 		)
@@ -187,7 +184,6 @@ const { links, cta } = Astro.props.data
 		gsap.set(overlay, { xPercent: 100, x: curveWidth })
 		gsap.set(curvePath, { attr: { d: curvedPath(window.innerHeight) } })
 		gsap.set(linkItems, { opacity: 0, x: 18 })
-		gsap.set(footerLinks, { opacity: 0, y: 8 })
 
 		const timeline = gsap.timeline({
 			paused: true,
@@ -230,16 +226,6 @@ const { links, cta } = Astro.props.data
 					stagger: 0.04,
 				},
 				0.08,
-			)
-			.to(
-				footerLinks,
-				{
-					opacity: 1,
-					y: 0,
-					duration: 0.28,
-					stagger: 0.035,
-				},
-				0.16,
 			)
 
 		const openMenu = () => {
