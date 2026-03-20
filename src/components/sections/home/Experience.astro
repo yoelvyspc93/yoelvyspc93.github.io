@@ -74,3 +74,98 @@ const items = await Promise.all(
 		</ol>
 	</div>
 </section>
+
+<script>
+	import { gsap } from 'gsap'
+	import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+	gsap.registerPlugin(ScrollTrigger)
+
+	const REDUCED_MOTION = '(prefers-reduced-motion: reduce)'
+
+	let cleanupParallax: (() => void) | null = null
+	let currentSection: HTMLElement | null = null
+
+	const clearMediaTransforms = (mediaItems: HTMLElement[]) => {
+		mediaItems.forEach((media) => {
+			gsap.killTweensOf(media)
+			media.style.willChange = ''
+			gsap.set(media, { clearProps: 'transform' })
+		})
+	}
+
+	const unmount = () => {
+		cleanupParallax?.()
+		cleanupParallax = null
+		currentSection = null
+	}
+
+	const mount = () => {
+		const section = document.getElementById('experience')
+		if (!(section instanceof HTMLElement)) {
+			unmount()
+			return
+		}
+
+		if (cleanupParallax && currentSection === section) return
+
+		unmount()
+		currentSection = section
+
+		const mediaItems = Array.from(
+			section.querySelectorAll<HTMLElement>('[data-parallax-media]'),
+		)
+
+		if (!mediaItems.length) return
+
+		if (window.matchMedia(REDUCED_MOTION).matches) {
+			clearMediaTransforms(mediaItems)
+			cleanupParallax = () => clearMediaTransforms(mediaItems)
+			return
+		}
+
+		const tweens = mediaItems.map((media) => {
+			const frame = media.closest('[data-parallax-frame]')
+			const depthValue = Number(media.dataset.parallaxDepth ?? '8')
+			const baseDepth = Number.isFinite(depthValue) ? depthValue : 8
+
+			media.style.willChange = 'transform'
+
+			return gsap.fromTo(
+				media,
+				{
+					yPercent: () => baseDepth,
+				},
+				{
+					yPercent: () => -baseDepth,
+					ease: 'none',
+					scrollTrigger: {
+						trigger: frame instanceof HTMLElement ? frame : media,
+						start: 'top bottom',
+						end: 'bottom top',
+						scrub: true,
+						invalidateOnRefresh: true,
+					},
+				},
+			)
+		})
+
+		cleanupParallax = () => {
+			tweens.forEach((tween) => {
+				tween.scrollTrigger?.kill()
+				tween.kill()
+			})
+			clearMediaTransforms(mediaItems)
+		}
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', mount, { once: true })
+	} else {
+		mount()
+	}
+
+	document.addEventListener('astro:page-load', mount)
+	document.addEventListener('astro:before-swap', unmount)
+	window.addEventListener('pagehide', unmount)
+</script>

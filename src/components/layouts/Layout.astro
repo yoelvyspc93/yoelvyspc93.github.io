@@ -38,6 +38,11 @@ const seoData = {
 }
 
 const { brand, links, cta, copyrightName, rightsLabel } = layout
+const isHomePage = Astro.url.pathname === '/'
+const resolvedLinks = links.map((link) => ({
+	...link,
+	href: !isHomePage && link.href.startsWith('#') ? `/${link.href}` : link.href,
+}))
 ---
 
 <!doctype html>
@@ -61,15 +66,15 @@ const { brand, links, cta, copyrightName, rightsLabel } = layout
 	<body>
 		<a href="#main-content" class="skip-link">Skip to main content</a>
 		<div class="hidden lg:block">
-			<Navigator data={{ brand, links, cta }} />
+			<Navigator data={{ brand, links: resolvedLinks, cta }} />
 		</div>
 		<div class="lg:hidden">
-			<SlidingMenu data={{ brand, links, cta }} />
+			<SlidingMenu data={{ brand, links: resolvedLinks, cta }} />
 		</div>
 		<slot />
 		{
 			!hideFooter && (
-				<Footer data={{ copyrightName, rightsLabel, links }} />
+				<Footer data={{ copyrightName, rightsLabel, links: resolvedLinks }} />
 			)
 		}
 	</body>
