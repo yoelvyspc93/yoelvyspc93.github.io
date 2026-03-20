@@ -102,16 +102,27 @@ const formatDate = (date: Date) =>
 
 						<ul class="grid grid-cols-1 gap-[clamp(12px,2vw,20px)] list-none p-0 sm:grid-cols-2">
 							{item.image.map((img, imgIndex) => (
-								<li>
-									<Image
-										src={`/images/projects/${img}.webp`}
-										alt={`${item.company} screenshot ${imgIndex + 1}`}
-										width={800}
-										height={600}
-										loading="lazy"
-										decoding="async"
-										class="block w-full h-auto rounded-xl outline-1 outline-white/5 pb-4"
-									/>
+								<li class="list-none pb-4">
+									<div
+										class="relative flex aspect-[4/2.4] items-center overflow-hidden rounded-xl outline-1 outline-white/5"
+										data-parallax-frame
+									>
+										<div
+											class="w-full will-change-transform"
+											data-parallax-media
+											data-parallax-depth="24"
+										>
+											<Image
+												src={`/images/projects/${img}.webp`}
+												alt={`${item.company} screenshot ${imgIndex + 1}`}
+												width={800}
+												height={600}
+												loading="lazy"
+												decoding="async"
+												class="block w-full h-auto"
+											/>
+										</div>
+									</div>
 								</li>
 							))}
 						</ul>
@@ -121,4 +132,3 @@ const formatDate = (date: Date) =>
 		</div>
 	</article>
 </li>
-
